@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Claude Monet",
+    "image": "claude_monet.png",
+    "rating": 3,
+    "points": 13,
+    "amount": 13771,
+    "date": "вчера"
+  },
+  {
+    "name": "Mutabor",
+    "image": "mutabor.jpg",
+    "rating": 5,
+    "points": 22,
+    "amount": 21654,
+    "date": "25.03.25"
+  },
+  {
+    "name": "Вкусно и Точка",
+    "image": "vkusno_i_tochka.png",
+    "rating": 5,
+    "points": 5,
+    "amount": 4993,
+    "date": "21.03.25"
+  },
+  {
+    "name": "Шоколадница",
+    "image": "shokoladnitsa.png",
+    "rating": 2,
+    "points": 1,
+    "amount": 1112,
+    "date": "20.03.25"
+  },
+  {
+    "name": "Mosdoner",
+    "image": "mosdoner.png",
+    "rating": 5,
+    "points": 0,
+    "amount": 219,
+    "date": "20.03.25"
+  },
+  {
+    "name": "Mutabor",
+    "image": "mutabor.jpg",
+    "rating": 5,
+    "points": 46,
+    "amount": 46577,
+    "date": "18.03.25"
+  }
+]
