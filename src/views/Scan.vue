@@ -1,38 +1,61 @@
 <script setup>
 import { computed, onMounted, ref, useTemplateRef } from 'vue'
+import { useFetch } from '@/fetch.js'
+import { formatCurrency } from '@/format.js'
 import MainButton from '@/components/MainButton.vue'
-
-const state = ref('start');
 
 const camera = useTemplateRef('camera');
 const cutout = useTemplateRef('cutout');
 const canvas = useTemplateRef('canvas');
+
+const state = ref('start');
 const windowRect = ref({});
-
-onMounted(() => {
-  windowRect.value = cutout.value.getBoundingClientRect();
-
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-    .then((stream) => camera.value.srcObject = stream)
-    .catch(console.error);
-});
+const receiptSum = ref(0);
 
 const cutoutPosition = computed(() => ({
   '--cutout-left': `${windowRect.value.left}px`,
   '--cutout-top': `${windowRect.value.top}px`,
 }));
 
+const formattedSum = computed(() => formatCurrency(receiptSum.value));
+
+onMounted(() => {
+  windowRect.value = cutout.value.getBoundingClientRect();
+
+  navigator.mediaDevices?.getUserMedia({ video: { facingMode: 'environment' } })
+    .then((stream) => camera.value.srcObject = stream)
+    .catch(console.error);
+});
+
 function captureImage() {
   const ctx = canvas.value.getContext('2d');
   const frameWidth = camera.value.videoWidth;
   const frameHeight = camera.value.videoHeight;
-  // const frameWidth = windowRect.value.width;
-  // const frameHeight = windowRect.value.height;
   canvas.value.width = frameWidth;
   canvas.value.height = frameHeight;
   ctx.drawImage(camera.value, 0, 0);
-  canvas.value.toBlob((blob) => {}, 'image/jpeg');
-  state.value = 'result';
+  canvas.value.toBlob((blob) => {
+    const body = new FormData();
+    body.append('receipt', new File([blob], 'receipt.jpg'));
+    useFetch('receipts', null, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+      },
+      body
+    }).then(({ data, ok }) => {
+      if (ok) {
+        let url = new URL(window.location.href);
+        url.search = new URLSearchParams(data);
+        window.history.replaceState(null, '', url);
+        receiptSum.value = data.total_sum;
+        state.value = 'result';
+      } else {
+        state.value = 'error';
+        console.error(data);
+      }
+    });
+  }, 'image/jpeg');
 }
 </script>
 
@@ -41,8 +64,16 @@ function captureImage() {
     <video ref="camera" class="scan__camera" autoplay disablepictureinpicture muted playsinline></video>
     <div class="scan__overlay">
       <div class="scan__container">
-        <canvas ref="canvas" style="display:none"></canvas>
-        <div v-if="state != 'result'" ref="cutout" class="scan__window">
+        <canvas ref="canvas"></canvas>
+        <div v-if="state == 'result'" class="scan__result block">
+          <div>Вы потратили</div>
+          <div class="scan__amount gradient-text">{{ formattedSum }}</div>
+        </div>
+        <div v-else-if="state == 'error'" class="scan__error">
+          <img src="/images/error.svg">
+          <span>Ошибка сканирования! Пожалуйста, повторите попытку.</span>
+        </div>
+        <div v-else ref="cutout" class="scan__window">
           <div v-if="state == 'start'" class="scan__instruction">
             <img src="/images/vaadin_qrcode.svg">
             <div>Отсканируйте QR-код, расположенный внизу чека</div>
@@ -53,14 +84,11 @@ function captureImage() {
             </mask>
           </svg>
         </div>
-        <div v-if="state == 'result'" class="scan__result block">
-          <div>Вы потратили</div>
-          <div class="scan__amount gradient-text">4 010₽</div>
-        </div>
       </div>
       <div class="scan__button">
         <MainButton v-if="state == 'start'" @click="state = 'scan'">Начать!</MainButton>
         <MainButton v-else-if="state == 'scan'" icon="scan" @click="captureImage">Отсканировать чек</MainButton>
+        <MainButton v-else-if="state == 'error'" icon="scan" @click="state = 'scan'">Сканировать снова</MainButton>
         <MainButton v-else href="/review">Продолжить</MainButton>
         <button v-if="state == 'result'" class="scan__retry" @click="state = 'scan'">Неверная сумма</button>
       </div>
@@ -72,6 +100,10 @@ function captureImage() {
 .scan {
   position: fixed;
   inset: 0;
+
+  canvas {
+    display: none;
+  }
 
   &__camera {
     position: absolute;
@@ -95,25 +127,23 @@ function captureImage() {
 
   &__container {
     display: grid;
-    position: relative;
     max-height: 443px;
     margin-bottom: 70px;
     flex: 1;
+  }
 
-    svg,
-    canvas {
+  &__window {
+    position: relative;
+    height: 100%;
+    border-radius: 15px;
+    outline: 5px solid #FFF;
+
+    svg {
       position: absolute;
       top: 0;
       width: 100%;
       height: 100%;
     }
-  }
-
-  &__window {
-    height: 100%;
-    border-radius: 15px;
-    outline: 5px solid #FFF;
-
   }
 
   &__instruction {
@@ -142,6 +172,21 @@ function captureImage() {
     margin: auto;
     padding: 30px;
     text-align: center;
+  }
+
+  &__error {
+    display: grid;
+    gap: 25px;
+    color: #FFF;
+    font-size: 18px;
+    font-weight: 700;
+    margin: auto;
+    justify-items: center;
+    text-align: center;
+
+    img {
+      filter: drop-shadow(0 2px 4px rgb(0 0 0 / 25%));
+    }
   }
 
   &__amount {

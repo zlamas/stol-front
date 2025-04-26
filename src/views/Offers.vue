@@ -1,5 +1,5 @@
 <template>
-  <div class="content coming-soon">
+  <div class="coming-soon">
     <div class="coming-soon__title gradient-text">Скоро...</div>
     <div class="coming-soon__text">Совсем скоро здесь появится много заманчивых предложений, которые можно будет обменять на заработанные баллы!</div>
   </div>

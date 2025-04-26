@@ -10,9 +10,7 @@ defineProps({
 
 <template>
   <button class="navbar__button">
-    <span class="navbar__button-icon">
-      <Icon :name="icon" size=24 />
-    </span>
+    <Icon :name="icon" size=24 />
     <span class="navbar__button-label gradient-text">{{ label }}</span>
   </button>
 </template>
@@ -25,28 +23,18 @@ defineProps({
     width: var(--button-width);
     justify-content: center;
     align-items: center;
+    stroke: var(--pink);
+    fill: var(--pink);
+    transition: var(--bounce);
 
     &.active {
-      translate: 0 -35px;
-
-      .navbar__button-icon {
-        background: var(--color-main-gradient);
-        stroke: #FFF;
-        fill: #FFF;
-      }
-    }
-
-    &-icon {
-      padding: 10px;
-      border-radius: 50%;
-      stroke: var(--pink);
-      fill: var(--pink)
+      translate: 0 -50%;
+      stroke: #FFF;
+      fill: #FFF;
     }
 
     &-label {
       position: absolute;
-      left: 0;
-      right: 0;
       top: 100%;
       font-size: 12px;
       font-weight: 700;

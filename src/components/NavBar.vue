@@ -1,6 +1,10 @@
 <script setup>
 import NavButton from './NavButton.vue'
 
+defineProps({
+  activeItem: Number
+});
+
 const currentView = defineModel();
 
 function updateCurrentView(value) {
@@ -21,11 +25,16 @@ const labels = {
     <div class="navbar__bg">
       <svg xmlns="http://www.w3.org/2000/svg" width="100%">
         <mask id="mask">
-          <path class="cutout-path" d="M-58 0C-40.6337 0-34.2112 9.2942-27.8927 18.4377-21.7759 27.2894-15.7566 36 0 36 15.7566 36 21.7759 27.2894 27.8927 18.4377 34.2112 9.2942 40.6337 0 58 0Z" fill="white"/>
+          <path
+            v-for="(n, i) in 5"
+            :class="['cutout-path', { active: activeItem == i }]"
+            d="M-58 0C-40.6337 0-34.2112 9.2942-27.8927 18.4377-21.7759 27.2894-15.7566 36 0 36 15.7566 36 21.7759 27.2894 27.8927 18.4377 34.2112 9.2942 40.6337 0 58 0Z"
+            fill="white" />
         </mask>
       </svg>
     </div>
     <div class="navbar__buttons">
+      <div class="navbar__circle"></div>
       <NavButton
         v-for="(label, icon) of labels"
         @click="() => updateCurrentView(icon)"
@@ -38,11 +47,25 @@ const labels = {
 
 <style scoped lang="scss">
 .cutout-path {
-  translate: calc(50% + (var(--active-item) - 2) * var(--button-width));
+  opacity: 0;
+  transition: opacity 0.4s;
+
+  &.active {
+    opacity: 1;
+  }
+
+  @for $n from 1 through 5 {
+    &:nth-child(#{$n}) {
+      translate: calc(50% + ($n - 3) * var(--button-width));
+    }
+  }
 }
 
 .navbar {
+  --active-item: v-bind('activeItem');
   --button-width: 70px;
+  --bounce: all 0.8s cubic-bezier(0.439, 1.477, 0.163, 0.875);
+  --translate: calc((var(--active-item) - 2) * var(--button-width));
   position: relative;
   filter: drop-shadow(0 4px 8px rgb(159 45 79 / 30%));
   height: 71px;
@@ -56,9 +79,21 @@ const labels = {
   }
 
   &__buttons {
+    position: relative;
     display: flex;
     height: 100%;
     justify-content: center;
+  }
+
+  &__circle {
+    position: absolute;
+    top: 0;
+    width: 46px;
+    height: 46px;
+    background: var(--color-main-gradient);
+    border-radius: 50%;
+    translate: var(--translate) -50%;
+    transition: var(--bounce);
   }
 
   &__button {

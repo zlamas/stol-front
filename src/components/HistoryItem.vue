@@ -3,26 +3,35 @@ import { computed } from 'vue'
 import StarRating from './StarRating.vue'
 
 const props = defineProps({
-  name: String,
-  image: String,
-  rating: Number,
-  amount: Number,
+  total_sum: [String, Number],
   points: Number,
-  date: String,
+  created_at: String,
+  restaurant: Object,
 });
 
 const formattedPoints = computed(() => '+' + props.points.toLocaleString('ru'));
-const formattedAmount = computed(() => props.amount.toLocaleString('ru') + '₽');
+const formattedAmount = computed(() => parseFloat(props.total_sum).toLocaleString('ru') + '₽');
+const formattedDate = computed(() => {
+  const date = new Date(props.created_at);
+  const today = new Date();
+  const diffDays = today.getDate() - date.getDate();
+  switch (diffDays) {
+    case 0: return 'сегодня';
+    case 1: return 'вчера';
+    case 2: return '2 дня назад';
+    default: return date.toLocaleDateString('ru');
+  }
+});
 </script>
 
 <template>
   <div class="history-item block">
-    <img class="history-item__image" :src="`images/places/${props.image}`">
-    <div class="history-item__name">{{ props.name }}</div>
+    <img class="history-item__image" :src="props.restaurant.image_url">
+    <div class="history-item__name">{{ props.restaurant.name }}</div>
     <div class="history-item__points count points gradient-text">{{ formattedPoints }}</div>
-    <StarRating class="history-item__rating" :rating gap=5 />
+    <StarRating class="history-item__rating" :rating="props.restaurant.rating" gap=5 />
     <div class="history-item__amount">{{ formattedAmount }}</div>
-    <div class="history-item__date">{{ date }}</div>
+    <div class="history-item__date">{{ formattedDate }}</div>
   </div>
 </template>
 

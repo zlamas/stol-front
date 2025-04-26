@@ -2,10 +2,10 @@
 import { computed } from 'vue'
 const props = defineProps({
   you: Boolean,
-  place: Number,
-  name: String,
-  points: Number,
+  position: Number,
   avatar: String,
+  username: String,
+  points: Number,
 });
 
 const formattedPoints = computed(() => props.points.toLocaleString('ru'));
@@ -14,9 +14,9 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
 <template>
   <div :class="['ratings__item', 'block', { you }]">
     <div class="ratings__item-content">
-      <div class="ratings__place">{{ props.place <= 100 ? props.place : '100+' }}</div>
-      <img class="ratings__avatar" :src="`images/avatars/${props.avatar || 'missing.svg'}`">
-      <div class="ratings__name">{{ props.you ? 'You' : props.name }}</div>
+      <div class="ratings__place">{{ props.position <= 100 ? props.position : '100+' }}</div>
+      <img class="ratings__avatar" :src="`${props.avatar || 'images/missing.svg'}`">
+      <div class="ratings__name">{{ props.you ? 'You' : props.username }}</div>
       <div class="ratings__points count points gradient-text">{{ formattedPoints }}</div>
     </div>
   </div>

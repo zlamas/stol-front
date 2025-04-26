@@ -4,22 +4,14 @@ import StarRating from './StarRating.vue'
 
 const props = defineProps({
   type: String,
+  large: Boolean,
+  label: String,
   name: String,
-  image: String,
-  rating: Number,
-  count: Number,
-  large: Boolean
+  image_url: String,
+  rating: [String, Number],
+  checks_count: Number,
+  points: Number,
 });
-
-const title = computed(() => ({
-  favorite: 'Любимое',
-  recent: 'Недавнее'
-}[props.type]));
-
-const countType = computed(() => ({
-  favorite: 'checks',
-  recent: 'points'
-}[props.type]));
 
 const starSize = computed(() => {
   if (props.large) return { size: 20, gap: 12 };
@@ -30,19 +22,17 @@ const starSize = computed(() => {
 <template>
   <div
     :class="['place__block', 'block', { large }]"
-    :style="{ 'background-image': `url(images/places/${props.image})` }"
+    :style="{ 'background-image': `url(${props.image_url})` }"
   >
     <div class="place__content">
-      <div class="place__title">{{ title }}</div>
+      <div class="place__title">{{ props.label }}</div>
       <div class="place__name">{{ props.name }}</div>
       <StarRating :rating v-bind="starSize" />
-      <div :class="[
-        'place__counter',
-        'count',
-        countType,
-        { 'gradient-text': props.type == 'recent' }
-      ]">
-        {{ (props.type == 'recent' ? '+' : '') + props.count }}
+      <div v-if="props.type == 'favorite'" class="place__counter count checks">
+        {{ props.checks_count }}
+      </div>
+      <div v-else-if="props.type == 'recent'" class="place__counter count points gradient-text">
+        +{{ props.points }}
       </div>
     </div>
   </div>

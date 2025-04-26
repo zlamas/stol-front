@@ -1,10 +1,10 @@
 <script setup>
 import { computed } from 'vue'
 const props = defineProps({
-  place: Number,
-  name: String,
-  points: Number,
+  position: Number,
   avatar: String,
+  username: String,
+  points: Number,
 });
 
 const formattedPoints = computed(() => props.points.toLocaleString('ru'));
@@ -13,9 +13,9 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
 <template>
   <div class="top3__user">
     <div class="top3__avatar">
-      <img class="top3__avatar-image" :src="`images/avatars/${props.avatar || 'missing.svg'}`">
+      <img class="top3__avatar-image" :src="`${props.avatar || 'images/missing.svg'}`">
     </div>
-    <div class="rating__name">{{ props.name }}</div>
+    <div class="rating__name">{{ props.username }}</div>
     <div class="top3__points count points">{{ formattedPoints }}</div>
   </div>
 </template>

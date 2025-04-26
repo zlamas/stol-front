@@ -1,14 +1,15 @@
 <script setup>
 import HistoryItem from '@/components/HistoryItem.vue'
-import historyData from '@/history.json'
+
+const data = defineModel();
 </script>
 
 <template>
-  <div class="content">
+  <div>
     <div class="h2">История посещений</div>
     <div class="separator"></div>
     <div class="history-items scrollable">
-      <HistoryItem v-for="data of historyData" v-bind="data" />
+      <HistoryItem v-for="data of data.history" v-bind="data" />
     </div>
   </div>
 </template>
@@ -22,7 +23,7 @@ import historyData from '@/history.json'
 </style>
 
 <style scoped lang="scss">
-.content--history {
+.view--history {
   --side-padding: 20px;
   display: flex;
   flex-flow: column;

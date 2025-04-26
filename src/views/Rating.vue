@@ -1,32 +1,33 @@
 <script setup>
+import { useFetch } from '@/fetch.js'
 import Top3RatingItem from '@/components/Top3RatingItem.vue'
 import RatingItem from '@/components/RatingItem.vue'
-import ratingData from '@/ratings.json'
 
-const userData = defineModel();
+const data = defineModel();
+const { leaders, user } = (await useFetch('leaderboard')).data.data;
 </script>
 
 <template>
-  <div class="content">
+  <div>
     <div class="top3">
       <h2 class="h2 gradient-text">Амбассадоры вкуса</h2>
       <div class="top3__users">
-        <Top3RatingItem class="silver" v-bind="ratingData[1]" />
-        <Top3RatingItem class="gold" v-bind="ratingData[0]" />
-        <Top3RatingItem class="bronze" v-bind="ratingData[2]" />
+        <Top3RatingItem class="silver" v-bind="leaders[1]" />
+        <Top3RatingItem class="gold" v-bind="leaders[0]" />
+        <Top3RatingItem class="bronze" v-bind="leaders[2]" />
       </div>
     </div>
     <div class="ratings scrollable">
       <RatingItem
-        v-for="data of ratingData.slice(3)"
+        v-for="data of leaders.slice(3)"
         v-bind="data" />
     </div>
-    <RatingItem you v-bind="userData" />
+    <RatingItem you v-bind="user" />
   </div>
 </template>
 
 <style scoped lang="scss">
-.content--rating {
+.view--rating {
   --side-padding: 24px;
   display: flex;
   flex-flow: column;

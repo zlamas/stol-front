@@ -6,7 +6,36 @@ body {
   letter-spacing: -0.02em;
 }
 
+.white-pink {
+  --color-98: #FDF7F9;
+  --color-95: #FBEAF0;
+  --color-90: #F8DDE7;
+  --color-85: #F2BFD2;
+  --color-75: #E698B4;
+  --color-70: #E184A5;
+  --color-neutral: #D194A6;
+  --color-60: #AD8593;
+  --color-font-80: #E0B8C4;
+
+  --color-bg: #F0EBF9;
+  --color-main: #BF265E;
+  --color-main-light: #DD5587;
+}
+
+.gray-brown {
+  --color-bg: #F7F1ED;
+  --color-main: #7A513F;
+  --color-main-light: #BF7A50;
+}
+
+.gray-black {
+  --color-bg: #D9D9D9;
+  --color-main: #333333;
+  --color-main-light: #333333;
+}
+
 .main {
+  --color-main-gradient: linear-gradient(var(--color-main-light), var(--color-main));
   display: grid;
   height: 100dvh;
   grid-template-rows: 1fr auto;
@@ -18,8 +47,9 @@ body {
   }
 }
 
-.content {
-  position: relative;
+.content,
+.view {
+  height: 100%;
   overflow: auto;
 }
 
@@ -99,6 +129,10 @@ body {
 .points {
   --count-icon: url(/images/points.svg);
 
+  .gray-brown & {
+    --count-icon: url(/images/points-brown.svg);
+  }
+
   &::after {
     filter: drop-shadow(0 1px 2px rgb(0 0 0 / 25%));
   }
@@ -107,6 +141,7 @@ body {
 .separator {
   height: 17px;
   background: url(/images/separator.svg) no-repeat center / contain;
+  flex-shrink: 0;
 }
 
 :disabled {

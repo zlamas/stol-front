@@ -1,90 +1,118 @@
 <script setup>
-import { computed, onUpdated, ref, useTemplateRef } from 'vue'
+import { computed, onUpdated, ref, useTemplateRef, watch } from 'vue'
+import { useFetch } from '@/fetch.js'
+import { formatCurrency } from '@/format.js'
 import Icon from '@/components/Icon.vue'
-import GammaOption from '@/components/GammaOption.vue'
+import ThemeOption from '@/components/ThemeOption.vue'
 
-const userData = defineModel();
+const themes = ['white-pink', 'gray-brown', 'gray-black'];
+
+const data = defineModel();
 const nameInput = useTemplateRef('nameInput');
-const editingName = ref(false);
 
-function updateCurrentGamma(value) {
-  userData.value.gamma = value;
-}
+const editingName = ref(false);
+const copied = ref(null);
 
 const dayWord = computed(() => {
-  const rem100 = userData.value.streak % 100;
+  const rem100 = data.value.user.daily_streak % 100;
   const rem10 = rem100 % 10;
   if (rem10 == 1) return 'день';
   else if (rem10 > 1 && rem10 < 5 && (rem100 < 10 || rem100 > 20)) return 'дня';
   else return 'дней';
 });
 
+const formattedAverage = computed(() => formatCurrency(data.value.user.average_check));
+
 onUpdated(() => nameInput.value?.focus());
+
+watch(
+  [() => data.value.user.username, () => data.value.user.theme],
+  ([username, theme]) => {
+    const body = JSON.stringify({ username, theme });
+    useFetch('user', null, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body
+    });
+  }
+);
+
+function updateCurrentTheme(value) {
+  data.value.user.theme = value;
+}
 
 function copyRefLink(event) {
   navigator.clipboard.writeText(event.currentTarget.textContent)
+    .then(() => {
+      clearTimeout(copied.value);
+      copied.value = setTimeout(() => { copied.value = null }, 3000)
+    })
     .catch(console.error);
 }
 </script>
 
 <template>
-  <div class="content">
+  <div>
     <div class="profile">
       <div class="profile__data">
         <div v-if="editingName" class="profile__row">
           <input
             ref="nameInput"
-            v-model.lazy="userData.name"
+            v-model.lazy="data.user.username"
             class="profile__name profile__name--input"
             @blur="() => (editingName = false)">
         </div>
         <div v-else class="profile__row">
-          <span class="profile__name">{{ userData.name }}</span>
-          <Icon name="dot" />
-          <span class="profile__rank gradient-text">{{ userData.rank }}</span>
+          <span class="profile__name">{{ data.user.username }}</span>
+          <div class="profile__dot"></div>
+          <span class="profile__rank gradient-text">{{ data.user.rank.current }}</span>
         </div>
-        <div class="profile__tag">{{ userData.tag }}</div>
+        <div class="profile__tag">@{{ data.user.username }}</div>
         <button class="profile__edit-name" @click="() => (editingName = true)">
           <Icon name="edit" />
           <span>Изменить</span>
         </button>
       </div>
-      <img class="profile__avatar" :src="`images/avatars/${userData.avatar}`">
+      <img class="profile__avatar" :src="data.user.avatar">
     </div>
-    <div class="gamma block">
-      <h3 class="gamma__title">Цветовая гамма</h3>
-      <div class="gamma__options">
-        <GammaOption
-          v-for="n in 5"
-          :id="n"
-          :selected="n == userData.gamma"
-          :valid="n <= 3"
-          @click="() => { if (n <= 3) updateCurrentGamma(n) }" />
+    <div class="theme block">
+      <h3 class="theme__title">Цветовая гамма</h3>
+      <div class="theme__options">
+        <ThemeOption
+          v-for="(n, i) in 5"
+          :id="themes[i]"
+          :selected="data.user.theme == themes[i]"
+          :valid="i < 3"
+          @click="() => { if (i < 3) updateCurrentTheme(themes[i]) }" />
       </div>
     </div>
     <div class="separator"></div>
     <div class="profile__scrollable scrollable">
       <div class="totals">
         <div class="totals__block block">
-        	<div class="totals__count gradient-text">69</div>
+        	<div class="totals__count gradient-text">{{ data.user.visits }}</div>
         	<div>Посещений</div>
         </div>
         <div class="totals__block block">
-        	<div class="totals__count gradient-text">8 202₽</div>
+        	<div class="totals__count gradient-text">{{ formattedAverage }}</div>
         	<div>Средний чек</div>
         </div>
       </div>
       <div class="streak">
-        <div class="streak__icon" :data-streak="userData.streak"></div>
-        <div>Вы заходили в STOL<br>{{ userData.streak }} {{ dayWord }} подряд!</div>
+        <div class="streak__icon" :data-streak="data.user.daily_streak"></div>
+        <div>Вы заходили в STOL<br>{{ data.user.daily_streak }} {{ dayWord }} подряд!</div>
       </div>
       <div class="invite block">
         <div class="invite__title gradient-text">Пригласи друга</div>
         <div>Получайте 10% баллов за каждого приглашенного!</div>
         <div class="invite__link">
-          <span class="invite__link-content" @click="copyRefLink">t.me/stol-ref-1200453</span>
-          <button class="invite__link-copy block">
-            <Icon name="copy" size=20 />
+          <span class="invite__link-content" @click="copyRefLink">{{ data.user.referral_link }}</span>
+          <button :class="['invite__link-copy', 'block', { copied }]">
+            <Icon v-if="copied" name="check" size=16 />
+            <Icon v-else name="copy" size=20 />
           </button>
         </div>
       </div>
@@ -93,7 +121,7 @@ function copyRefLink(event) {
 </template>
 
 <style scoped lang="scss">
-.content--profile {
+.view--profile {
   --side-padding: 24px;
   display: flex;
   flex-flow: column;
@@ -125,6 +153,13 @@ function copyRefLink(event) {
     &--input {
       width: 100%;
     }
+  }
+
+  &__dot {
+    width: 5px;
+    height: 5px;
+    background: var(--color-main-gradient);
+    border-radius: 50%;
   }
 
   &__rank {
@@ -163,7 +198,7 @@ function copyRefLink(event) {
   }
 }
 
-.gamma {
+.theme {
   border-radius: 16px;
   padding: 10px 18px 18px;
   margin-bottom: 16px;
@@ -234,6 +269,7 @@ function copyRefLink(event) {
 
   &__link {
     display: flex;
+    gap: 8px;
     align-items: center;
     background: #F2F2F2;
     border-radius: 10px;
@@ -245,11 +281,22 @@ function copyRefLink(event) {
 
     &-content {
       flex: 1;
+      overflow-wrap: anywhere;
     }
 
     &-copy {
+      width: 28px;
+      height: 28px;
       border-radius: 8px;
       padding: 4px;
+
+      svg {
+        margin: auto;
+      }
+
+      &.copied {
+        background: #6FF69C;
+      }
     }
   }
 }

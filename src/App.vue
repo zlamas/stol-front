@@ -1,6 +1,6 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
-import Navbar from './components/Navbar.vue'
+import { computed, onMounted, ref } from 'vue'
+import NavBar from './components/NavBar.vue'
 import Rating from './views/Rating.vue'
 import Offers from './views/Offers.vue'
 import Main from './views/Main.vue'
@@ -9,7 +9,12 @@ import Profile from './views/Profile.vue'
 import Loading from './views/Loading.vue'
 import Scan from './views/Scan.vue'
 import Review from './views/Review.vue'
-import _userData from '@/user.json'
+
+const data = ref({
+  user: null,
+  history: null,
+  favorite: null,
+});
 
 const views = {
   rating: Rating,
@@ -32,15 +37,7 @@ const activeItem = computed(() => Object.keys(views).indexOf(currentViewName.val
 const currentPath = ref(window.location.hash);
 const currentRoute = computed(() => routes[currentPath.value.slice(1) || '/']);
 
-const userData = reactive(_userData);
-
-const style = computed(() => ({
-  '--active-item': activeItem.value,
-  '--color-main': `var(--gamma${userData.gamma}-main)`,
-  '--color-main-light': `var(--gamma${userData.gamma}-main-light)`,
-  '--color-bg': `var(--gamma${userData.gamma}-bg)`,
-  '--color-main-gradient': 'linear-gradient(var(--color-main-light), var(--color-main))',
-}));
+const activeTheme = computed(() => (data.value.user?.theme || 'white-pink'));
 
 onMounted(() => {
   window.location.hash = '';
@@ -63,18 +60,20 @@ onMounted(() => {
 
 <template>
   <Suspense>
-    <main :class="['main', `main--${currentViewName}`]" :style>
-      <component
-        :is="currentView"
-        :class="`content--${currentViewName}`"
-        v-model="userData" />
-      <Navbar v-model="currentViewName" />
+    <main :class="`main main--${currentViewName} ${activeTheme}`">
+      <div class="content">
+        <component
+          :is="currentView"
+          :class="`view view--${currentViewName}`"
+          v-model="data" />
+      </div>
+      <NavBar v-model="currentViewName" :active-item />
 
       <component :is="currentRoute" />
     </main>
 
     <template #fallback>
-      <Loading :style />
+      <Loading :class="activeTheme" v-model="data" />
     </template>
   </Suspense>
 </template>

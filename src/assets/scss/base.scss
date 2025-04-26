@@ -5,18 +5,6 @@
 @include font-face("Montserrat", "Montserrat-ExtraBold", 800);
 
 :root {
-  --gamma1-bg: #F0EBF9;
-  --gamma1-main: #BF265E;
-  --gamma1-main-light: #DD5587;
-
-  --gamma2-bg: #E8D5C9;
-  --gamma2-main: #7A513F;
-  --gamma2-main-light: #BF7A50;
-
-  --gamma3-bg: #D9D9D9;
-  --gamma3-main: #333333;
-  --gamma3-main-light: #333333;
-
   --font-black-20: #333333;
   --font-black-30: #4D4D4D;
   --font-black-40: #666666;
@@ -25,11 +13,6 @@
   --gold: #E5B000;
   --silver: #989898;
   --bronze: #CD9240;
-
-  --color-main: var(--gamma1-main);
-  --color-main-light: var(--gamma1-main-light);
-  --color-main-gradient: linear-gradient(var(--color-main-light), var(--color-main));
-  --color-background: var(--gamma1-bg);
   --color-text: var(--font-black-20);
 }
 
@@ -39,6 +22,7 @@
   box-sizing: border-box;
   margin: 0;
   font: inherit;
+  -webkit-tap-highlight-color: transparent;
 }
 
 button,

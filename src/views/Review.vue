@@ -1,19 +1,44 @@
 <script setup>
 import { computed, ref } from 'vue'
-
+import { useFetch } from '@/fetch.js'
+import { formatCurrency } from '@/format.js'
 import MainButton from '@/components/MainButton.vue'
 import StarRating from '@/components/StarRating.vue'
 
-const state = ref('review');
+const receiptData = new URL(window.location.href).searchParams;
+const formattedSum = formatCurrency(receiptData.get('total_sum'));
 
+const state = ref('review');
 const review = ref('');
 const rating = ref(0);
 
-const disabled = computed(() => (rating.value == 0));
+const disabled = computed(() => rating.value == 0);
+const is_iOS = computed(() => 'standalone' in navigator);
+
+function sendReview() {
+  const body = JSON.stringify({
+    receipt_id: receiptData.get('id'),
+    rating: rating.value,
+    text: review.value,
+  });
+  useFetch('reviews', null, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body
+  }).then((json) => {
+    state.value = 'summary';
+  });
+}
 </script>
 
 <template>
-  <div v-if="state == 'review'" class="content review">
+  <div
+    v-if="state == 'review'"
+    class="content review"
+    @click="() => {}">
     <h2 class="h2">Оценка заведения</h2>
     <div class="review__block block">
       <div>
@@ -36,7 +61,7 @@ const disabled = computed(() => (rating.value == 0));
     </div>
     <MainButton
       class="review__button"
-      @click="state = 'summary'"
+      @click="sendReview"
       :disabled>Оценить</MainButton>
   </div>
   <div v-else class="content review">
@@ -52,11 +77,11 @@ const disabled = computed(() => (rating.value == 0));
       <div class="review__points">
         <div class="review__points-row">
           <span>Потрачено:</span>
-          <span class="gradient-text">4 010₽</span>
+          <span class="gradient-text">{{ formattedSum }}</span>
         </div>
         <div class="review__points-row">
           <span>Получено баллов:</span>
-          <span class="count points gradient-text">+4</span>
+          <span class="count points gradient-text">+{{ receiptData.get('points') }}</span>
         </div>
       </div>
     </div>

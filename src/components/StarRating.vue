@@ -2,7 +2,7 @@
 import Icon from './Icon.vue'
 
 defineProps({
-  rating: Number,
+  rating: [String, Number],
   size: {
     type: [String, Number],
     default: 15,
@@ -20,7 +20,7 @@ defineEmits(['update:rating']);
   <div class="star-rating">
     <Icon
       v-for="n in 5"
-      :class="{ star__filled: n <= rating }"
+      :class="{ star__filled: n <= parseFloat(rating) }"
       name="star"
       :size
       @click="() => $emit('update:rating', n)" />
