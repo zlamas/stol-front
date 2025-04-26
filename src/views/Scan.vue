@@ -11,6 +11,7 @@ const canvas = useTemplateRef('canvas');
 const state = ref('start');
 const windowRect = ref({});
 const receiptSum = ref(0);
+const errorMessage = ref('');
 
 const cutoutPosition = computed(() => ({
   '--cutout-left': `${windowRect.value.left}px`,
@@ -52,6 +53,7 @@ function captureImage() {
         state.value = 'result';
       } else {
         state.value = 'error';
+        errorMessage.value = data.message;
         console.error(data);
       }
     });
@@ -72,6 +74,7 @@ function captureImage() {
         <div v-else-if="state == 'error'" class="scan__error">
           <img src="/images/error.svg">
           <span>Ошибка сканирования! Пожалуйста, повторите попытку.</span>
+          <span class="scan__error-message">{{ errorMessage }}</span>
         </div>
         <div v-else ref="cutout" class="scan__window">
           <div v-if="state == 'start'" class="scan__instruction">
