@@ -13,7 +13,6 @@ const review = ref('');
 const rating = ref(0);
 
 const disabled = computed(() => rating.value == 0);
-const is_iOS = computed(() => 'standalone' in navigator);
 
 function sendReview() {
   const body = JSON.stringify({
