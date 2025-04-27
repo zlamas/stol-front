@@ -10,6 +10,7 @@ import MainButton from '@/components/MainButton.vue'
 import HistoryItem from '@/components/HistoryItem.vue'
 
 const data = defineModel();
+const showModal = ref('');
 
 data.value.user = (await useFetch('user')).data.data;
 data.value.favorite = (await useFetch(
@@ -23,8 +24,6 @@ if (!data.value.timeout) {
 if (!data.value.user.avatar) {
   data.value.user.avatar = 'images/avatar.png';
 }
-
-const showModal = ref('');
 
 const formattedPoints = computed(() => formatNumber(data.value.user.points));
 </script>
@@ -48,8 +47,7 @@ const formattedPoints = computed(() => formatNumber(data.value.user.points));
       <Place type="favorite" v-bind="data.user.favorite" @click="showModal = 'favorite'" />
       <Place type="recent" v-bind="data.user.recent" />
     </div>
-    <div class="bonuses block"></div>
-    <MainButton href="/scan" icon="scan">Отсканировать чек</MainButton>
+    <MainButton class="scan-button" href="/scan" icon="scan">Отсканировать чек</MainButton>
 
     <Modal :show="showModal == 'info'" @close="showModal = null" />
 
@@ -70,7 +68,9 @@ const formattedPoints = computed(() => formatNumber(data.value.user.points));
 
 <style scoped lang="scss">
 .view--main {
-  padding: 24px;
+  display: flex;
+  flex-flow: column;
+  padding: 24px 24px 48px;
 }
 
 .info {
@@ -127,10 +127,8 @@ const formattedPoints = computed(() => formatNumber(data.value.user.points));
   margin-bottom: 24px;
 }
 
-.bonuses {
-  height: 170px;
-  background: var(--theme-87);
-  margin-bottom: 48px;
+.scan-button {
+  margin-top: auto;
 }
 
 .favorite {
@@ -143,6 +141,7 @@ const formattedPoints = computed(() => formatNumber(data.value.user.points));
     z-index: -1;
   }
 }
+
 
 .modal {
   &__place {

@@ -37,6 +37,7 @@ watch(
       },
       body
     });
+    window.localStorage.setItem('theme', theme);
   }
 );
 

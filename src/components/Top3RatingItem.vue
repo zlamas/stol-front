@@ -16,7 +16,7 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
       <img class="top3__avatar-image" :src="`${props.avatar || 'images/avatar.png'}`">
     </div>
     <div class="rating__name">{{ props.username }}</div>
-    <div class="top3__points count points">{{ formattedPoints }}</div>
+    <div class="count points gradient-text">{{ formattedPoints }}</div>
   </div>
 </template>
 
@@ -34,32 +34,17 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
       --avatar-size: 80px;
       --gradient: linear-gradient(#F5CD3D, #B28C00);
       --medal: url(/images/gold.svg);
-      --points-color: var(--gold);
       margin-bottom: 10px;
-
-      .points {
-        --count-icon: url(/images/points-gold.svg);
-      }
     }
 
     &.silver {
       --gradient: linear-gradient(#C7C7C7, #5E5E5E);
       --medal: url(/images/silver.svg);
-      --points-color: var(--silver);
-
-      .points {
-        --count-icon: url(/images/points-silver.svg);
-      }
     }
 
     &.bronze {
       --gradient: linear-gradient(#FFC573, #8A690F);
       --medal: url(/images/bronze.svg);
-      --points-color: var(--bronze);
-
-      .points {
-        --count-icon: url(/images/points-bronze.svg);
-      }
     }
   }
 
@@ -90,11 +75,6 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  &__points {
-    color: var(--points-color);
-    font-weight: 700;
   }
 }
 </style>

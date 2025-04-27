@@ -30,7 +30,7 @@ setInterval(() => line.value = Math.floor(Math.random() * lines.length), 5000);
       <video class="loading__bg" :src="`images/bg-${activeTheme}.mp4`" autoplay disablepictureinpicture loop muted playsinline></video>
       <div class="loading__content">
         <div class="loading__indicator">
-          <div class="loading__bar" :style="{ width: progress }"></div>
+          <div class="loading__bar"></div>
           <img class="loading__logo" src="/images/logo.svg?v=1">
         </div>
         <div class="loading__text">{{ lines[line] }}</div>

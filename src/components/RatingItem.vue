@@ -28,7 +28,7 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
     padding: 2px;
 
     &.you {
-      box-shadow: 0 4px 8px rgba(195 43 99 / 30%);
+      box-shadow: 0 4px 8px var(--theme-drop-shadow);
       background: var(--theme-main-gradient);
       font-weight: 700;
     }

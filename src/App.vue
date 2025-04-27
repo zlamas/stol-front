@@ -37,7 +37,11 @@ const activeItem = computed(() => Object.keys(views).indexOf(currentViewName.val
 const currentPath = ref(window.location.hash);
 const currentRoute = computed(() => routes[currentPath.value.slice(1) || '/']);
 
-const activeTheme = computed(() => (data.value.user?.theme || 'white-pink'));
+const activeTheme = computed(() => (
+  data.value.user?.theme ||
+  window.localStorage.getItem('theme') ||
+  'white-pink'
+));
 
 onMounted(() => {
   window.location.hash = '';
