@@ -23,8 +23,11 @@ const formattedPoints = computed(() => formatNumber(data.value.user.points));
 onMounted(async () => {
   data.value.favorite = (await useFetch(
     'receipts/history/restaurant',
-    { restaurant_id: data.value.user.favorite.id },
+    { restaurant_id: data.value.user.favorite?.id },
   )).data.data;
+  if (!data.value.user.avatar) {
+    data.value.user.avatar = 'images/avatar.png';
+  }
 });
 </script>
 

@@ -15,7 +15,7 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
   <div :class="['ratings__item', 'block', { you }]">
     <div class="ratings__item-content">
       <div class="ratings__place">{{ props.position <= 100 ? props.position : '100+' }}</div>
-      <img class="ratings__avatar" :src="`${props.avatar || 'images/missing.svg'}`">
+      <img class="ratings__avatar" :src="`${props.avatar || 'images/avatar.png'}`">
       <div class="ratings__name">{{ props.you ? 'You' : props.username }}</div>
       <div class="ratings__points count points gradient-text">{{ formattedPoints }}</div>
     </div>
@@ -52,7 +52,6 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: #DEDEDE;
     margin-left: 8px;
     margin-right: 12px;
   }

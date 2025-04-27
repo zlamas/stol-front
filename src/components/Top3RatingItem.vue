@@ -13,7 +13,7 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
 <template>
   <div class="top3__user">
     <div class="top3__avatar">
-      <img class="top3__avatar-image" :src="`${props.avatar || 'images/missing.svg'}`">
+      <img class="top3__avatar-image" :src="`${props.avatar || 'images/avatar.png'}`">
     </div>
     <div class="rating__name">{{ props.username }}</div>
     <div class="top3__points count points">{{ formattedPoints }}</div>
