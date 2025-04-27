@@ -82,7 +82,7 @@ onMounted(() => {
   </Transition>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .load-enter-active,
 .load-leave-active {
   transition: opacity 0.5s 1s;

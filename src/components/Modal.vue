@@ -5,15 +5,17 @@ const props = defineProps({
 </script>
 
 <template>
-  <div v-if="show" class="modal">
-    <button class="modal__close" @click="$emit('close')"></button>
-    <div class="modal__container">
-      <slot name="background" />
-      <div class="modal__content">
-        <slot name="body" />
+  <Transition name="fade">
+    <div v-if="show" class="modal">
+      <button class="modal__close" @click="$emit('close')"></button>
+      <div class="modal__container">
+        <slot name="background" />
+        <div class="modal__content">
+          <slot name="body" />
+        </div>
       </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <style scoped lang="scss">
