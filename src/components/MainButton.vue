@@ -15,7 +15,7 @@ function goToHref() {
 </script>
 
 <template>
-  <button @click="goToHref" class="main-button" :disabled>
+  <button @click="goToHref" class="main-button block" :disabled>
     <Icon v-if="icon" :name="icon" size=24 />
     <span class="gradient-text">
       <slot />
@@ -31,9 +31,7 @@ function goToHref() {
   gap: 6px;
   width: 100%;
   height: 48px;
-  background: #FFF;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgb(159 45 79 / 30%);
+  box-shadow: 0 4px 8px var(--theme-drop-shadow);
   font-size: 18px;
   font-weight: 700;
   flex-shrink: 0;

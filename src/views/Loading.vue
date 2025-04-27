@@ -63,7 +63,7 @@ const progress = computed(() => {
     position: relative;
     width: 180px;
     height: 180px;
-    background: var(--color-text);
+    background: var(--black-20);
     border-radius: 24px;
     box-shadow: 0 8px 16px rgb(0 0 0 / 30%);
     overflow: hidden;
@@ -72,8 +72,8 @@ const progress = computed(() => {
   &__bar {
     width: var(--loading-progress);
     height: 100%;
-    background: var(--color-main-gradient);
-    transition: width 0.5s;
+    background: var(--theme-main-gradient);
+    transition: width 1s;
   }
 
   &__logo {

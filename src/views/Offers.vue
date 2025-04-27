@@ -1,7 +1,7 @@
 <template>
   <div class="coming-soon">
     <div class="coming-soon__title gradient-text">Скоро...</div>
-    <div class="coming-soon__text">Совсем скоро здесь появится много заманчивых предложений, которые можно будет обменять на заработанные баллы!</div>
+    <div class="coming-soon__text block">Совсем скоро здесь появится много заманчивых предложений, которые можно будет обменять на заработанные баллы!</div>
   </div>
 </template>
 
@@ -22,9 +22,8 @@
 
   &__text {
     max-width: 340px;
-    background: #FFF;
     border-radius: 16px;
-    box-shadow: 0 4px 8px rgb(0 0 0 / 25%);
+    box-shadow: 0 4px 8px var(--theme-drop-shadow);
     font-size: 14px;
     place-self: end center;
     padding: 14px 24px;

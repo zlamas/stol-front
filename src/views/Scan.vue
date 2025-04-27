@@ -2,6 +2,7 @@
 import { computed, onMounted, ref, useTemplateRef } from 'vue'
 import { useFetch } from '@/fetch.js'
 import { formatCurrency } from '@/format.js'
+import Icon from '@/components/Icon.vue'
 import MainButton from '@/components/MainButton.vue'
 
 const camera = useTemplateRef('camera');
@@ -77,10 +78,10 @@ function captureImage() {
         </div>
         <div v-else ref="cutout" class="scan__window">
           <div v-if="state == 'start'" class="scan__instruction">
-            <img src="/images/vaadin_qrcode.svg">
+            <Icon name="qrcode" size=110 />
             <div>Отсканируйте QR-код, расположенный внизу чека</div>
           </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <svg class="scan__mask" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
             <mask id="scan-window">
               <rect v-if="state == 'scan'" class="scan__cutout" width="100%" height="100%" rx="15" fill="white"/>
             </mask>
@@ -111,7 +112,7 @@ function captureImage() {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #000;
+    background: var(--black);
     object-fit: cover;
   }
 
@@ -140,12 +141,6 @@ function captureImage() {
     border-radius: 15px;
     outline: 5px solid #FFF;
 
-    svg {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 100%;
-    }
   }
 
   &__instruction {
@@ -154,12 +149,19 @@ function captureImage() {
     gap: 28px;
     place-content: center;
     place-items: center;
-    background: rgb(255 255 255 / 50%);
-    color: var(--font-black-30);
+    background: var(--theme-glass);
     font-size: 16px;
     font-weight: 700;
+    letter-spacing: -0.04em;
     text-align: center;
-    padding: 36px;
+    padding: 24px;
+  }
+
+  &__mask {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
   }
 
   &__cutout {
@@ -179,7 +181,7 @@ function captureImage() {
   &__error {
     display: grid;
     gap: 25px;
-    color: #FFF;
+    color: var(--theme-98);
     font-size: 18px;
     font-weight: 700;
     margin: auto;
@@ -187,7 +189,7 @@ function captureImage() {
     text-align: center;
 
     img {
-      filter: drop-shadow(0 2px 4px rgb(0 0 0 / 25%));
+      filter: drop-shadow(0 2px 4px var(--theme-drop-shadow));
     }
   }
 
@@ -202,7 +204,7 @@ function captureImage() {
   }
 
   &__retry {
-    color: #FFF;
+    color: var(--theme-98);
     font-size: 14px;
     text-decoration: underline;
   }

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useFetch } from '@/fetch.js'
 import { formatNumber } from '@/format.js'
 import Icon from '@/components/Icon.vue'
@@ -10,25 +10,20 @@ import MainButton from '@/components/MainButton.vue'
 import HistoryItem from '@/components/HistoryItem.vue'
 
 const data = defineModel();
-data.value = {
-  user: (await useFetch('user')).data.data,
-  history: (await useFetch('receipts/history')).data.data,
-  favorite: null,
-};
+
+data.value.user = (await useFetch('user')).data.data;
+data.value.favorite = (await useFetch(
+  'receipts/history/restaurant',
+  { restaurant_id: data.value.user.favorite?.id },
+)).data.data;
+
+if (!data.value.user.avatar) {
+  data.value.user.avatar = 'images/avatar.png';
+}
 
 const showModal = ref('');
 
 const formattedPoints = computed(() => formatNumber(data.value.user.points));
-
-onMounted(async () => {
-  data.value.favorite = (await useFetch(
-    'receipts/history/restaurant',
-    { restaurant_id: data.value.user.favorite?.id },
-  )).data.data;
-  if (!data.value.user.avatar) {
-    data.value.user.avatar = 'images/avatar.png';
-  }
-});
 </script>
 
 <template>
@@ -63,7 +58,7 @@ onMounted(async () => {
         <Place type="favorite" class="modal__place" large v-bind="data.user.favorite" />
         <h2 class="h2">История посещений</h2>
         <div class="history-items modal__history">
-          <HistoryItem v-for="data of data.favorite" v-bind="data" />
+          <HistoryItem v-for="item of data.favorite" v-bind="item" />
         </div>
       </template>
     </Modal>
@@ -79,6 +74,7 @@ onMounted(async () => {
   position: absolute;
   top: 20px;
   right: 25px;
+  color: var(--theme-neutral);
 }
 
 .main-profile {
@@ -95,7 +91,7 @@ onMounted(async () => {
     &-image {
       width: 48px;
       height: 48px;
-      border: 2px solid #FFC300;
+      border: 2px solid var(--yellow);
       border-radius: 50%;
     }
 
@@ -106,13 +102,13 @@ onMounted(async () => {
       height: 28px;
       bottom: -10px;
       background: url(/images/streak.svg) no-repeat center / contain;
-      color: #FFF;
+      color: var(--theme-98);
       font-size: 11px;
       font-weight: 800;
       line-height: 28px;
       text-align: center;
       padding-top: 2px;
-      filter: drop-shadow(0 2px 2px #FF8800);
+      filter: drop-shadow(0 2px 2px var(--orange));
     }
   }
 
@@ -130,7 +126,7 @@ onMounted(async () => {
 
 .bonuses {
   height: 170px;
-  background: #D7D7D7;
+  background: var(--theme-87);
   margin-bottom: 48px;
 }
 

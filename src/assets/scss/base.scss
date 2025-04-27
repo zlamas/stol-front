@@ -5,15 +5,18 @@
 @include font-face("Montserrat", "Montserrat-ExtraBold", 800);
 
 :root {
-  --font-black-20: #333333;
-  --font-black-30: #4D4D4D;
-  --font-black-40: #666666;
-  --font-black-60: #999999;
-  --pink: #C2A3AC;
+  --black: #000;
+  --black-20: #333333;
+  --black-30: #4D4D4D;
+  --black-40: #666666;
+  --black-60: #999999;
   --gold: #E5B000;
   --silver: #989898;
   --bronze: #CD9240;
-  --color-text: var(--font-black-20);
+  --green: #6FF69C;
+  --yellow: #FFC300;
+  --orange: #FF8800;
+  --star-shadow: #C2940040;
 }
 
 *,

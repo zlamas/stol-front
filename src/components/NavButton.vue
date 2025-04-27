@@ -23,14 +23,12 @@ defineProps({
     width: var(--button-width);
     justify-content: center;
     align-items: center;
-    stroke: var(--pink);
-    fill: var(--pink);
+    color: var(--theme-neutral);
     transition: var(--bounce);
 
     &.active {
       translate: 0 -50%;
-      stroke: #FFF;
-      fill: #FFF;
+      color: var(--theme-98);
     }
 
     &-label {

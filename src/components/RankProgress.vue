@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import Icon from './Icon.vue'
 
 const props = defineProps({
   current: String,
@@ -28,7 +29,10 @@ const progress = computed(() => {
   <div class="rank block">
     <div class="rank__names">
       <div class="rank__current gradient-text">{{ current }}</div>
-      <div class="rank__next">{{ next }}</div>
+      <div class="rank__next">
+        <Icon name="lock" width=10 />
+        <span>{{ next }}</span>
+      </div>
     </div>
     <div class="rank__progress">
       <div class="rank__progress-bar" :style="{ '--progress': progress }"></div>
@@ -54,23 +58,18 @@ const progress = computed(() => {
     display: flex;
     align-items: center;
     gap: 3px;
-    color: #CCC;
-
-    &::before {
-      content: url(/images/lock.svg);
-      line-height: 0;
-    }
+    color: var(--theme-85);
   }
 
   &__progress {
-    background: #F2F2F2;
+    background: var(--theme-92);
     border-radius: 6px;
     padding: 4px;
 
     &-bar {
       width: var(--progress);
       height: 18px;
-      background: var(--color-main-gradient);
+      background: var(--theme-main-gradient);
       border-radius: 5px;
       box-shadow: 0 1px 2px rgb(0 0 0 / 25%);
     }

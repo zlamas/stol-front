@@ -67,13 +67,13 @@ const labels = {
   --bounce: all 0.8s cubic-bezier(0.439, 1.477, 0.163, 0.875);
   --translate: calc((var(--active-item) - 2) * var(--button-width));
   position: relative;
-  filter: drop-shadow(0 4px 8px rgb(159 45 79 / 30%));
+  filter: drop-shadow(0 2px 4px var(--theme-drop-shadow));
   height: 71px;
 
   &__bg {
     position: absolute;
     inset: 0;
-    background: #FFF;
+    background: var(--theme-98);
     mask-image: linear-gradient(white, white), url(#mask);
     mask-composite: subtract;
   }
@@ -90,7 +90,7 @@ const labels = {
     top: 0;
     width: 46px;
     height: 46px;
-    background: var(--color-main-gradient);
+    background: var(--theme-main-gradient);
     border-radius: 50%;
     translate: var(--translate) -50%;
     transition: var(--bounce);

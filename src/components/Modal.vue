@@ -28,10 +28,10 @@ const props = defineProps({
     position: relative;
     width: 100%;
     height: 100%;
-    background: rgb(255 255 255 / 80%);
+    background: var(--theme-modal);
     backdrop-filter: blur(12px);
     border-radius: 16px;
-    box-shadow: 0 4px 8px rgb(0 0 0 / 25%);
+    box-shadow: 0 4px 8px var(--theme-drop-shadow);
     overflow: hidden;
   }
 
@@ -49,9 +49,10 @@ const props = defineProps({
     top: 30px;
     width: 40px;
     height: 40px;
-    background: #FFF url(/images/close.svg) no-repeat center;
+    background: var(--theme-modal) url(/images/close.svg) no-repeat center;
+    backdrop-filter: blur(12px);
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
+    box-shadow: 0 2px 4px var(--theme-drop-shadow);
   }
 }
 </style>

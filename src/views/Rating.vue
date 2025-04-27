@@ -3,14 +3,13 @@ import { useFetch } from '@/fetch.js'
 import Top3RatingItem from '@/components/Top3RatingItem.vue'
 import RatingItem from '@/components/RatingItem.vue'
 
-const data = defineModel();
 const { leaders, user } = (await useFetch('leaderboard')).data.data;
 </script>
 
 <template>
   <div>
-    <div class="top3">
-      <h2 class="h2 gradient-text">Амбассадоры вкуса</h2>
+    <div class="top3 block">
+      <h2 class="h2">Амбассадоры вкуса</h2>
       <div class="top3__users">
         <Top3RatingItem class="silver" v-bind="leaders[1]" />
         <Top3RatingItem class="gold" v-bind="leaders[0]" />
@@ -39,9 +38,8 @@ const { leaders, user } = (await useFetch('leaderboard')).data.data;
   display: grid;
   gap: 30px;
   padding: 20px;
-  background: #FFF;
   border-radius: 0 0 30px 30px;
-  box-shadow: 0 4px 8px rgb(0 0 0 / 25%);
+  box-shadow: 0 4px 8px var(--theme-drop-shadow);
   text-align: center;
   margin-bottom: 16px;
 

@@ -1,15 +1,17 @@
 <script setup>
+import { useFetch } from '@/fetch.js'
 import HistoryItem from '@/components/HistoryItem.vue'
+import Icon from '@/components/Icon.vue'
 
-const data = defineModel();
+const history = (await useFetch('receipts/history')).data.data;
 </script>
 
 <template>
   <div>
     <div class="h2">История посещений</div>
-    <div class="separator"></div>
+    <Icon name="separator" class="separator" height=17 />
     <div class="history-items scrollable">
-      <HistoryItem v-for="data of data.history" v-bind="data" />
+      <HistoryItem v-for="item of history" v-bind="item" />
     </div>
   </div>
 </template>

@@ -29,14 +29,14 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
 
     &.you {
       box-shadow: 0 4px 8px rgba(195 43 99 / 30%);
-      background: var(--color-main-gradient);
+      background: var(--theme-main-gradient);
       font-weight: 700;
     }
 
     &-content {
       display: flex;
       align-items: center;
-      background: #FFF;
+      background: var(--theme-98);
       border-radius: 10px;
       padding: 6px 16px 6px 6px;
     }

@@ -12,7 +12,6 @@ import Review from './views/Review.vue'
 
 const data = ref({
   user: null,
-  history: null,
   favorite: null,
 });
 
@@ -59,21 +58,35 @@ onMounted(() => {
 </script>
 
 <template>
-  <Suspense>
-    <main :class="`main main--${currentViewName} ${activeTheme}`">
-      <div class="content">
-        <component
-          :is="currentView"
-          :class="`view view--${currentViewName}`"
-          v-model="data" />
-      </div>
-      <NavBar v-model="currentViewName" :active-item />
+  <Transition name="fade">
+    <Suspense>
+      <main :class="`main main--${currentViewName} ${activeTheme}`">
+        <div class="content">
+          <component
+            :is="currentView"
+            :class="`view view--${currentViewName}`"
+            v-model="data" />
+        </div>
+        <NavBar v-model="currentViewName" :active-item />
 
-      <component :is="currentRoute" />
-    </main>
+        <component :is="currentRoute" />
+      </main>
 
-    <template #fallback>
-      <Loading :class="activeTheme" v-model="data" />
-    </template>
-  </Suspense>
+      <template #fallback>
+        <Loading :class="activeTheme" v-model="data" />
+      </template>
+    </Suspense>
+  </Transition>
 </template>
+
+<style scoped lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s 1s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

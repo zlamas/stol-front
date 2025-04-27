@@ -1,45 +1,63 @@
 @use "base";
 
-body {
-  color: var(--color-text);
-  font: 16px "Montserrat", sans-serif;
-  letter-spacing: -0.02em;
-}
-
 .white-pink {
-  --color-98: #FDF7F9;
-  --color-95: #FBEAF0;
-  --color-90: #F8DDE7;
-  --color-85: #F2BFD2;
-  --color-75: #E698B4;
-  --color-70: #E184A5;
-  --color-neutral: #D194A6;
-  --color-60: #AD8593;
-  --color-font-80: #E0B8C4;
+  --theme-20: #3D2930;
+  --theme-30: #4D4D4D;
+  --theme-40: #7A5260;
+  --theme-60: #B87A90;
+  --theme-neutral: #D194A6;
+  --theme-70: #E184A5;
+  --theme-75: #E698B4;
+  --theme-80: #E0B8C4;
+  --theme-85: #F2BFD2;
+  --theme-87: #F3D8E2;
+  --theme-90: #F7DEE7;
+  --theme-92: #FAEAF0;
+  --theme-98: #FDF7F9;
 
-  --color-bg: #F0EBF9;
-  --color-main: #BF265E;
-  --color-main-light: #DD5587;
+  --theme-main: #BF265E;
+  --theme-main-light: #DD5587;
+  --theme-drop-shadow: #9F2D4F40;
+  --theme-bg: #F9EBF0;
+  --theme-glass: #FBEAF080;
+  --theme-modal: #FDF7F9CC;
+  --theme-note: #FDF7F980;
 }
 
 .gray-brown {
-  --color-bg: #F7F1ED;
-  --color-main: #7A513F;
-  --color-main-light: #BF7A50;
-}
+  --theme-20: #3D3529;
+  --theme-30: #5C503D;
+  --theme-40: #7A6152;
+  --theme-60: #AD9485;
+  --theme-neutral: #D1AB94;
+  --theme-70: #DDBC88;
+  --theme-75: #E3C89C;
+  --theme-80: #E0C7B8;
+  --theme-85: #E0C7B8;
+  --theme-87: #EEDEC3;
+  --theme-90: #EEDEC3;
+  --theme-92: #F6EDDF;
+  --theme-98: #FDFAF7;
 
-.gray-black {
-  --color-bg: #D9D9D9;
-  --color-main: #333333;
-  --color-main-light: #333333;
+  --theme-main: #7A513F;
+  --theme-main-light: #BF7A50;
+  --theme-drop-shadow: #7A513F66;
+  --theme-bg: #F4E9D7;
+  --theme-glass: #F4E9D780;
+  --theme-modal: #FDFAF7CC;
+  --theme-note: #FDFAF780;
 }
 
 .main {
-  --color-main-gradient: linear-gradient(var(--color-main-light), var(--color-main));
+  --theme-main-gradient: linear-gradient(var(--theme-main-light) 20%, var(--theme-main));
   display: grid;
-  height: 100dvh;
+  position: fixed;
+  inset: 0;
   grid-template-rows: 1fr auto;
-  background: var(--color-bg);
+  background: var(--theme-bg);
+  color: var(--theme-20);
+  font: 16px "Montserrat", sans-serif;
+  letter-spacing: -0.02em;
   overflow: hidden;
 
   &--offers {
@@ -55,15 +73,15 @@ body {
 }
 
 .gradient-text {
-  background: var(--color-main-gradient);
+  background: var(--theme-main-gradient);
   background-clip: text;
   color: transparent;
 }
 
 .block {
-  background: #FFF;
+  background: var(--theme-98);
   border-radius: 12px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
+  box-shadow: 0 2px 4px var(--theme-drop-shadow);
 }
 
 .h2 {
@@ -73,7 +91,6 @@ body {
 }
 
 .h3 {
-  color: var(--font-black-30);
   font-size: 14px;
   font-weight: 700;
   line-height: 1;
@@ -100,7 +117,7 @@ body {
     top: 0;
     width: 100%;
     height: var(--fade-height);
-    background: linear-gradient(var(--color-bg), transparent);
+    background: linear-gradient(var(--theme-bg), transparent);
     margin: calc(-1 * var(--fade-height)) 0;
   }
 
@@ -124,7 +141,6 @@ body {
 
 .checks {
   --count-icon: url(/images/bill.svg);
-  color: #FFF;
 }
 
 .points {
@@ -142,7 +158,15 @@ body {
 .separator {
   height: 17px;
   background: url(/images/separator.svg) no-repeat center / contain;
+  color: var(--theme-87);
+  margin: 0 auto;
   flex-shrink: 0;
+}
+
+.field {
+  background: var(--theme-92);
+  font-size: 16px;
+  font-weight: 700;
 }
 
 :disabled {

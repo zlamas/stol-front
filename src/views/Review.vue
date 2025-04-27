@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { useFetch } from '@/fetch.js'
 import { formatCurrency } from '@/format.js'
+import Icon from '@/components/Icon.vue'
 import MainButton from '@/components/MainButton.vue'
 import StarRating from '@/components/StarRating.vue'
 
@@ -56,7 +57,7 @@ function sendReview() {
         <h3 class="h3">Отзыв (опционально)</h3>
         <div class="review__small">Расскажите о своих впечатлениях!</div>
       </div>
-      <textarea class="review__textarea" rows=12 v-model.lazy="review"></textarea>
+      <textarea class="review__textarea field" rows=12 v-model.lazy="review"></textarea>
     </div>
     <MainButton
       class="review__button"
@@ -71,8 +72,8 @@ function sendReview() {
         size=30
         gap=10
         :rating />
-      <div class="review__textarea">{{ review }}</div>
-      <div class="separator"></div>
+      <div v-if="review" class="review__textarea field">{{ review }}</div>
+      <Icon name="separator" class="separator" height=17 />
       <div class="review__points">
         <div class="review__points-row">
           <span>Потрачено:</span>
@@ -85,7 +86,7 @@ function sendReview() {
       </div>
     </div>
     <div class="review__block block review__note">
-      <img src="/images/exclamation.svg">
+      <Icon name="exclamation" size=24 />
       <div>Баллы за данный чек будут начислены вам после проверки администрацией.</div>
     </div>
     <MainButton
@@ -101,7 +102,7 @@ function sendReview() {
   inset: 0;
   flex-flow: column;
   gap: 25px;
-  background: var(--color-bg);
+  background: var(--theme-bg);
   padding: 30px 24px 40px;
   overflow: auto;
 
@@ -109,29 +110,26 @@ function sendReview() {
     display: grid;
     gap: 10px;
     border-radius: 16px;
-    color: var(--font-black-30);
     padding: 15px;
   }
 
   &__summary {
     gap: 20px;
+    color: var(--theme-30);
   }
 
   &__small {
-    color: #999999;
+    color: var(--theme-60);
     font-size: 12px;
     letter-spacing: -0.04em;
   }
 
   &__rating {
-    filter: drop-shadow(0 2px 4px rgb(194 148 0 / 25%));
+    filter: drop-shadow(0 2px 4px var(--star-shadow));
   }
 
   &__textarea {
-    border-radius: 8px;
-    background: #F2F2F2;
-    font-size: 16px;
-    font-weight: 700;
+    border-radius: 12px;
     line-height: 1;
     padding: 10px 12px;
     white-space: pre-line;
@@ -151,8 +149,8 @@ function sendReview() {
 
   &__note {
     justify-items: center;
-    background: rgb(255 255 255 / 50%);
-    color: var(--font-black-40);
+    background: var(--theme-note);
+    color: var(--theme-40);
     font-size: 14px;
     font-weight: 700;
     text-align: center;

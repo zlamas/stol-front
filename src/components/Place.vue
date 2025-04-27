@@ -42,6 +42,7 @@ const starSize = computed(() => {
 .place {
   &__block {
     background: center / cover;
+    color: var(--theme-98);
     line-height: 1;
     overflow: hidden;
     text-align: center;
@@ -64,7 +65,7 @@ const starSize = computed(() => {
   }
 
   &__title {
-    color: #E0B8C4;
+    color: var(--theme-80);
     font-size: 14px;
 
     .large & {
@@ -73,7 +74,6 @@ const starSize = computed(() => {
   }
 
   &__name {
-    color: #FFF;
     font-size: 16px;
     font-weight: 700;
 

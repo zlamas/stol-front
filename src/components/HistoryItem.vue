@@ -73,7 +73,6 @@ const formattedDate = computed(() => {
   &__amount {
     grid-area: amount;
     align-self: end;
-    color: var(--font-black-30);
     font-size: 14px;
     font-weight: 700;
   }
@@ -81,7 +80,7 @@ const formattedDate = computed(() => {
   &__date {
     grid-area: date;
     place-self: end;
-    color: var(--font-black-60);
+    color: var(--theme-60);
     font-size: 10px;
   }
 }

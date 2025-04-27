@@ -31,11 +31,12 @@ defineEmits(['update:rating']);
 .star-rating {
   display: flex;
   gap: v-bind('`${gap}px`');
+  color: var(--yellow);
 }
 
 .star {
   &__filled {
-    fill: #FFC300;
+    fill: currentcolor;
   }
 }
 </style>

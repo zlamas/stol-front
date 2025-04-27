@@ -5,7 +5,7 @@ import { formatCurrency } from '@/format.js'
 import Icon from '@/components/Icon.vue'
 import ThemeOption from '@/components/ThemeOption.vue'
 
-const themes = ['white-pink', 'gray-brown', 'gray-black'];
+const themes = ['white-pink', 'gray-brown'];
 
 const data = defineModel();
 const nameInput = useTemplateRef('nameInput');
@@ -85,11 +85,11 @@ function copyRefLink(event) {
           v-for="(n, i) in 5"
           :id="themes[i]"
           :selected="data.user.theme == themes[i]"
-          :valid="i < 3"
-          @click="() => { if (i < 3) updateCurrentTheme(themes[i]) }" />
+          :valid="i < themes.length"
+          @click="() => { if (i < themes.length) updateCurrentTheme(themes[i]) }" />
       </div>
     </div>
-    <div class="separator"></div>
+    <Icon name="separator" class="separator" height=17 />
     <div class="profile__scrollable scrollable">
       <div class="totals">
         <div class="totals__block block">
@@ -108,7 +108,7 @@ function copyRefLink(event) {
       <div class="invite block">
         <div class="invite__title gradient-text">Пригласи друга</div>
         <div>Получайте 10% баллов за каждого приглашенного!</div>
-        <div class="invite__link">
+        <div class="invite__link field">
           <span class="invite__link-content" @click="copyRefLink">{{ data.user.referral_link }}</span>
           <button :class="['invite__link-copy', 'block', { copied }]">
             <Icon v-if="copied" name="check" size=16 />
@@ -158,7 +158,7 @@ function copyRefLink(event) {
   &__dot {
     width: 5px;
     height: 5px;
-    background: var(--color-main-gradient);
+    background: var(--theme-main-gradient);
     border-radius: 50%;
   }
 
@@ -168,7 +168,7 @@ function copyRefLink(event) {
   }
 
   &__tag {
-    color: var(--font-black-60);
+    color: var(--theme-60);
     font-size: 16px;
     font-weight: 700;
   }
@@ -176,9 +176,9 @@ function copyRefLink(event) {
   &__edit-name {
     display: flex;
     gap: 4px;
-    background: #FFF;
+    background: var(--theme-98);
     border-radius: 9em;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
+    box-shadow: 0 2px 4px var(--theme-drop-shadow);
     font-size: 14px;
     line-height: 1;
     letter-spacing: -0.04em;
@@ -244,11 +244,11 @@ function copyRefLink(event) {
     height: 75px;
     background: url(/images/streak.svg) no-repeat center / contain;
     padding-top: 32px;
-    filter: drop-shadow(0 2px 2px #FF8800);
+    filter: drop-shadow(0 2px 2px var(--orange));
 
     &::after {
       content: attr(data-streak);
-      color: #FFF;
+      color: var(--theme-98);
       font-size: 24px;
       font-weight: 800;
     }
@@ -256,8 +256,8 @@ function copyRefLink(event) {
 }
 
 .invite {
+  color: var(--theme-40);
   font-size: 12px;
-  color: #666;
   letter-spacing: -0.04em;
   padding: 7px 12px;
 
@@ -269,15 +269,12 @@ function copyRefLink(event) {
 
   &__link {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     align-items: center;
-    background: #F2F2F2;
     border-radius: 10px;
-    color: var(--color-text);
-    font-size: 16px;
-    font-weight: 700;
+    color: var(--theme-20);
     margin-top: 14px;
-    padding: 10px 12px;
+    padding: 6px 6px 6px 12px;
 
     &-content {
       flex: 1;
@@ -295,7 +292,7 @@ function copyRefLink(event) {
       }
 
       &.copied {
-        background: #6FF69C;
+        background: var(--green);
       }
     }
   }
