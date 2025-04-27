@@ -73,8 +73,7 @@ function captureImage() {
         </div>
         <div v-else-if="state == 'error'" class="scan__error">
           <img src="/images/error.svg">
-          <span>Ошибка сканирования! Пожалуйста, повторите попытку.</span>
-          <span class="scan__error-message">{{ errorMessage }}</span>
+          <div>Ошибка сканирования!<br>{{ errorMessage }}</div>
         </div>
         <div v-else ref="cutout" class="scan__window">
           <div v-if="state == 'start'" class="scan__instruction">
