@@ -22,11 +22,6 @@ const lines = [
 ];
 
 setInterval(() => line.value = Math.floor(Math.random() * lines.length), 5000);
-
-const progress = computed(() => {
-  const resources = Object.values(data.value);
-  return `${resources.filter((res) => res).length / resources.length * 100}%`;
-});
 </script>
 
 <template>
@@ -74,10 +69,9 @@ const progress = computed(() => {
   }
 
   &__bar {
-    width: var(--loading-progress);
     height: 100%;
     background: var(--theme-main-gradient);
-    transition: width 1s;
+    animation: 3s ease-in-out loading;
   }
 
   &__logo {
@@ -90,6 +84,15 @@ const progress = computed(() => {
   &__text {
     font-size: 18px;
     font-weight: 700;
+  }
+}
+
+@keyframes loading {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
   }
 }
 </style>

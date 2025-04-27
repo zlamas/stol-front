@@ -16,7 +16,9 @@ data.value.favorite = (await useFetch(
   'receipts/history/restaurant',
   { restaurant_id: data.value.user.favorite?.id },
 )).data.data;
-data.value.timeout = await new Promise((resolve) => setTimeout(() => resolve(true), 2000));
+if (!data.value.timeout) {
+  data.value.timeout = await new Promise((resolve) => setTimeout(() => resolve(true), 3000));
+}
 
 if (!data.value.user.avatar) {
   data.value.user.avatar = 'images/avatar.png';

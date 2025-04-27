@@ -59,7 +59,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Transition name="load">
+  <Transition name="fade">
     <Suspense>
       <main :class="`main main--${currentViewName} ${activeTheme}`">
         <div class="content">
@@ -83,18 +83,11 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
-.load-enter-active,
-.load-leave-active {
-  transition: opacity 0.5s 1s;
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
 }
 
-.load-enter-from,
-.load-leave-to,
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
