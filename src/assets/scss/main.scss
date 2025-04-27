@@ -61,13 +61,17 @@
   overflow: hidden;
 
   &--offers {
-    background: url(/images/offers-bg.png) no-repeat center / cover;
+    background: url(/images/offers-bg.webp) no-repeat center / cover;
   }
 }
 
-.content,
-.view {
+.content {
   position: relative;
+}
+
+.view {
+  position: absolute;
+  inset: 0;
   height: 100%;
   overflow: auto;
 }
@@ -157,7 +161,6 @@
 
 .separator {
   height: 17px;
-  background: url(/images/separator.svg) no-repeat center / contain;
   color: var(--theme-87);
   margin: 0 auto;
   flex-shrink: 0;

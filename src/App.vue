@@ -13,6 +13,7 @@ import Review from './views/Review.vue'
 const data = ref({
   user: null,
   favorite: null,
+  timeout: null,
 });
 
 const views = {
@@ -58,14 +59,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <Transition name="fade">
+  <Transition name="load">
     <Suspense>
       <main :class="`main main--${currentViewName} ${activeTheme}`">
         <div class="content">
-          <component
-            :is="currentView"
-            :class="`view view--${currentViewName}`"
-            v-model="data" />
+          <Transition name="fade">
+            <component
+              :is="currentView"
+              :class="`view view--${currentViewName}`"
+              v-model="data" />
+          </Transition>
         </div>
         <NavBar v-model="currentViewName" :active-item />
 
@@ -73,18 +76,25 @@ onMounted(() => {
       </main>
 
       <template #fallback>
-        <Loading :class="activeTheme" v-model="data" />
+        <Loading :active-theme v-model="data" />
       </template>
     </Suspense>
   </Transition>
 </template>
 
 <style scoped lang="scss">
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 1s 1s;
+.load-enter-active,
+.load-leave-active {
+  transition: opacity 0.5s 1s;
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.load-enter-from,
+.load-leave-to,
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

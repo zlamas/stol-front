@@ -16,6 +16,7 @@ data.value.favorite = (await useFetch(
   'receipts/history/restaurant',
   { restaurant_id: data.value.user.favorite?.id },
 )).data.data;
+data.value.timeout = await new Promise((resolve) => setTimeout(() => resolve(true), 2000));
 
 if (!data.value.user.avatar) {
   data.value.user.avatar = 'images/avatar.png';
@@ -52,7 +53,7 @@ const formattedPoints = computed(() => formatNumber(data.value.user.points));
 
     <Modal :show="showModal == 'favorite'" class="favorite" @close="showModal = null">
       <template #background>
-        <video class="favorite__bg" src="/images/background.mp4" autoplay disablepictureinpicture loop muted playsinline></video>
+        <video class="favorite__bg" :src="`images/bg-${data.user.theme}.mp4`" autoplay disablepictureinpicture loop muted playsinline></video>
       </template>
       <template #body>
         <Place type="favorite" class="modal__place" large v-bind="data.user.favorite" />

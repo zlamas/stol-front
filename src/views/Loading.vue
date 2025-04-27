@@ -1,6 +1,10 @@
 <script setup>
 import { computed, ref } from 'vue'
 
+defineProps({
+  activeTheme: String,
+});
+
 const data = defineModel();
 const line = ref(0);
 
@@ -26,9 +30,9 @@ const progress = computed(() => {
 </script>
 
 <template>
-  <div class="main">
+  <div :class="`main ${activeTheme}`">
     <div class="content loading">
-      <video class="loading__bg" src="/images/background.mp4" autoplay disablepictureinpicture loop muted playsinline></video>
+      <video class="loading__bg" :src="`images/bg-${activeTheme}.mp4`" autoplay disablepictureinpicture loop muted playsinline></video>
       <div class="loading__content">
         <div class="loading__indicator">
           <div class="loading__bar" :style="{ width: progress }"></div>

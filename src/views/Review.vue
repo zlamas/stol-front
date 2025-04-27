@@ -73,7 +73,7 @@ function sendReview() {
         gap=10
         :rating />
       <div v-if="review" class="review__textarea field">{{ review }}</div>
-      <Icon name="separator" class="separator" height=17 />
+      <Icon name="separator" class="separator" />
       <div class="review__points">
         <div class="review__points-row">
           <span>Потрачено:</span>

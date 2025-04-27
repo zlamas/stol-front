@@ -89,7 +89,7 @@ function copyRefLink(event) {
           @click="() => { if (i < themes.length) updateCurrentTheme(themes[i]) }" />
       </div>
     </div>
-    <Icon name="separator" class="separator" height=17 />
+    <Icon name="separator" class="separator" />
     <div class="profile__scrollable scrollable">
       <div class="totals">
         <div class="totals__block block">

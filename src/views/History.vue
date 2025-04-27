@@ -9,7 +9,7 @@ const history = (await useFetch('receipts/history')).data.data;
 <template>
   <div>
     <div class="h2">История посещений</div>
-    <Icon name="separator" class="separator" height=17 />
+    <Icon name="separator" class="separator" />
     <div class="history-items scrollable">
       <HistoryItem v-for="item of history" v-bind="item" />
     </div>
