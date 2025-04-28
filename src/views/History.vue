@@ -3,15 +3,15 @@ import { useFetch } from '@/fetch.js'
 import HistoryItem from '@/components/HistoryItem.vue'
 import Icon from '@/components/Icon.vue'
 
-const history = (await useFetch('receipts/history')).data.data;
+const data = defineModel();
 </script>
 
 <template>
-  <div v-if="history.length">
+  <div v-if="data.history.length">
     <div class="h2">История посещений</div>
     <Icon name="separator" class="separator" />
     <div class="history-items scrollable">
-      <HistoryItem v-for="item of history" v-bind="item" />
+      <HistoryItem v-for="item of data.history" v-bind="item" />
     </div>
   </div>
   <div v-else>

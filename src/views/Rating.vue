@@ -3,7 +3,7 @@ import { useFetch } from '@/fetch.js'
 import Top3RatingItem from '@/components/Top3RatingItem.vue'
 import RatingItem from '@/components/RatingItem.vue'
 
-const { leaders, user } = (await useFetch('leaderboard')).data.data;
+const data = defineModel();
 </script>
 
 <template>
@@ -11,17 +11,17 @@ const { leaders, user } = (await useFetch('leaderboard')).data.data;
     <div class="top3 block">
       <h2 class="h2">Амбассадоры вкуса</h2>
       <div class="top3__users">
-        <Top3RatingItem class="silver" v-bind="leaders[1]" />
-        <Top3RatingItem class="gold" v-bind="leaders[0]" />
-        <Top3RatingItem class="bronze" v-bind="leaders[2]" />
+        <Top3RatingItem class="silver" v-bind="data.rating.leaders[1]" />
+        <Top3RatingItem class="gold" v-bind="data.rating.leaders[0]" />
+        <Top3RatingItem class="bronze" v-bind="data.rating.leaders[2]" />
       </div>
     </div>
     <div class="ratings scrollable">
       <RatingItem
-        v-for="data of leaders.slice(3)"
+        v-for="data of data.rating.leaders.slice(3)"
         v-bind="data" />
     </div>
-    <RatingItem you v-bind="user" />
+    <RatingItem you v-bind="data.rating.user" />
   </div>
 </template>
 

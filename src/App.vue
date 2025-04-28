@@ -13,7 +13,8 @@ import Review from './views/Review.vue'
 const data = ref({
   user: null,
   favorite: null,
-  timeout: null,
+  rating: null,
+  history: null,
 });
 
 const views = {
@@ -80,7 +81,7 @@ onMounted(() => {
       </main>
 
       <template #fallback>
-        <Loading :active-theme v-model="data" />
+        <Loading :active-theme />
       </template>
     </Suspense>
   </Transition>

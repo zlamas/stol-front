@@ -5,7 +5,6 @@ defineProps({
   activeTheme: String,
 });
 
-const data = defineModel();
 const line = ref(0);
 
 const lines = [

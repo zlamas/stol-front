@@ -12,17 +12,20 @@ import HistoryItem from '@/components/HistoryItem.vue'
 const data = defineModel();
 const showModal = ref('');
 
-data.value.user = (await useFetch('user')).data.data;
-data.value.favorite = (await useFetch(
-  'receipts/history/restaurant',
-  { restaurant_id: data.value.user.favorite?.id },
-)).data.data;
-if (!data.value.timeout) {
-  data.value.timeout = await new Promise((resolve) => setTimeout(() => resolve(true), 3000));
-}
+if (!data.value.user) {
+  data.value.user = (await useFetch('user')).data.data;
+  data.value.favorite = (await useFetch(
+    'receipts/history/restaurant',
+    { restaurant_id: data.value.user.favorite?.id },
+  )).data.data;
+  data.value.rating = (await useFetch('leaderboard')).data.data;
+  data.value.history = (await useFetch('receipts/history')).data.data;
 
-if (!data.value.user.avatar) {
-  data.value.user.avatar = 'images/avatar.png';
+  if (!data.value.user.avatar) {
+    data.value.user.avatar = 'images/avatar.png';
+  }
+
+  await new Promise((resolve) => setTimeout(() => resolve(true), 3000));
 }
 
 const formattedPoints = computed(() => formatNumber(data.value.user.points));
@@ -44,8 +47,8 @@ const formattedPoints = computed(() => formatNumber(data.value.user.points));
     </div>
     <RankProgress v-bind="data.user.rank" />
     <div class="place">
-      <Place type="favorite" v-bind="data.user.favorite" @click="showModal = 'favorite'" />
-      <Place type="recent" v-bind="data.user.recent" />
+      <Place type="favorite" :data="data.user.favorite" @click="showModal = 'favorite'" />
+      <Place type="recent" :data="data.user.recent" />
     </div>
     <MainButton class="scan-button" href="/scan" icon="scan">Отсканировать чек</MainButton>
 
@@ -56,7 +59,7 @@ const formattedPoints = computed(() => formatNumber(data.value.user.points));
         <video class="favorite__bg" :src="`images/bg-${data.user.theme}.mp4`" autoplay disablepictureinpicture loop muted playsinline></video>
       </template>
       <template #body>
-        <Place type="favorite" class="modal__place" large v-bind="data.user.favorite" />
+        <Place type="favorite" class="modal__place" large :data="data.user.favorite" />
         <h2 class="h2">История посещений</h2>
         <div class="history-items modal__history">
           <HistoryItem v-for="item of data.favorite" v-bind="item" />
