@@ -68,10 +68,6 @@ const title = computed(() => ({
     &.large {
       height: 198px;
     }
-
-    &.fallback {
-      color: var(--theme-80);
-    }
   }
 
   &__content {

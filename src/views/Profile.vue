@@ -109,8 +109,8 @@ function copyRefLink(event) {
       <div class="invite block">
         <div class="invite__title gradient-text">Пригласи друга</div>
         <div>Получайте 10% баллов за каждого приглашенного!</div>
-        <div class="invite__link field">
-          <span class="invite__link-content" @click="copyRefLink">{{ data.user.referral_link }}</span>
+        <div class="invite__link field" @click="copyRefLink">
+          <span class="invite__link-content">{{ data.user.referral_link }}</span>
           <button :class="['invite__link-copy', 'block', { copied }]">
             <Icon v-if="copied" name="check" size=16 />
             <Icon v-else name="copy" size=20 />

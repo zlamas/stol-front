@@ -47,8 +47,13 @@ const formattedPoints = computed(() => formatNumber(data.value.user.points));
     </div>
     <RankProgress v-bind="data.user.rank" />
     <div class="place">
-      <Place type="favorite" :data="data.user.favorite" @click="showModal = 'favorite'" />
-      <Place type="recent" :data="data.user.recent" />
+      <Place
+        type="favorite"
+        :data="data.user.favorite"
+        @click="() => { if (data.user.favorite) showModal = 'favorite' }" />
+      <Place
+        type="recent"
+        :data="data.user.recent" />
     </div>
     <MainButton class="scan-button" href="/scan" icon="scan">Отсканировать чек</MainButton>
 
@@ -78,8 +83,8 @@ const formattedPoints = computed(() => formatNumber(data.value.user.points));
 
 .info {
   position: absolute;
-  top: 20px;
-  right: 25px;
+  top: 24px;
+  right: 24px;
   color: var(--theme-neutral);
 }
 
