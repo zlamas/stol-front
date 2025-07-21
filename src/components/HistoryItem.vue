@@ -1,11 +1,12 @@
 <script setup>
 import { computed } from 'vue'
+import Icon from './Icon.vue'
 import StarRating from './StarRating.vue'
 
 const props = defineProps({
   total_sum: [String, Number],
   points: Number,
-  created_at: String,
+  created_at: [String, Number],
   restaurant: Object,
 });
 
@@ -13,8 +14,7 @@ const formattedPoints = computed(() => '+' + props.points.toLocaleString('ru'));
 const formattedAmount = computed(() => parseFloat(props.total_sum).toLocaleString('ru') + '₽');
 const formattedDate = computed(() => {
   const date = new Date(props.created_at);
-  const today = new Date();
-  const diffDays = today.getDate() - date.getDate();
+  const diffDays = Math.floor((Date.now() - props.created_at) / (1000 * 60 * 60 * 24));
   switch (diffDays) {
     case 0: return 'сегодня';
     case 1: return 'вчера';
@@ -26,7 +26,8 @@ const formattedDate = computed(() => {
 
 <template>
   <div class="history-item block">
-    <img class="history-item__image" :src="props.restaurant.image_url">
+    <img v-if="props.restaurant.image_url" class="history-item__image" :src="props.restaurant.image_url">
+    <Icon v-else name="place" class="history-item__image history-item__image--placeholder" />
     <div class="history-item__name">{{ props.restaurant.name }}</div>
     <div class="history-item__points count points gradient-text">{{ formattedPoints }}</div>
     <StarRating class="history-item__rating" :rating="props.restaurant.rating" gap=5 />
@@ -38,7 +39,7 @@ const formattedDate = computed(() => {
 <style scoped lang="scss">
 .history-item {
   display: grid;
-  gap: 0 10px;
+  gap: 7px 10px;
   grid-template:
     "image name   points"
     "image rating rating"
@@ -49,10 +50,15 @@ const formattedDate = computed(() => {
 
   &__image {
     grid-area: image;
-    width: 61px;
-    height: 61px;
+    width: 67px;
+    height: 67px;
+    background: var(--theme-90);
     border-radius: 12px;
     object-fit: cover;
+
+    &--placeholder {
+      padding: 18px;
+    }
   }
 
   &__name {
@@ -73,6 +79,7 @@ const formattedDate = computed(() => {
   &__amount {
     grid-area: amount;
     align-self: end;
+    color: var(--theme-40);
     font-size: 14px;
     font-weight: 700;
   }

@@ -24,7 +24,7 @@ defineProps({
     justify-content: center;
     align-items: center;
     color: var(--theme-neutral);
-    transition: var(--bounce);
+    transition: all 0.8s var(--bounce);
 
     &.active {
       translate: 0 -50%;

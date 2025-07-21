@@ -8,6 +8,7 @@ export function useFetch(type, params, options) {
     url.search = new URLSearchParams(params);
   }
   url.searchParams.set('code', uuid);
-  return fetch(url, options)
+
+  return fetch(url, Object.assign({ mode: 'no-cors' }, options))
     .then((response) => response.json().then((data) => ({ data, ok: response.ok })));
 }

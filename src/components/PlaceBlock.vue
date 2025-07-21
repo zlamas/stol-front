@@ -15,11 +15,6 @@ const props = defineProps({
   // points: Number,
 });
 
-const starSize = computed(() => {
-  if (props.large) return { size: 20, gap: 12 };
-  else return {};
-});
-
 const title = computed(() => ({
   favorite: 'Любимое',
   recent: 'Недавнее'
@@ -34,7 +29,7 @@ const title = computed(() => ({
     <div class="place__content">
       <div class="place__title">{{ title }}</div>
       <div class="place__name">{{ data.name }}</div>
-      <StarRating :rating="data.rating" v-bind="starSize" />
+      <StarRating :rating="data.rating" v-bind="large && { size: 22, gap: 12 }" />
       <div v-if="type == 'favorite'" class="place__counter count checks">
         {{ data.checks_count }}
       </div>
@@ -49,7 +44,7 @@ const title = computed(() => ({
     <video class="place__fallback" :src="`images/slideshow-${type}.mp4`" autoplay disablepictureinpicture loop muted playsinline></video>
     <div class="place__content">
       <div class="place__title">{{ title }}</div>
-      <Icon name="question" />
+      <Icon name="question" v-bind="large && { size: 78 }" />
     </div>
   </div>
 </template>
@@ -60,29 +55,30 @@ const title = computed(() => ({
     position: relative;
     height: 123px;
     background: center / cover;
+    border-radius: 16px;
     color: var(--theme-98);
     line-height: 1;
-    overflow: hidden;
     text-align: center;
 
     &.large {
-      height: 198px;
+      height: 213px;
     }
   }
 
   &__content {
     display: grid;
     height: 100%;
-    justify-items: center;
+    place-items: center;
     gap: 10px;
     background: linear-gradient(rgb(77 77 77 / 40%) 25%, rgb(179 179 179 / 40%));
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(2px);
+    border-radius: inherit;
     padding: 14px;
 
     .large & {
+      backdrop-filter: blur(4px);
       gap: 20px;
-      background: rgb(255 255 255 / 20%);
-      padding: 20px;
+      padding: 30px;
     }
   }
 
@@ -106,11 +102,19 @@ const title = computed(() => ({
 
   &__counter {
     &.points {
-      filter: drop-shadow(0 0 10px #FFF);
-    }
+      position: relative;
+      justify-content: center;
 
-    &::after {
-      width: 16px;
+      &::before {
+        content: "";
+        position: absolute;
+        width: 150%;
+        height: 100%;
+        background: #D9D9D9;
+        border-radius: 9em;
+        filter: blur(10px);
+        z-index: -1;
+      }
     }
 
     .large & {
@@ -118,7 +122,7 @@ const title = computed(() => ({
       font-size: 24px;
 
       &::after {
-        width: 24px;
+        width: 21px;
       }
     }
   }

@@ -1,83 +1,143 @@
-<script setup>
-import { computed, onMounted, ref } from 'vue'
-import NavBar from './components/NavBar.vue'
+<script>
+import { computed, onMounted, ref, watch } from 'vue'
+import useEventBus from './eventBus'
+import testData from './test-data.json'
+
 import Rating from './views/Rating.vue'
 import Offers from './views/Offers.vue'
 import Main from './views/Main.vue'
 import History from './views/History.vue'
 import Profile from './views/Profile.vue'
+
 import Loading from './views/Loading.vue'
+import NavBar from './components/NavBar.vue'
 import Scan from './views/Scan.vue'
 import Review from './views/Review.vue'
 
-const data = ref({
-  user: null,
-  favorite: null,
-  rating: null,
-  history: null,
-});
+export default {
+  components: {
+    Loading,
+    NavBar,
+    Scan,
+    Review,
+  },
+  setup() {
+    const data = ref(testData);
 
-const views = {
-  rating: Rating,
-  offers: Offers,
-  main: Main,
-  history: History,
-  profile: Profile,
-}
-
-const routes = {
-  '/': null,
-  '/scan': Scan,
-  '/review': Review,
-}
-
-const currentViewName = ref('main');
-const currentView = computed(() => views[currentViewName.value]);
-const activeItem = computed(() => Object.keys(views).indexOf(currentViewName.value));
-
-const currentPath = ref(window.location.hash);
-const currentRoute = computed(() => routes[currentPath.value.slice(1) || '/']);
-
-const activeTheme = computed(() => (
-  data.value.user?.theme ||
-  window.localStorage.getItem('theme') ||
-  'white-pink'
-));
-
-onMounted(() => {
-  window.location.hash = '';
-  Telegram.WebApp.BackButton.hide();
-
-  Telegram.WebApp.BackButton.onClick(() => {
-    window.history.back();
-  });
-
-  window.addEventListener('hashchange', () => {
-    currentPath.value = window.location.hash;
-    if (window.location.hash == '') {
-      Telegram.WebApp.BackButton.hide();
-    } else {
-      Telegram.WebApp.BackButton.show();
+    const views = {
+      rating: Rating,
+      offers: Offers,
+      main: Main,
+      history: History,
+      profile: Profile,
     }
-  });
-});
+
+    const routes = {
+      '/': null,
+      '/scan': Scan,
+      '/review': Review,
+    }
+
+    const { bus } = useEventBus();
+
+    const currentView = ref('main');
+    const activeIndex = computed({
+      get() { return Object.keys(views).indexOf(currentView.value); },
+      set(newValue) { currentView.value = Object.keys(views)[newValue]; }
+    });
+
+    const targetSet = ref(false);
+
+    const currentPath = ref(window.location.hash);
+    const currentRoute = computed(() => routes[currentPath.value.slice(1) || '/']);
+
+    const activeTheme = ref(
+      data.value.user?.theme ||
+      window.localStorage.getItem('theme') ||
+      'white-pink'
+    );
+
+    watch(
+      () => bus.value.get('currentView'),
+      (val) => {
+        [currentView.value] = val;
+        targetSet.value = true;
+      }
+    );
+
+    onMounted(() => {
+      window.location.hash = '';
+      Telegram.WebApp.BackButton.hide();
+
+      Telegram.WebApp.BackButton.onClick(() => {
+        window.history.back();
+      });
+
+      window.addEventListener('hashchange', () => {
+        currentPath.value = window.location.hash;
+        if (window.location.hash == '') {
+          Telegram.WebApp.BackButton.hide();
+        } else {
+          Telegram.WebApp.BackButton.show();
+        }
+      });
+    });
+
+    return { data, activeTheme, views, currentView, activeIndex, targetSet, currentRoute };
+  },
+  methods: {
+    onLoad() {
+      this.$nextTick(() => {
+        const content = this.$refs.content;
+        let scrollPos = content.scrollLeft;
+        let isDragging = false;
+
+        content.addEventListener('scroll', () => {
+          const direction = (content.scrollLeft < scrollPos) ? 'left' : 'right';
+          scrollPos = content.scrollLeft;
+          if (isDragging || this.targetSet) return;
+
+          const index = scrollPos / content.offsetWidth;
+          this.activeIndex = direction == 'left' ? Math.floor(index) : Math.ceil(index);
+        });
+        content.addEventListener('touchstart', () => { isDragging = true; this.targetSet = false; });
+        content.addEventListener('touchend', () =>  { isDragging = false; });
+      });
+    }
+  },
+  watch: {
+    activeIndex(newValue) {
+      if (this.targetSet) this.$refs.viewRef[newValue].$el.scrollIntoView({ behavior: 'smooth' });
+    },
+  }
+}
 </script>
 
 <template>
   <Transition name="fade">
-    <Suspense>
-      <main :class="`main main--${currentViewName} ${activeTheme}`">
-        <div class="content">
-          <Transition name="fade">
-            <component
-              :is="currentView"
-              :class="`view view--${currentViewName}`"
-              v-model="data" />
-          </Transition>
+    <Suspense @resolve="onLoad">
+      <main :class="`main ${activeTheme}`">
+        <div ref="content" class="content">
+          <component
+            v-for="(view, name) in views"
+            ref="viewRef"
+            :is="view"
+            :class="`view view--${name}`"
+            tabindex="0"
+            :autofocus="name == currentView"
+            v-model:data="data"
+            v-model:theme="activeTheme" />
         </div>
-        <NavBar v-model="currentViewName" :active-item />
-
+        <NavBar :active-index />
         <component :is="currentRoute" />
+        <svg height="0">
+          <defs>
+            <linearGradient id="gradient-main" x1="0" y1="0" x2="0" y2="100%">
+              <stop stop-color="var(--theme-main-light)"/>
+              <stop offset="1" stop-color="var(--theme-main)"/>
+            </linearGradient>
+          </defs>
+        </svg>
       </main>
 
       <template #fallback>
@@ -90,7 +150,7 @@ onMounted(() => {
 <style lang="scss">
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.3s;
 }
 
 .fade-enter-from,

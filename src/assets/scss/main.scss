@@ -1,14 +1,16 @@
 @use "base";
+@use "mixins" as *;
 
 .white-pink {
   --theme-20: #3D2930;
-  --theme-30: #4D4D4D;
+  --theme-30: #5C3E48;
   --theme-40: #7A5260;
-  --theme-60: #AD85A8;
+  --theme-55: #A37586;
+  --theme-60: #C2709C;
   --theme-neutral: #D194BF;
   --theme-70: #E184B6;
   --theme-75: #E698C2;
-  --theme-80: #E0B8D4;
+  --theme-80: #EBADCE;
   --theme-85: #F2BFE3;
   --theme-87: #EFCCE5;
   --theme-90: #F7DEF4;
@@ -17,11 +19,17 @@
 
   --theme-main: #BA2C6C;
   --theme-main-light: #D85A93;
+  --theme-active: #902254;
+  --theme-active-light: #CE3178;
   --theme-drop-shadow: #9F2D4F40;
   --theme-bg: #F7E2F4;
   --theme-glass: #FBEAF080;
   --theme-modal: #FDF7FCCC;
   --theme-note: #FDF7FC80;
+
+  .points {
+    --count-icon: url(/images/points.svg);
+  }
 }
 
 .gray-brown {
@@ -41,16 +49,32 @@
 
   --theme-main: #7A513F;
   --theme-main-light: #BF7A50;
+  --theme-active: #573A2D;
+  --theme-active-light: #A1613B;
   --theme-drop-shadow: #7A513F66;
   --theme-bg: #F3E6D8;
   --theme-glass: #F3E6D880;
   --theme-modal: #FDFAF7CC;
   --theme-note: #FDFAF780;
+
+  .points {
+    --count-icon: url(/images/points-brown.svg);
+  }
+}
+
+:disabled {
+  opacity: 0.75;
 }
 
 .main {
+  --navbar-height: 71px;
   --theme-main-gradient: linear-gradient(var(--theme-main-light) 20%, var(--theme-main));
-  display: grid;
+  --theme-active-gradient: linear-gradient(var(--theme-active-light) 20%, var(--theme-active));
+  --shadow-normal: 0 2px 4px var(--theme-drop-shadow);
+  --shadow-active: inset 0 2px 4px 1px var(--theme-drop-shadow);
+  --bounce: cubic-bezier(0.439, 1.477, 0.163, 0.875);
+
+  @include grid;
   position: fixed;
   inset: 0;
   grid-template-rows: 1fr auto;
@@ -58,39 +82,125 @@
   color: var(--theme-20);
   font: 16px "Montserrat", sans-serif;
   letter-spacing: -0.02em;
-  overflow: hidden;
-
-  &--offers {
-    background: url(/images/offers-bg.webp) no-repeat center / cover;
-  }
 }
 
 .content {
-  position: relative;
+  @include flex;
+  overflow: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
 }
 
 .view {
-  position: absolute;
-  inset: 0;
-  height: 100%;
-  overflow: auto;
-}
-
-.gradient-text {
-  background: var(--theme-main-gradient);
-  background-clip: text;
-  color: transparent;
+  min-width: 100%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  outline: 0;
 }
 
 .block {
-  background: var(--theme-98);
-  border-radius: 12px;
-  box-shadow: 0 2px 4px var(--theme-drop-shadow);
+  background-color: var(--theme-98);
+  border-radius: 14px;
+  box-shadow: var(--shadow-normal);
+}
+
+@property --themeGradient1 {
+  syntax: "<color>";
+  initial-value: #000;
+  inherits: true;
+}
+
+@property --themeGradient2 {
+  syntax: "<color>";
+  initial-value: #000;
+  inherits: true;
+}
+
+.button-animated {
+  box-shadow:
+    var(--shadow-normal),
+    inset 0 0 var(--theme-drop-shadow);
+  transition: all 0.2s linear;
+
+  &:active {
+    box-shadow:
+      0 0 var(--theme-drop-shadow),
+      var(--shadow-active);
+  }
+}
+
+.gradient-text {
+  --themeGradient1: var(--theme-main-light);
+  --themeGradient2: var(--theme-main);
+  background: linear-gradient(var(--themeGradient1) 20%, var(--themeGradient2));
+  background-clip: text;
+  color: transparent;
+  transition: 0.2s linear;
+  transition-property: --themeGradient1, --themeGradient2;
+}
+
+.confirm-button {
+  --themeGradient1: var(--theme-main-light);
+  --themeGradient2: var(--theme-main);
+  width: 100%;
+  background: linear-gradient(var(--themeGradient1) 20%, var(--themeGradient2));
+  border-radius: 13px;
+  color: #FFF;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 12px;
+  transition: 0.2s linear;
+  transition-property: all, --themeGradient1, --themeGradient2;
+
+  &:active {
+    --shadow-active: inset 0 4px 4px 2px #280B1440;
+    --themeGradient1: var(--theme-active-light);
+    --themeGradient2: var(--theme-active);
+  }
+}
+
+.gradient-border {
+  --border-size: 2px;
+  position: relative;
+  background-clip: padding-box;
+  border: var(--border-size) solid transparent;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--border-size));
+    background: var(--theme-main-gradient);
+    border-radius: inherit;
+    z-index: -1;
+  }
+}
+
+.secondary-button {
+  width: 100%;
+  height: 48px;
+}
+
+.dialog-buttons {
+  @include flex(8px);
+  margin-top: 20px;
+}
+
+.dialog-button {
+  min-width: 110px;
+  height: 40px;
+  background: #E6E6E6;
+  color: var(--theme-20);
+  font-size: 16px;
+
+  &--yes {
+    background: var(--theme-80);
+  }
 }
 
 .h2 {
   font-size: 20px;
   font-weight: 700;
+  line-height: 1;
   text-align: center;
 }
 
@@ -98,7 +208,6 @@
   font-size: 14px;
   font-weight: 700;
   line-height: 1;
-  margin-bottom: 6px;
 }
 
 .container {
@@ -106,11 +215,11 @@
 }
 
 .scrollable {
-  --fade-height: 10px;
+  --fade-height: 12px;
   position: relative;
-  overflow: auto;
   margin: 0 calc(-1 * var(--side-padding, 0px));
   padding: 0 var(--side-padding, 0px);
+  overflow: auto;
   scrollbar-width: none;
 
   &::before,
@@ -122,7 +231,10 @@
     width: 100%;
     height: var(--fade-height);
     background: linear-gradient(var(--theme-bg), transparent);
-    margin: calc(-1 * var(--fade-height)) 0;
+  }
+
+  &::before {
+    z-index: 9;
   }
 
   &::after {
@@ -132,31 +244,20 @@
 }
 
 .count {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   font-weight: 700;
 
   &::after {
     content: var(--count-icon);
+    width: 15px;
     line-height: 0;
   }
 }
 
 .checks {
   --count-icon: url(/images/bill.svg);
-}
-
-.points {
-  --count-icon: url(/images/points.svg);
-
-  .gray-brown & {
-    --count-icon: url(/images/points-brown.svg);
-  }
-
-  &::after {
-    filter: drop-shadow(0 1px 2px rgb(0 0 0 / 25%));
-  }
 }
 
 .separator {
@@ -167,11 +268,19 @@
 }
 
 .field {
+  width: 100%;
   background: var(--theme-92);
+  border-radius: 10px;
   font-size: 16px;
   font-weight: 700;
-}
+  padding: 10px 12px;
 
-:disabled {
-  opacity: 0.75;
+  &:focus {
+    outline: 2px solid var(--theme-90);
+    outline-offset: -2px;
+  }
+
+  &:not(:focus):valid {
+    background: var(--theme-90);
+  }
 }

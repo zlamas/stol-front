@@ -1,0 +1,283 @@
+{
+  "user": {
+    "avatar": "https://s3-alpha-sig.figma.com/img/6417/2b30/7e61f687d329aacab1ac444d02100707?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Wph6AROjROKa3NQLW7c2I-sLuvInoO3FdxNz-D~iYt1r1WpD3dN4RjYnBvN7ebMukNYR0MVeO~S9c-ax7qIuGc5rHaZm2aZazmWNLUshmwiQNi0OcDJtpXs1rASaMw7jeg2ex~Z5O3W6e7JK9iGHliuzUN7KbUEcSmL6Gy-x1A7a~c3Q80~JCadn3RpXYQ3w4~cFvBHAnzlB1ORhY2rUcYTqv3lDf-wnlweJhw0fsLacnRGIKQqVrGZMJje~GmVERb~VNiBTnlp-4c9FHl58IuLUkGja29Ow8A2JrwEPCsugSzrgp0PiZsEoSaCQn2Ig3VLuPU~VTCFvi1X3qVdqig__",
+    "daily_streak": 1,
+    "username": "Paul",
+    "tag": "cooknwork",
+    "points": 600,
+    "visits": 0,
+    "average_check": 0,
+    "referral_link": "t.me/stol-ref-1200453",
+    "rank": {
+      "name": "Гедонист",
+      "rank": 4,
+
+      "progress_current": {
+        "scans": 0,
+        "sum_spent": 0,
+        "streak": 1
+      },
+
+      "conditions_current": {},
+
+      "conditions_next": {
+        "scans": 5,
+        "sum_spent": 5000,
+        "streak": 3
+      }
+    },
+    "favorite": {
+      "name": "Butler",
+      "rating": 5,
+      "checks_count": 12,
+      "image_url": "https://s3-alpha-sig.figma.com/img/9272/1190/a80e9c87a026cf4713cb8769b8cb3116?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=jU-V-svk9-J2MLg-Q9UETH6SR-Eotc3diq~aiBJvpjMvpifZX6kSlNlol-ilu29S3-ru4nHxXWDG9NLh0mKvAXeTEWfUoZyAMNPdfvUebiMUQoCGUCb31R0iJKls7OpL~uwK9NU8YNBrC1aq5MKO1nsxAa3LS3zHUVUWwmqIUeUveklDBH7~4sspGFHU8bDMrAR-PjGr0ajbWrkDcp3FWWkP26dH071H3RF2jOmFPK3Z3tAz4Por8JkCYLKiGznJivgdTLEY5OO7601qyBceeSzkw1bp3rWllx-d38zwhKP76xVxJQhipr~xHs5FRpUbWxltmHah9dnPypOJTa5hTA__"
+    },
+    "recent": {
+      "name": "Matreshka",
+      "rating": 4,
+      "points": 61,
+      "image_url": "https://s3-alpha-sig.figma.com/img/c684/f43b/9e53f7dfd1097197fb698542132732c9?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=OswYzlGWgysPRxrJcgAy4j3X3tr2MN5i7HVK8ZM0noVyjIG5PXm-8siKy-ocDSU2qSxzaJx2Iweyz73FT-Y2GI5fZM3BMSgjCyAFVH4Om2CYYa5GiqeH8Esh2iOCANDScM-KgeYNrg12OzlV9AUbSJuDwpxMvTQeDJ30ryqnvxexoUF~lPOIrtrU5VoGXNeCYxXM93UbnFvXokm-YrRK5GzmtmA0GaEoudJFhB3awOH0EYufUKnriF0b9XFmLYJgy4xyjD3NtxYj4azVgmzM~Fb1dkUQQEKbPykGhXXQbkGr6KvHKVO-iZtnp3pG3XuhnbDi6EigjBNzeBlyYVF42A__"
+    }
+  },
+
+  "levels": [
+    {
+      "level": 1,
+      "name": "Новичок",
+      "multiplier": "1.0",
+      "tasks": [
+        { "description": "Зайти в приложение" }
+      ]
+    },
+    {
+      "level": 2,
+      "name": "Гастронавт",
+      "multiplier": "1.1",
+      "tasks": [
+        { "description": "Отсканировать 5 чеков" },
+        { "description": "Загрузить чеков на 10 000₽" }
+      ]
+    },
+    {
+      "level": 3,
+      "name": "Знаток",
+      "multiplier": "1.2",
+      "tasks": [
+        { "description": "Отсканировать 15 чеков" },
+        { "description": "Загрузить чеков на 15 000₽" }
+      ]
+    },
+    {
+      "level": 4,
+      "name": "Гедонист",
+      "multiplier": "1.3",
+      "tasks": [
+        { "description": "Отсканировать 30 чеков" },
+        { "description": "Загрузить чеков на 20 000₽" },
+        { "description": "Заходить в приложение 20 дней подряд" }
+      ]
+    },
+    {
+      "level": 5,
+      "name": "Эстет",
+      "multiplier": "1.5",
+      "tasks": [
+        { "description": "Отсканировать 50 чеков" },
+        { "description": "Загрузить чеков на 35 000₽" },
+        { "description": "Заходить в приложение 35 дней подряд" }
+      ]
+    },
+    {
+      "level": 6,
+      "name": "Гурман",
+      "multiplier": "1.6",
+      "tasks": [
+        { "description": "Отсканировать 75 чеков" },
+        { "description": "Загрузить чеков на 50 000₽" },
+        { "description": "Заходить в приложение 50 дней подряд" }
+      ]
+    },
+    {
+      "level": 7,
+      "name": "Критик",
+      "multiplier": "1.8",
+      "tasks": [
+        { "description": "Отсканировать 100 чеков" },
+        { "description": "Загрузить чеков на 80 000₽" },
+        { "description": "Заходить в приложение 80 дней подряд" }
+      ]
+    }
+  ],
+
+  "rating": {
+    "leaders": [
+      { "position": 1, "username": "User", "avatar": "images/avatar.png", "points": 0 },
+      { "position": 2, "username": "User", "avatar": "images/avatar.png", "points": 0 },
+      { "position": 3, "username": "User", "avatar": "images/avatar.png", "points": 0 },
+      { "position": 4, "username": "User", "avatar": "images/avatar.png", "points": 0 },
+      { "position": 5, "username": "User", "avatar": "images/avatar.png", "points": 0 },
+      { "position": 6, "username": "User", "avatar": "images/avatar.png", "points": 0 },
+      { "position": 7, "username": "User", "avatar": "images/avatar.png", "points": 0 },
+      { "position": 8, "username": "User", "avatar": "images/avatar.png", "points": 0 },
+      { "position": 9, "username": "User", "avatar": "images/avatar.png", "points": 0 },
+      { "position": 10, "username": "User", "avatar": "images/avatar.png", "points": 0 }
+    ],
+    "user": {
+      "position": 101,
+      "avatar": "https://s3-alpha-sig.figma.com/img/6417/2b30/7e61f687d329aacab1ac444d02100707?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Wph6AROjROKa3NQLW7c2I-sLuvInoO3FdxNz-D~iYt1r1WpD3dN4RjYnBvN7ebMukNYR0MVeO~S9c-ax7qIuGc5rHaZm2aZazmWNLUshmwiQNi0OcDJtpXs1rASaMw7jeg2ex~Z5O3W6e7JK9iGHliuzUN7KbUEcSmL6Gy-x1A7a~c3Q80~JCadn3RpXYQ3w4~cFvBHAnzlB1ORhY2rUcYTqv3lDf-wnlweJhw0fsLacnRGIKQqVrGZMJje~GmVERb~VNiBTnlp-4c9FHl58IuLUkGja29Ow8A2JrwEPCsugSzrgp0PiZsEoSaCQn2Ig3VLuPU~VTCFvi1X3qVdqig__",
+      "points": 254
+    }
+  },
+
+  "favorite": [
+    {
+      "restaurant": {
+        "name": "Butler",
+        "image_url": "https://s3-alpha-sig.figma.com/img/9272/1190/a80e9c87a026cf4713cb8769b8cb3116?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=jU-V-svk9-J2MLg-Q9UETH6SR-Eotc3diq~aiBJvpjMvpifZX6kSlNlol-ilu29S3-ru4nHxXWDG9NLh0mKvAXeTEWfUoZyAMNPdfvUebiMUQoCGUCb31R0iJKls7OpL~uwK9NU8YNBrC1aq5MKO1nsxAa3LS3zHUVUWwmqIUeUveklDBH7~4sspGFHU8bDMrAR-PjGr0ajbWrkDcp3FWWkP26dH071H3RF2jOmFPK3Z3tAz4Por8JkCYLKiGznJivgdTLEY5OO7601qyBceeSzkw1bp3rWllx-d38zwhKP76xVxJQhipr~xHs5FRpUbWxltmHah9dnPypOJTa5hTA__",
+        "rating": 5
+      },
+      "points": 61,
+      "total_sum": 6148,
+      "created_at": 1742947200000
+    },
+    {
+      "restaurant": {
+        "name": "Butler",
+        "image_url": "https://s3-alpha-sig.figma.com/img/9272/1190/a80e9c87a026cf4713cb8769b8cb3116?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=jU-V-svk9-J2MLg-Q9UETH6SR-Eotc3diq~aiBJvpjMvpifZX6kSlNlol-ilu29S3-ru4nHxXWDG9NLh0mKvAXeTEWfUoZyAMNPdfvUebiMUQoCGUCb31R0iJKls7OpL~uwK9NU8YNBrC1aq5MKO1nsxAa3LS3zHUVUWwmqIUeUveklDBH7~4sspGFHU8bDMrAR-PjGr0ajbWrkDcp3FWWkP26dH071H3RF2jOmFPK3Z3tAz4Por8JkCYLKiGznJivgdTLEY5OO7601qyBceeSzkw1bp3rWllx-d38zwhKP76xVxJQhipr~xHs5FRpUbWxltmHah9dnPypOJTa5hTA__",
+        "rating": 5
+      },
+      "points": 128,
+      "total_sum": 12793,
+      "created_at": 1742256000000
+    },
+    {
+      "restaurant": {
+        "name": "Butler",
+        "image_url": "https://s3-alpha-sig.figma.com/img/9272/1190/a80e9c87a026cf4713cb8769b8cb3116?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=jU-V-svk9-J2MLg-Q9UETH6SR-Eotc3diq~aiBJvpjMvpifZX6kSlNlol-ilu29S3-ru4nHxXWDG9NLh0mKvAXeTEWfUoZyAMNPdfvUebiMUQoCGUCb31R0iJKls7OpL~uwK9NU8YNBrC1aq5MKO1nsxAa3LS3zHUVUWwmqIUeUveklDBH7~4sspGFHU8bDMrAR-PjGr0ajbWrkDcp3FWWkP26dH071H3RF2jOmFPK3Z3tAz4Por8JkCYLKiGznJivgdTLEY5OO7601qyBceeSzkw1bp3rWllx-d38zwhKP76xVxJQhipr~xHs5FRpUbWxltmHah9dnPypOJTa5hTA__",
+        "rating": 5
+      },
+      "points": 75,
+      "total_sum": 7514,
+      "created_at": 1741651200000
+    }
+  ],
+
+  "history": [
+    {
+      "restaurant": {
+        "name": "Matreshka",
+        "image_url": "https://s3-alpha-sig.figma.com/img/c684/f43b/9e53f7dfd1097197fb698542132732c9?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=OswYzlGWgysPRxrJcgAy4j3X3tr2MN5i7HVK8ZM0noVyjIG5PXm-8siKy-ocDSU2qSxzaJx2Iweyz73FT-Y2GI5fZM3BMSgjCyAFVH4Om2CYYa5GiqeH8Esh2iOCANDScM-KgeYNrg12OzlV9AUbSJuDwpxMvTQeDJ30ryqnvxexoUF~lPOIrtrU5VoGXNeCYxXM93UbnFvXokm-YrRK5GzmtmA0GaEoudJFhB3awOH0EYufUKnriF0b9XFmLYJgy4xyjD3NtxYj4azVgmzM~Fb1dkUQQEKbPykGhXXQbkGr6KvHKVO-iZtnp3pG3XuhnbDi6EigjBNzeBlyYVF42A__",
+        "rating": 4
+      },
+      "points": 138,
+      "total_sum":  13771,
+      "created_at": 1743033600000
+    },
+    {
+      "restaurant": {
+        "name": "Butler",
+        "image_url": "https://s3-alpha-sig.figma.com/img/9272/1190/a80e9c87a026cf4713cb8769b8cb3116?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=jU-V-svk9-J2MLg-Q9UETH6SR-Eotc3diq~aiBJvpjMvpifZX6kSlNlol-ilu29S3-ru4nHxXWDG9NLh0mKvAXeTEWfUoZyAMNPdfvUebiMUQoCGUCb31R0iJKls7OpL~uwK9NU8YNBrC1aq5MKO1nsxAa3LS3zHUVUWwmqIUeUveklDBH7~4sspGFHU8bDMrAR-PjGr0ajbWrkDcp3FWWkP26dH071H3RF2jOmFPK3Z3tAz4Por8JkCYLKiGznJivgdTLEY5OO7601qyBceeSzkw1bp3rWllx-d38zwhKP76xVxJQhipr~xHs5FRpUbWxltmHah9dnPypOJTa5hTA__",
+        "rating": 5
+      },
+      "points": 62,
+      "total_sum":  6248,
+      "created_at": 1742947200000
+    },
+    {
+      "restaurant": {
+        "name": "Северяне",
+        "image_url": "https://s3-alpha-sig.figma.com/img/1ceb/e5d9/b96cbf4584027274651e9ad256454163?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=rZ6YFPQtvojcgpF32Zxmyy1XMfQiT0JGA1h-X8do0PGmYKPlkhLGY2C4RojtMDpC4srdK4E2JlVaa-Xy2vqjwqX8Gsc4USJHOW5zap6w79gI7xJDEyZB99FrLWX1p9yB-dm4nwzry8fuiSfTpsFT1bKJoTasORB~bnYytrpcQXqQJhAqJwIr49bCI2kEkUpyRZa8a-ex3ms2d07KAa61T2~QXrFZyoqJMDOq6w90u5bfr5s51v1u2MKbzuH6iuxB~9jD~4LUahZw87h61ETXmO7Kkdc-txzitwkk73aXVBXSAQDOAS3wQkFDv6rGz9w8x-zY5UPCc5s2y4owKXd~Kw__",
+        "rating": 3
+      },
+      "points": 81,
+      "total_sum":  8087,
+      "created_at": 1742774400000
+    },
+    {
+      "restaurant": {
+        "name": "У Ашота",
+        "rating": 5
+      },
+      "points": 3,
+      "total_sum": 299,
+      "created_at": 1742515200000
+    },
+    {
+      "restaurant": {
+        "name": "Frank by BASTA",
+        "image_url": "https://s3-alpha-sig.figma.com/img/ef13/1e96/9fce56fcf8ab2fe83e8f9cc702a8a0b1?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=SIXtEQmyH~ciJJ-lgmmGQWe3tU~YCPU~UDVKt1bR0tSncVHqydB0y-~flCoSDKY-Mh8FRvzZMp7MCoBCLNefzLpIuiJhvZK8~sTPp0AvPMAFCwFMkOd9iwsb1zEw-WPZ~NGR0N0ovz0eINAMONcXcHVQRGtROzFUfGq0a7JnDkuvmSmSOYi94QkCQz4~XXZFNfZz~JoTJUs0gDxBzVVdsoy~z7qyF3UR9k~6FkDzaNOJSCswY1jswOII9BCifAs8C5ZwE0PHCYz9Jw4eeJy~apvYvNWG7EeqC9vuLKyHYxisYsHdBSX41rK9sMz~VSpfpF-77mA2qHEr4AVni2zVEw__",
+        "rating": 4
+      },
+      "points": 166,
+      "total_sum": 16592,
+      "created_at": 1742428800000
+    }
+  ],
+
+  "notifications": {
+    "Cегодня": [
+      {
+        "unread": true,
+        "icon": "images/rank-up.svg",
+        "title": "Повышение ранга",
+        "description": "Получен ранг Новичок",
+        "details": "Приветствую в STOL! Это твой 1-ый ранг. Сканируй чеки и повышай его!"
+      },
+      {
+        "unread": true,
+        "icon": "images/purchase.svg",
+        "title": "Недавняя покупка",
+        "description": "Куплен “Telegram Premium”",
+        "details": "Telegram Premium на 3 месяца будет начислен на твой аккаунт в течение 24 часов. Спасибо за покупку!"
+      },
+      {
+        "unread": true,
+        "icon": "images/success.svg",
+        "title": "Успешное сканирование",
+        "description": "Начислено 12 баллов",
+        "details": "Чек на 1 264₽ принят и твой баланс вырос еще на 12 баллов. Так держать!"
+      }
+    ],
+    "Вчера": [
+      {
+        "icon": "images/success.svg",
+        "title": "Успешное сканирование",
+        "description": "Начислено 27 баллов",
+        "details": "Чек на 2 714₽ принят и твой баланс вырос еще на 12 баллов. Так держать!"
+      },
+      {
+        "icon": "images/failure.svg",
+        "title": "Чек отклонен",
+        "description": "Не является рестораном",
+        "details": "Ой-ой! Кажется, твой чек был не из заведения. Я такие не принимаю!"
+      },
+      {
+        "icon": "images/points.svg",
+        "title": "Реферальные отчисления",
+        "description": "Начислено 3 балла",
+        "details": "А ты со связями:) У твоего реферала приняли чек и ты получил 3 балла!"
+      }
+    ]
+  },
+
+  "rewards": [
+    {
+      "name": "Telegram Premium\n3 месяца",
+      "image": "https://s3-alpha-sig.figma.com/img/3be9/662e/a81c76dfae1b5d145aacfff35dc5eb68?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=FNpWOguEO7fQZyDM89Ea5gk2sy2QQDGQru5jzFjw2jZ0cPMB9r3h9vRqgFXFbcmdKPeNBHupgIk1yOvXtF8uOXuRuCXLaHHHU8zzXivSq0sZFlCyhTZlBQjTSMHZ3w1Dr6W5f2L6fFC~wbZdgnlIEzGzMUgWxdqy9SZtb3PcYEUvcdR82qQttQUDSkqGqA~YBd9~urBXkpgT716KCuctcTHOrPSHGLBgnx7qt9kkO1jJJmDXzYKY7yWNWMlHHhbRuE8CZxLN6rrthBNfUMnAxJd6O07iiKW5Ftjv5JhPKeImTbZnsl81z4XeqDQSlLQZafUHQIbm6H3H0MUUrvSXiA__",
+      "description": "Просто попробовать!",
+      "cost": "199"
+    },
+    {
+      "name": "Telegram Premium\n6 месяцев",
+      "image": "https://s3-alpha-sig.figma.com/img/d356/6f7a/49048ea0bfd75db97e89483296556212?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=CR3gJhMjzmotpukQYtnZTU01pvqI7o4XrdIdE0TWxCiz3aLPfCG4YiYfPaehS0hW4YmFFjyKn-O7ZmfXgzg9eXqVkNWs3zrmkfKOMJtO4CiKDhS4Q02KuAXq9OY2KFsKXI-XElqjkbLpO3u9xmnclp65fGZxVabx~w-X5VOb-7ndw-IsQ8WQLSfivF5lbNy29FdItEiv3Xdd8viE6PO3qywNzfyLGjS8PFTGjZBD6jF2F32dcoDpJSth1tcEnO38rBlK4liaOPrYb2mqUYp6Cvv7H1IvQ1jcnaQYeBA2aHq3SzVibVHB-~ctdrUAftYiFmOv3npucUgC5bz2qHdKKQ__",
+      "description": "Полгода удобств",
+      "cost": "349"
+    },
+    {
+      "name": "Telegram Premium\n12 месяцев",
+      "image": "https://s3-alpha-sig.figma.com/img/d2ab/a7b6/1a83251f06793d9f25206685d99bfbad?Expires=1753660800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=jE0uD0yiZS15ruo-mfjn4YYcudOr6O3e8ukrTyZIl~~kXyw57Szc0AzoEGnPa3Mg73~mbChiotSfS2tvXuZHC9hBalYh-yvD1U6~DmFFXEJmIrzHASCy~dNJ-KawHHf55v22Stpz~btet1FLJwHE7Kw2T-ISR~ZiRg0fq2AoV70tC2sOmHzxq~x~qlJ85lSypm7Hxg0z9fUAunPVhqDqDmDoSrwcx0iA-YIZTfhUB~ekS5JrrHsW7w-ju6RjDcDggmCmFtN44RkT3B-Yhwfo-QZHIy6gkckVUdB81KPgEL37cHPcLoZhskXcDNsvI6gm68GIlpXwpc~FkupnOrBmEw__",
+      "description": "Все на максимум!",
+      "cost": "649"
+    }
+  ]
+}

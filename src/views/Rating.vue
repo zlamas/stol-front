@@ -1,9 +1,8 @@
 <script setup>
-import { useFetch } from '@/fetch.js'
 import Top3RatingItem from '@/components/Top3RatingItem.vue'
 import RatingItem from '@/components/RatingItem.vue'
 
-const data = defineModel();
+const data = defineModel('data');
 </script>
 
 <template>
@@ -16,10 +15,12 @@ const data = defineModel();
         <Top3RatingItem class="bronze" v-bind="data.rating.leaders[2]" />
       </div>
     </div>
-    <div class="ratings scrollable">
-      <RatingItem
-        v-for="data of data.rating.leaders.slice(3)"
-        v-bind="data" />
+    <div class="scrollable">
+      <div class="ratings">
+        <RatingItem
+          v-for="data of data.rating.leaders.slice(3)"
+          v-bind="data" />
+      </div>
     </div>
     <RatingItem you v-bind="data.rating.user" />
   </div>
@@ -28,20 +29,20 @@ const data = defineModel();
 <style scoped lang="scss">
 .view--rating {
   --side-padding: 24px;
-  display: flex;
-  flex-flow: column;
+  display: grid;
+  gap: 16px;
+  grid-template-rows: auto 1fr;
   padding: 0 var(--side-padding) 48px;
 }
 
 .top3 {
-  margin: 0 calc(-1 * var(--side-padding));
   display: grid;
   gap: 30px;
   padding: 20px;
   border-radius: 0 0 30px 30px;
   box-shadow: 0 4px 8px var(--theme-drop-shadow);
+  margin: 0 calc(-1 * var(--side-padding));
   text-align: center;
-  margin-bottom: 16px;
 
   &__users {
     display: flex;
@@ -56,7 +57,6 @@ const data = defineModel();
   gap: 8px;
   grid-template-columns: 100%;
   align-content: start;
-  margin-bottom: 12px;
   flex: 1;
 }
 </style>

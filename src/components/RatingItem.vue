@@ -12,33 +12,24 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
 </script>
 
 <template>
-  <div :class="['ratings__item', 'block', { you }]">
-    <div class="ratings__item-content">
-      <div class="ratings__place">{{ props.position <= 100 ? props.position : '100+' }}</div>
-      <img class="ratings__avatar" :src="`${props.avatar || 'images/avatar.png'}`">
-      <div class="ratings__name">{{ props.you ? 'You' : props.username }}</div>
-      <div class="ratings__points count points gradient-text">{{ formattedPoints }}</div>
-    </div>
+  <div :class="['ratings__item', 'block', { 'gradient-border': you }]">
+    <div class="ratings__place">{{ props.position <= 100 ? props.position : '100+' }}</div>
+    <img class="ratings__avatar" :src="`${props.avatar || 'images/avatar.png'}`">
+    <div class="ratings__name">{{ props.you ? 'Вы' : props.username }}</div>
+    <div class="ratings__points count points gradient-text">{{ formattedPoints }}</div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .ratings {
   &__item {
-    padding: 2px;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    padding: 6px 10px 6px 6px;
 
-    &.you {
-      box-shadow: 0 4px 8px var(--theme-drop-shadow);
-      background: var(--theme-main-gradient);
+    &.gradient-border {
       font-weight: 700;
-    }
-
-    &-content {
-      display: flex;
-      align-items: center;
-      background: var(--theme-98);
-      border-radius: 10px;
-      padding: 6px 16px 6px 6px;
     }
   }
 

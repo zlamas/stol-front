@@ -1,14 +1,15 @@
 <script setup>
+import useEventBus from '@/eventBus'
 import NavButton from './NavButton.vue'
 
 defineProps({
-  activeItem: Number
-});
+  activeIndex: Number,
+})
 
-const currentView = defineModel();
+const { emit } = useEventBus();
 
-function updateCurrentView(value) {
-  currentView.value = value;
+function updateCurrentView(view) {
+  emit('currentView', view);
 }
 
 const labels = {
@@ -23,11 +24,11 @@ const labels = {
 <template>
   <nav class="navbar">
     <div class="navbar__bg">
-      <svg xmlns="http://www.w3.org/2000/svg" width="100%">
+      <svg width="100%">
         <mask id="mask">
           <path
             v-for="(n, i) in 5"
-            :class="['cutout-path', { active: activeItem == i }]"
+            :class="['cutout-path', { active: activeIndex == i }]"
             d="M-58 0C-40.6337 0-34.2112 9.2942-27.8927 18.4377-21.7759 27.2894-15.7566 36 0 36 15.7566 36 21.7759 27.2894 27.8927 18.4377 34.2112 9.2942 40.6337 0 58 0Z"
             fill="white" />
         </mask>
@@ -36,10 +37,10 @@ const labels = {
     <div class="navbar__buttons">
       <div class="navbar__circle"></div>
       <NavButton
-        v-for="(label, icon) of labels"
-        @click="() => updateCurrentView(icon)"
-        :class="{ active: currentView == icon }"
-        :icon
+        v-for="(label, view, i) of labels"
+        @click="updateCurrentView(view, i)"
+        :class="{ active: activeIndex == i }"
+        :icon="view"
         :label />
     </div>
   </nav>
@@ -62,13 +63,12 @@ const labels = {
 }
 
 .navbar {
-  --active-item: v-bind('activeItem');
+  --active-index: v-bind('activeIndex');
   --button-width: 70px;
-  --bounce: all 0.8s cubic-bezier(0.439, 1.477, 0.163, 0.875);
-  --translate: calc((var(--active-item) - 2) * var(--button-width));
+  --translate: calc((var(--active-index) - 2) * var(--button-width));
   position: relative;
+  height: var(--navbar-height);
   filter: drop-shadow(0 2px 4px var(--theme-drop-shadow));
-  height: 71px;
 
   &__bg {
     position: absolute;
@@ -79,8 +79,8 @@ const labels = {
   }
 
   &__buttons {
-    position: relative;
     display: flex;
+    position: relative;
     height: 100%;
     justify-content: center;
   }
@@ -93,7 +93,7 @@ const labels = {
     background: var(--theme-main-gradient);
     border-radius: 50%;
     translate: var(--translate) -50%;
-    transition: var(--bounce);
+    transition: all 0.8s var(--bounce);
   }
 
   &__button {

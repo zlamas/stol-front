@@ -15,7 +15,7 @@ function goToHref() {
 </script>
 
 <template>
-  <button @click="goToHref" class="main-button block" :disabled>
+  <button @click="goToHref" class="main-button button-animated block" :disabled>
     <Icon v-if="icon" :name="icon" size=24 />
     <span class="gradient-text">
       <slot />
@@ -24,16 +24,23 @@ function goToHref() {
 </template>
 
 <style scoped lang="scss">
+@use "@/assets/scss/mixins" as *;
+
 .main-button {
-  display: flex;
-  align-items: center;
+  @include flex(6px, center);
   justify-content: center;
-  gap: 6px;
   width: 100%;
   height: 48px;
   box-shadow: 0 4px 8px var(--theme-drop-shadow);
   font-size: 18px;
   font-weight: 700;
   flex-shrink: 0;
+
+  &:active {
+    .gradient-text {
+      --textGradient1: var(--theme-active-light);
+      --textGradient2: var(--theme-active);
+    }
+  }
 }
 </style>

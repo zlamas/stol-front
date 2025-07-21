@@ -3,8 +3,8 @@ import { computed } from 'vue'
 import Icon from './Icon.vue'
 
 const props = defineProps({
-  current: String,
-  next: String,
+  rank: [Number, String],
+  name: String,
   conditions_current: Object,
   conditions_next: Object,
   progress_current: Object,
@@ -26,13 +26,10 @@ const progress = computed(() => {
 </script>
 
 <template>
-  <div class="rank block">
+  <div class="rank">
     <div class="rank__names">
-      <div class="rank__current gradient-text">{{ current }}</div>
-      <div class="rank__next">
-        <Icon name="lock" width=10 />
-        <span>{{ next }}</span>
-      </div>
+      <div class="rank__current gradient-text">{{ name }}</div>
+      <div class="rank__next">Ранг {{ rank }}</div>
     </div>
     <div class="rank__progress">
       <div class="rank__progress-bar" :style="{ '--progress': progress }"></div>
@@ -44,10 +41,9 @@ const progress = computed(() => {
 .rank {
   display: grid;
   gap: 6px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
-  margin-bottom: 16px;
-  padding: 10px 16px 16px;
+  line-height: 1;
 
   &__names {
     display: flex;
@@ -63,14 +59,14 @@ const progress = computed(() => {
 
   &__progress {
     background: var(--theme-92);
-    border-radius: 6px;
+    border-radius: 7px;
     padding: 4px;
 
     &-bar {
       width: var(--progress);
       height: 18px;
       background: var(--theme-main-gradient);
-      border-radius: 5px;
+      border-radius: 6px;
       box-shadow: 0 1px 2px rgb(0 0 0 / 25%);
     }
   }

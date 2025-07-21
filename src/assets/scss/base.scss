@@ -10,6 +10,7 @@
   --black-30: #4D4D4D;
   --black-40: #666666;
   --black-60: #999999;
+  --black-80: #CCCCCC;
   --green: #6FF69C;
   --yellow: #FFC300;
   --orange: #FF8800;
@@ -20,8 +21,9 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
   font: inherit;
+  margin: 0;
+  padding: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -32,7 +34,6 @@ textarea {
   border: 0;
   color: inherit;
   letter-spacing: inherit;
-  padding: 0;
 }
 
 img,
