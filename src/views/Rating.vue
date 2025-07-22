@@ -10,16 +10,16 @@ const data = defineModel('data');
     <div class="top3 block">
       <h2 class="h2">Амбассадоры вкуса</h2>
       <div class="top3__users">
-        <Top3RatingItem class="silver" v-bind="data.rating.leaders[1]" />
-        <Top3RatingItem class="gold" v-bind="data.rating.leaders[0]" />
-        <Top3RatingItem class="bronze" v-bind="data.rating.leaders[2]" />
+        <Top3RatingItem
+          v-for="user of data.rating.leaders.slice(0, 3)"
+          v-bind="user" />
       </div>
     </div>
     <div class="scrollable">
       <div class="ratings">
         <RatingItem
-          v-for="data of data.rating.leaders.slice(3)"
-          v-bind="data" />
+          v-for="user of data.rating.leaders.slice(3)"
+          v-bind="user" />
       </div>
     </div>
     <RatingItem you v-bind="data.rating.user" />

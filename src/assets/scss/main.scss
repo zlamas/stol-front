@@ -1,6 +1,27 @@
 @use "base";
 @use "mixins" as *;
 
+@property --themeGradient1 {
+  syntax: "<color>";
+  initial-value: #000;
+  inherits: true;
+}
+
+@property --themeGradient2 {
+  syntax: "<color>";
+  initial-value: #000;
+  inherits: true;
+}
+
+.main {
+  --navbar-height: 71px;
+  --theme-main-gradient: linear-gradient(var(--theme-main-light) 20%, var(--theme-main));
+  --theme-active-gradient: linear-gradient(var(--theme-active-light) 20%, var(--theme-active));
+  --shadow-normal: 0 2px 4px var(--theme-drop-shadow);
+  --shadow-active: inset 0 2px 4px 1px var(--theme-drop-shadow);
+  --bounce: cubic-bezier(0.439, 1.477, 0.163, 0.875);
+}
+
 .white-pink {
   --theme-20: #3D2930;
   --theme-30: #5C3E48;
@@ -66,54 +87,10 @@
   opacity: 0.75;
 }
 
-.main {
-  --navbar-height: 71px;
-  --theme-main-gradient: linear-gradient(var(--theme-main-light) 20%, var(--theme-main));
-  --theme-active-gradient: linear-gradient(var(--theme-active-light) 20%, var(--theme-active));
-  --shadow-normal: 0 2px 4px var(--theme-drop-shadow);
-  --shadow-active: inset 0 2px 4px 1px var(--theme-drop-shadow);
-  --bounce: cubic-bezier(0.439, 1.477, 0.163, 0.875);
-
-  @include grid;
-  position: fixed;
-  inset: 0;
-  grid-template-rows: 1fr auto;
-  background: var(--theme-bg);
-  color: var(--theme-20);
-  font: 16px "Montserrat", sans-serif;
-  letter-spacing: -0.02em;
-}
-
-.content {
-  @include flex;
-  overflow: auto;
-  scrollbar-width: none;
-  scroll-snap-type: x mandatory;
-}
-
-.view {
-  min-width: 100%;
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
-  outline: 0;
-}
-
 .block {
   background-color: var(--theme-98);
   border-radius: 14px;
   box-shadow: var(--shadow-normal);
-}
-
-@property --themeGradient1 {
-  syntax: "<color>";
-  initial-value: #000;
-  inherits: true;
-}
-
-@property --themeGradient2 {
-  syntax: "<color>";
-  initial-value: #000;
-  inherits: true;
 }
 
 .button-animated {
@@ -220,7 +197,6 @@
   margin: 0 calc(-1 * var(--side-padding, 0px));
   padding: 0 var(--side-padding, 0px);
   overflow: auto;
-  scrollbar-width: none;
 
   &::before,
   &::after {
@@ -244,9 +220,7 @@
 }
 
 .count {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+  @include flex(4px, inline, center);
   font-weight: 700;
 
   &::after {

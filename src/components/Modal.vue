@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import useEventBus from '@/eventBus'
-import Icon from './Icon.vue'
+import Icon from '@/components/Icon.vue'
 
 const props = defineProps({
   name: String,
@@ -115,7 +115,6 @@ watch(
     padding: 16px;
     border-radius: inherit;
     overflow: auto;
-    scrollbar-width: none;
   }
 
   &__close {

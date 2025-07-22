@@ -1,11 +1,10 @@
 <script setup>
-import Icon from './Icon.vue'
+import Icon from '@/components/Icon.vue'
 
 defineProps({
   icon: String,
   label: String,
 });
-
 </script>
 
 <template>

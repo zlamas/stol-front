@@ -1,6 +1,6 @@
 <script setup>
 import useEventBus from '@/eventBus'
-import NavButton from './NavButton.vue'
+import NavButton from '@/components/NavButton.vue'
 
 defineProps({
   activeIndex: Number,
@@ -8,8 +8,14 @@ defineProps({
 
 const { emit } = useEventBus();
 
-function updateCurrentView(view) {
-  emit('currentView', view);
+const data = defineModel('data');
+
+if (data.value.loading) {
+  await Promise.all([
+    data.value.loading,
+    new Promise((resolve) => setTimeout(resolve, 3000))
+  ]);
+  data.value.loading = null;
 }
 
 const labels = {
@@ -38,7 +44,7 @@ const labels = {
       <div class="navbar__circle"></div>
       <NavButton
         v-for="(label, view, i) of labels"
-        @click="updateCurrentView(view, i)"
+        @click="emit('currentView', view)"
         :class="{ active: activeIndex == i }"
         :icon="view"
         :label />

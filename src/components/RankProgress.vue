@@ -1,17 +1,17 @@
 <script setup>
 import { computed } from 'vue'
-import Icon from './Icon.vue'
+import Icon from '@/components/Icon.vue'
 
 const props = defineProps({
   rank: [Number, String],
-  name: String,
+  current: String,
   conditions_current: Object,
   conditions_next: Object,
   progress_current: Object,
 });
 
 const progress = computed(() => {
-  const progressValues = ['scans', 'sum_spent', 'streak']
+  const progressValues = ['scans', 'sum_spent', 'streak_days']
     .map((prop) => {
       let value = props.progress_current[prop] /
         (props.conditions_next[prop] - (props.conditions_current[prop] || 0));
@@ -28,7 +28,7 @@ const progress = computed(() => {
 <template>
   <div class="rank">
     <div class="rank__names">
-      <div class="rank__current gradient-text">{{ name }}</div>
+      <div class="rank__current gradient-text">{{ current }}</div>
       <div class="rank__next">Ранг {{ rank }}</div>
     </div>
     <div class="rank__progress">

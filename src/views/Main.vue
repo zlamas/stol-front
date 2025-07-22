@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import { useFetch } from '@/fetch'
 import useEventBus from '@/eventBus'
+
 import HistoryItem from '@/components/HistoryItem.vue'
 import MainButton from '@/components/MainButton.vue'
 import Modal from '@/components/Modal.vue'
@@ -14,27 +14,8 @@ import UserInfo from '@/components/UserInfo.vue'
 const { emit } = useEventBus();
 
 const data = defineModel('data');
-const activeTheme = defineModel('theme');
 
 const expandedLevel = ref(null);
-
-// if (!data.value) {
-//   data.value = {
-//     user: (await useFetch('user')).data.data,
-//     favorite: (await useFetch(
-//       'receipts/history/restaurant',
-//       { restaurant_id: data.value.user.favorite?.id },
-//     )).data.data,
-//     rating: (await useFetch('leaderboard')).data.data,
-//     history: (await useFetch('receipts/history')).data.data,
-//   };
-//
-//   if (!data.value.user.avatar) {
-//     data.value.user.avatar = 'images/avatar.png';
-//   }
-
-  await new Promise((resolve) => setTimeout(() => resolve(true), 3000));
-// }
 </script>
 
 <template>
@@ -64,7 +45,7 @@ const expandedLevel = ref(null);
       type="modal"
       direction="right">
       <template #background>
-        <video class="favorite__bg" :src="`images/bg-${activeTheme}.mp4`" autoplay disablepictureinpicture loop muted playsinline></video>
+        <video class="favorite__bg" :src="`images/bg-${data.user.theme}.mp4`" autoplay disablepictureinpicture loop muted playsinline></video>
       </template>
       <template #body>
         <PlaceBlock type="favorite" class="favorite__info" large :data="data.user.favorite" />

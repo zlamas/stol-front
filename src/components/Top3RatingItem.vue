@@ -13,7 +13,7 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
 <template>
   <div class="top3__user">
     <div class="top3__avatar">
-      <img class="top3__avatar-image" :src="`${props.avatar || 'images/avatar.png'}`">
+      <img class="top3__avatar-image" :src="props.avatar || 'images/avatar.png'">
     </div>
     <div class="rating__name">{{ props.username }}</div>
     <div class="count points gradient-text">{{ formattedPoints }}</div>
@@ -30,21 +30,24 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
     justify-items: center;
     line-height: 1;
 
-    &.gold {
+    &:nth-child(1) {
       --avatar-size: 80px;
       --gradient: linear-gradient(#F5CD3D, #B28C00);
       --medal: url(/images/gold.svg);
       margin-bottom: 10px;
+      order: 2;
     }
 
-    &.silver {
+    &:nth-child(2) {
       --gradient: linear-gradient(#C7C7C7, #5E5E5E);
       --medal: url(/images/silver.svg);
+      order: 1;
     }
 
-    &.bronze {
+    &:nth-child(3) {
       --gradient: linear-gradient(#FFC573, #8A690F);
       --medal: url(/images/bronze.svg);
+      order: 3;
     }
   }
 

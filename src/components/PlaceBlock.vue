@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
-import Icon from './Icon.vue'
-import StarRating from './StarRating.vue'
+import Icon from '@/components/Icon.vue'
+import StarRating from '@/components/StarRating.vue'
 
 const props = defineProps({
   type: String,
@@ -59,6 +59,7 @@ const title = computed(() => ({
     color: var(--theme-98);
     line-height: 1;
     text-align: center;
+    overflow: hidden;
 
     &.large {
       height: 213px;
@@ -72,8 +73,9 @@ const title = computed(() => ({
     gap: 10px;
     background: linear-gradient(rgb(77 77 77 / 40%) 25%, rgb(179 179 179 / 40%));
     backdrop-filter: blur(2px);
-    border-radius: inherit;
     padding: 14px;
+    border-radius: inherit;
+    overflow: hidden;
 
     .large & {
       backdrop-filter: blur(4px);

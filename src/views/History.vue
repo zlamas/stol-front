@@ -19,10 +19,10 @@ const data = defineModel('data');
         </div>
       </div>
     </template>
-    <template v-else class="history__empty">
+    <div v-else class="history__empty">
       <img class="history__empty-icon" src="/images/history-empty.png">
       <span>Вы еще ничего не отсканировали.<br>Пора скорее это исправить!</span>
-    </template>
+    </div>
   </div>
 </template>
 

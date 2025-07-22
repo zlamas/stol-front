@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, ref, useTemplateRef } from 'vue'
-import { useFetch } from '@/fetch'
+import useFetch from '@/fetch'
 import { formatCurrency } from '@/format'
 import Icon from '@/components/Icon.vue'
 import MainButton from '@/components/MainButton.vue'
@@ -130,7 +130,6 @@ function cancel() {
     position: absolute;
     inset: 0;
     background: rgb(0 0 0 / 20%);
-    -webkit-backdrop-filter: blur(24px);
     backdrop-filter: blur(24px);
     padding: 36px;
 

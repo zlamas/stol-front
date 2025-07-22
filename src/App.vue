@@ -1,18 +1,19 @@
 <script>
 import { computed, onMounted, ref, watch } from 'vue'
-import useEventBus from './eventBus'
-import testData from './test-data.json'
+import useFetch from '@/fetch'
+import useEventBus from '@/eventBus'
+import testData from '@/test-data.json'
 
-import Rating from './views/Rating.vue'
-import Offers from './views/Offers.vue'
-import Main from './views/Main.vue'
-import History from './views/History.vue'
-import Profile from './views/Profile.vue'
+import Rating from '@/views/Rating.vue'
+import Offers from '@/views/Offers.vue'
+import Main from '@/views/Main.vue'
+import History from '@/views/History.vue'
+import Profile from '@/views/Profile.vue'
 
-import Loading from './views/Loading.vue'
-import NavBar from './components/NavBar.vue'
-import Scan from './views/Scan.vue'
-import Review from './views/Review.vue'
+import Loading from '@/views/Loading.vue'
+import Scan from '@/views/Scan.vue'
+import Review from '@/views/Review.vue'
+import NavBar from '@/components/NavBar.vue'
 
 export default {
   components: {
@@ -22,7 +23,19 @@ export default {
     Review,
   },
   setup() {
-    const data = ref(testData);
+    const data = ref({
+      ...testData,
+      loading: Promise.all([
+        useFetch('user'),
+        useFetch('leaderboard'),
+        useFetch('receipts/history')
+      ]).then((arr) => Promise.all(arr.concat(
+        useFetch(
+          'receipts/history/restaurant',
+          { restaurant_id: arr[0].favorite?.id },
+        )
+      )))
+    });
 
     const views = {
       rating: Rating,
@@ -51,19 +64,11 @@ export default {
     const currentPath = ref(window.location.hash);
     const currentRoute = computed(() => routes[currentPath.value.slice(1) || '/']);
 
-    const activeTheme = ref(
+    const activeTheme = computed(() => (
       data.value.user?.theme ||
       window.localStorage.getItem('theme') ||
       'white-pink'
-    );
-
-    watch(
-      () => bus.value.get('currentView'),
-      (val) => {
-        [currentView.value] = val;
-        targetSet.value = true;
-      }
-    );
+    ));
 
     onMounted(() => {
       window.location.hash = '';
@@ -81,6 +86,26 @@ export default {
           Telegram.WebApp.BackButton.show();
         }
       });
+    });
+
+    watch(
+      () => bus.value.get('currentView'),
+      (val) => {
+        [currentView.value] = val;
+        targetSet.value = true;
+      }
+    );
+
+    data.value.loading.then(([user, rating, history, favorite]) => {
+      Object.assign(data.value, {
+        user: user.data.data,
+        rating: rating.data.data,
+        history: history.data.data,
+        favorite: favorite.data.data
+      });
+      if (!data.value.user.avatar) {
+        data.value.user.avatar = 'images/avatar.png';
+      }
     });
 
     return { data, activeTheme, views, currentView, activeIndex, targetSet, currentRoute };
@@ -101,7 +126,7 @@ export default {
           this.activeIndex = direction == 'left' ? Math.floor(index) : Math.ceil(index);
         });
         content.addEventListener('touchstart', () => { isDragging = true; this.targetSet = false; });
-        content.addEventListener('touchend', () =>  { isDragging = false; });
+        content.addEventListener('touchend', () => { isDragging = false; });
       });
     }
   },
@@ -120,15 +145,15 @@ export default {
         <div ref="content" class="content">
           <component
             v-for="(view, name) in views"
+            v-if="data.loading == null"
             ref="viewRef"
             :is="view"
             :class="`view view--${name}`"
             tabindex="0"
             :autofocus="name == currentView"
-            v-model:data="data"
-            v-model:theme="activeTheme" />
+            v-model:data="data" />
         </div>
-        <NavBar :active-index />
+        <NavBar v-model:data="data" :active-index />
         <component :is="currentRoute" />
         <svg height="0">
           <defs>
@@ -146,6 +171,34 @@ export default {
     </Suspense>
   </Transition>
 </template>
+
+<style scoped lang="scss">
+@use "@/assets/scss/mixins" as *;
+
+.main {
+  @include grid;
+  position: fixed;
+  inset: 0;
+  grid-template-rows: 1fr auto;
+  background: var(--theme-bg);
+  color: var(--theme-20);
+  font: 16px "Montserrat", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.content {
+  @include flex;
+  overflow: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.view {
+  min-width: 100%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  outline: 0;
+}
+</style>
 
 <style lang="scss">
 .fade-enter-active,

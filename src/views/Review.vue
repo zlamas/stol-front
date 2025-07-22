@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { useFetch } from '@/fetch'
+import useFetch from '@/fetch'
 import { formatCurrency } from '@/format'
 import Icon from '@/components/Icon.vue'
 import MainButton from '@/components/MainButton.vue'
@@ -147,7 +147,6 @@ function sendReview() {
   background: var(--theme-bg);
   padding: 30px 24px 40px;
   overflow: auto;
-  scrollbar-width: none;
 
   &__title {
     letter-spacing: -0.04em;

@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
-import Icon from './Icon.vue'
-import StarRating from './StarRating.vue'
+import Icon from '@/components/Icon.vue'
+import StarRating from '@/components/StarRating.vue'
 
 const props = defineProps({
   total_sum: [String, Number],

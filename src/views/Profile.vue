@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onUpdated, ref, useTemplateRef, watch } from 'vue'
 import useEventBus from '@/eventBus'
-import { useFetch } from '@/fetch'
+import useFetch from '@/fetch'
 import { formatCurrency } from '@/format'
 import Icon from '@/components/Icon.vue'
 import Modal from '@/components/Modal.vue'
@@ -10,7 +10,6 @@ import ThemeOption from '@/components/ThemeOption.vue'
 const themes = ['white-pink', 'gray-brown'];
 
 const data = defineModel('data');
-const activeTheme = defineModel('theme');
 const nameInput = useTemplateRef('nameInput');
 
 const editingName = ref(false);
@@ -31,12 +30,12 @@ const formattedAverage = computed(() => formatCurrency(data.value.user.average_c
 const optionOffset = ref(0);
 
 onUpdated(() => {
-  optionOffset.value = document.querySelector(`.theme-option.${activeTheme.value}`).offsetLeft;
+  optionOffset.value = document.querySelector(`.theme-option.${data.value.user.theme}`).offsetLeft;
   nameInput.value?.focus();
 });
 
 watch(
-  [() => data.value.user.username, () => activeTheme.value],
+  [() => data.value.user.username, () => data.value.user.theme],
   ([username, theme]) => {
     const body = JSON.stringify({ username, theme });
     useFetch('user', null, {
@@ -53,7 +52,7 @@ watch(
 
 function handleThemeClick(i, event) {
   if (i < themes.length) {
-    activeTheme.value = themes[i];
+    data.value.user.theme = themes[i];
   } else {
     clearTimeout(showLockedPopup.value);
     showLockedPopup.value = setTimeout(() => { showLockedPopup.value = null }, 1800);
@@ -83,10 +82,10 @@ function copyRefLink(event) {
         <div v-show="!editingName" class="profile__row">
           <span class="profile__name">{{ data.user.username }}</span>
           <div class="profile__dot"></div>
-          <span class="profile__rank gradient-text">{{ data.user.rank.name }}</span>
+          <span class="profile__rank gradient-text">{{ data.user.rank.current }}</span>
         </div>
 
-        <div class="profile__tag">@{{ data.user.tag }}</div>
+        <div class="profile__tag">@{{ data.user.first_name }}</div>
         <button class="profile__edit-name button-animated" @click="editingName = true">
           <Icon name="edit" />
           <span>Изменить</span>
@@ -101,7 +100,7 @@ function copyRefLink(event) {
         <ThemeOption
           v-for="(n, i) in 5"
           :id="themes[i]"
-          :selected="activeTheme == themes[i]"
+          :selected="data.user.theme == themes[i]"
           :valid="i < themes.length"
           @click="handleThemeClick(i, $event)" />
       </div>
@@ -121,8 +120,8 @@ function copyRefLink(event) {
     <div class="profile__scrollable">
       <div class="totals">
         <div class="totals__block block">
-        	<div class="totals__count gradient-text">{{ data.user.visits }}</div>
-        	<div>Посещений</div>
+          <div class="totals__count gradient-text">{{ data.user.visits }}</div>
+          <div>Посещений</div>
         </div>
         <div class="totals__block block">
         	<div class="totals__count gradient-text">{{ formattedAverage }}</div>
@@ -211,7 +210,6 @@ function copyRefLink(event) {
   flex-flow: column;
   padding: 20px var(--side-padding);
   overflow: auto;
-  scrollbar-width: none;
 }
 
 .profile {
