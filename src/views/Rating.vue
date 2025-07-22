@@ -45,10 +45,10 @@ const data = defineModel('data');
   text-align: center;
 
   &__users {
-    display: flex;
+    display: grid;
     gap: 10px;
-    align-items: flex-end;
-    justify-content: space-around;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: end;
   }
 }
 

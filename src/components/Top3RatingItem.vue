@@ -29,25 +29,26 @@ const formattedPoints = computed(() => props.points.toLocaleString('ru'));
     max-width: 112px;
     justify-items: center;
     line-height: 1;
+    grid-row: 1;
 
     &:nth-child(1) {
       --avatar-size: 80px;
       --gradient: linear-gradient(#F5CD3D, #B28C00);
       --medal: url(/images/gold.svg);
       margin-bottom: 10px;
-      order: 2;
+      grid-column: 2;
     }
 
     &:nth-child(2) {
       --gradient: linear-gradient(#C7C7C7, #5E5E5E);
       --medal: url(/images/silver.svg);
-      order: 1;
+      grid-column: 1;
     }
 
     &:nth-child(3) {
       --gradient: linear-gradient(#FFC573, #8A690F);
       --medal: url(/images/bronze.svg);
-      order: 3;
+      grid-column: 3;
     }
   }
 
