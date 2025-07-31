@@ -1,5 +1,7 @@
 <script setup>
 import { computed } from 'vue'
+import { formatNumber } from '@/format'
+
 const props = defineProps({
   position: Number,
   avatar: String,
@@ -7,15 +9,15 @@ const props = defineProps({
   points: Number,
 });
 
-const formattedPoints = computed(() => props.points.toLocaleString('ru'));
+const formattedPoints = computed(() => formatNumber(props.points));
 </script>
 
 <template>
-  <div class="top3__user">
+  <div :class="['top3__user', { gold: position == 1 }]">
     <div class="top3__avatar">
-      <img class="top3__avatar-image" :src="props.avatar || 'images/avatar.png'">
+      <img class="top3__avatar-image" :src="avatar || 'images/avatar.png'">
     </div>
-    <div class="rating__name">{{ props.username }}</div>
+    <div class="rating__name">{{ username }}</div>
     <div class="count points gradient-text">{{ formattedPoints }}</div>
   </div>
 </template>

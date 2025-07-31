@@ -1,5 +1,9 @@
-@use "base";
+@use "reset";
 @use "mixins" as *;
+
+@include font-face("Montserrat", "Montserrat-SemiBold", 600);
+@include font-face("Montserrat", "Montserrat-Bold", 700);
+@include font-face("Montserrat", "Montserrat-ExtraBold", 800);
 
 @property --themeGradient1 {
   syntax: "<color>";
@@ -13,10 +17,25 @@
   inherits: true;
 }
 
+:root {
+  --green: #6FF69C;
+  --yellow: #FFC300;
+  --orange: #FF8800;
+  --star-shadow: #C2940040;
+}
+
 .main {
   --navbar-height: 71px;
-  --theme-main-gradient: linear-gradient(var(--theme-main-light) 20%, var(--theme-main));
-  --theme-active-gradient: linear-gradient(var(--theme-active-light) 20%, var(--theme-active));
+  --theme-main-gradient: linear-gradient(
+    var(--theme-main-light) 20%,
+    var(--theme-main)
+  );
+  --theme-active-gradient: linear-gradient(
+    var(--theme-active-light) 20%,
+    var(--theme-active)
+  );
+  --themeGradient1: var(--theme-main-light);
+  --themeGradient2: var(--theme-main);
   --shadow-normal: 0 2px 4px var(--theme-drop-shadow);
   --shadow-active: inset 0 2px 4px 1px var(--theme-drop-shadow);
   --bounce: cubic-bezier(0.439, 1.477, 0.163, 0.875);
@@ -70,8 +89,8 @@
 
   --theme-main: #7A513F;
   --theme-main-light: #BF7A50;
-  --theme-active: #573A2D;
-  --theme-active-light: #A1613B;
+  --theme-active: #9B6750;
+  --theme-active-light: #CC9675;
   --theme-drop-shadow: #7A513F66;
   --theme-bg: #F3E6D8;
   --theme-glass: #F3E6D880;
@@ -107,9 +126,10 @@
 }
 
 .gradient-text {
-  --themeGradient1: var(--theme-main-light);
-  --themeGradient2: var(--theme-main);
-  background: linear-gradient(var(--themeGradient1) 20%, var(--themeGradient2));
+  background: linear-gradient(
+    var(--themeGradient1) 20%,
+    var(--themeGradient2)
+  );
   background-clip: text;
   color: transparent;
   transition: 0.2s linear;
@@ -117,10 +137,11 @@
 }
 
 .confirm-button {
-  --themeGradient1: var(--theme-main-light);
-  --themeGradient2: var(--theme-main);
   width: 100%;
-  background: linear-gradient(var(--themeGradient1) 20%, var(--themeGradient2));
+  background: linear-gradient(
+    var(--themeGradient1) 20%,
+    var(--themeGradient2)
+  );
   border-radius: 13px;
   color: #FFF;
   font-size: 18px;
@@ -139,6 +160,7 @@
 .gradient-border {
   --border-size: 2px;
   position: relative;
+  background-color: #FFF;
   background-clip: padding-box;
   border: var(--border-size) solid transparent;
 
@@ -193,6 +215,7 @@
 
 .scrollable {
   --fade-height: 12px;
+  --vertical-padding: 0px;
   position: relative;
   margin: 0 calc(-1 * var(--side-padding, 0px));
   padding: 0 var(--side-padding, 0px);
@@ -203,18 +226,18 @@
     content: "";
     display: block;
     position: sticky;
-    top: 0;
     width: 100%;
     height: var(--fade-height);
     background: linear-gradient(var(--theme-bg), transparent);
   }
 
   &::before {
+    top: calc(-1 * var(--vertical-padding));
     z-index: 9;
   }
 
   &::after {
-    bottom: 0;
+    bottom: calc(-1 * var(--vertical-padding));
     rotate: 180deg;
   }
 }

@@ -1,50 +1,67 @@
 <script setup>
 import { computed } from 'vue'
-import Icon from '@/components/Icon.vue'
 import StarRating from '@/components/StarRating.vue'
+import SVGIcon from '@/components/SVGIcon.vue'
 
 const props = defineProps({
   type: String,
   large: Boolean,
   data: Object,
-  // label: String,
-  // name: String,
-  // image_url: String,
-  // rating: [String, Number],
-  // checks_count: Number,
-  // points: Number,
 });
 
 const title = computed(() => ({
   favorite: 'Любимое',
   recent: 'Недавнее'
-}[props.type]));
+})[props.type]);
 </script>
 
 <template>
   <div
     v-if="data"
     :class="['place__block', 'block', { large }]"
-    :style="data && { 'background-image': `url(${data.image_url})` }">
+    :style="data && { 'background-image': `url(${data.image_url})` }"
+  >
     <div class="place__content">
       <div class="place__title">{{ title }}</div>
       <div class="place__name">{{ data.name }}</div>
-      <StarRating :rating="data.rating" v-bind="large && { size: 22, gap: 12 }" />
-      <div v-if="type == 'favorite'" class="place__counter count checks">
+      <StarRating
+        :rating="data.rating"
+        v-bind="large && { size: 22, gap: 12 }"
+      />
+      <div
+        v-if="type == 'favorite'"
+        class="place__counter count checks"
+      >
         {{ data.checks_count }}
       </div>
-      <div v-else-if="type == 'recent'" class="place__counter count points gradient-text">
+      <div
+        v-else-if="type == 'recent'"
+        class="place__counter count points gradient-text"
+      >
         +{{ data.points }}
       </div>
     </div>
   </div>
   <div
     v-else
-    :class="['place__block', 'block', 'fallback', { large }]">
-    <video class="place__fallback" :src="`images/slideshow-${type}.mp4`" autoplay disablepictureinpicture loop muted playsinline></video>
+    :class="['place__block', 'block', 'fallback', { large }]"
+  >
+    <video
+      class="place__fallback"
+      :src="`images/slideshow-${type}.mp4`"
+      autoplay
+      disablepictureinpicture
+      loop
+      muted
+      playsinline
+    >
+    </video>
     <div class="place__content">
       <div class="place__title">{{ title }}</div>
-      <Icon name="question" v-bind="large && { size: 78 }" />
+      <SVGIcon
+        name="question"
+        v-bind="large && { size: 78 }"
+      />
     </div>
   </div>
 </template>

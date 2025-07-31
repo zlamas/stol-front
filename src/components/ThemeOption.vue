@@ -1,11 +1,11 @@
 <script setup>
-import Icon from '@/components/Icon.vue'
+import SVGIcon from '@/components/SVGIcon.vue'
 
-const props = defineProps({
+defineProps({
   id: String,
   selected: Boolean,
   valid: Boolean,
-})
+});
 </script>
 
 <template>
@@ -20,7 +20,7 @@ const props = defineProps({
       </defs>
     </svg>
     <template v-else>
-      <Icon name="no-theme" class="theme-option__icon" />
+      <SVGIcon name="no-theme" class="theme-option__icon" />
       <div class="theme-option__glare"></div>
     </template>
   </div>

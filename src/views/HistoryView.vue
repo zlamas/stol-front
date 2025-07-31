@@ -1,13 +1,17 @@
 <script setup>
+import { ref } from 'vue'
 import HistoryItem from '@/components/HistoryItem.vue'
-import Icon from '@/components/Icon.vue'
 import UserInfo from '@/components/UserInfo.vue'
+
+const view = ref();
+
+defineExpose({ view });
 
 const data = defineModel('data');
 </script>
 
 <template>
-  <div>
+  <div ref="view">
     <UserInfo
       v-bind="data.user"
       v-model="data.notifications" />
@@ -15,7 +19,10 @@ const data = defineModel('data');
       <div class="history__title h2">Сканирования</div>
       <div class="scrollable">
         <div class="history-items">
-          <HistoryItem v-for="item of data.history" v-bind="item" />
+          <HistoryItem
+            v-for="item in data.history"
+            :key="item.id"
+            v-bind="item" />
         </div>
       </div>
     </template>

@@ -1,5 +1,5 @@
 <script setup>
-import Icon from '@/components/Icon.vue'
+import SVGIcon from '@/components/SVGIcon.vue'
 
 const props = defineProps({
   icon: String,
@@ -16,7 +16,7 @@ function goToHref() {
 
 <template>
   <button @click="goToHref" class="main-button button-animated block" :disabled>
-    <Icon v-if="icon" :name="icon" size=24 />
+    <SVGIcon v-if="icon" :name="icon" size="24" />
     <span class="gradient-text">
       <slot />
     </span>
@@ -31,16 +31,13 @@ function goToHref() {
   justify-content: center;
   width: 100%;
   height: 48px;
-  box-shadow: 0 4px 8px var(--theme-drop-shadow);
   font-size: 18px;
   font-weight: 700;
   flex-shrink: 0;
 
   &:active {
-    .gradient-text {
-      --textGradient1: var(--theme-active-light);
-      --textGradient2: var(--theme-active);
-    }
+    --themeGradient1: var(--theme-active-light);
+    --themeGradient2: var(--theme-active);
   }
 }
 </style>

@@ -1,26 +1,27 @@
 <script setup>
 import { computed, onMounted, useTemplateRef } from 'vue'
-import Icon from '@/components/Icon.vue'
+import { formatCurrency } from '@/format'
+import SVGIcon from '@/components/SVGIcon.vue'
 
 const props = defineProps({
-  level: [Number, String],
+  id: [Number, String],
   name: String,
   multiplier: String,
-  tasks: Array,
-  currentLevel: Number,
+  tasks: Object,
+  rank: Object,
 });
 
 const taskElem = useTemplateRef('tasks');
 const rootElem = useTemplateRef('root');
 
-const expandedLevel = defineModel();
+const expandedRank = defineModel();
 const state = computed(() => {
-  if (props.level < props.currentLevel) return 'complete';
-  else if (props.level == props.currentLevel) return 'current';
-  else if (props.level == props.currentLevel+ 1) return 'next';
-  else return 'locked';
+  if (props.id < props.rank.current_id) return 'complete';
+  if (props.id == props.rank.current_id) return 'current';
+  if (props.id == props.rank.next_id) return 'next';
+  return 'locked';
 });
-const expanded = computed(() => expandedLevel.value == props.level)
+const expanded = computed(() => expandedRank.value == props.id)
 
 onMounted(() => {
   rootElem.value.style.setProperty(
@@ -28,39 +29,69 @@ onMounted(() => {
     `${taskElem.value.offsetHeight - 98}px`
   );
 });
+
+function isTaskDone(type, value) {
+  if (state.value == 'complete' || state.value == 'current') return true;
+  if (state.value == 'locked') return false;
+  return ({
+    enter: true,
+    scans: props.rank.progress_current.scans >= value,
+    sum: props.rank.progress_current.sum_spent >= value,
+    streak: props.rank.progress_current.streak_days >= value,
+  }[type]);
+}
+
+function getTaskDescription(type, value) {
+  if (state.value == 'locked') return '???';
+  return ({
+    enter: 'Зайти в приложение',
+    scans: `Отсканировать ${value} чеков`,
+    sum: `Загрузить чеков на ${formatCurrency(value)}`,
+    streak: `Заходить в приложение ${value} дней подряд`,
+  }[type]);
+}
 </script>
 
 <template>
-  <div ref="root" :class="['level', state, { expanded }]">
-    <div ref="tasks" class="level__tasks">
-      <div v-for="task of tasks" class="level__task">
-        <div class="level__checkbox">
-          <Icon v-if="state == 'complete' || state == 'current' || task.done" name="task-check" />
+  <div ref="root" :class="['rank', state, { expanded }]">
+    <div ref="tasks" class="rank__tasks">
+      <div
+        v-for="(value, type) in tasks"
+        :key="type"
+        class="rank__task">
+        <div class="rank__checkbox">
+          <SVGIcon
+            v-if="isTaskDone(type, value)"
+            name="task-check"
+          />
         </div>
-        <div>{{ state != 'locked' ? task.description : '???' }}</div>
+        <div>{{ getTaskDescription(type, value) }}</div>
       </div>
     </div>
-    <div class="level__block" @click="expandedLevel = (expandedLevel == level) ? null : level">
-      <div class="level__row">
-        <div class="level__number">
-          <Icon v-if="state == 'complete'" name="complete" />
-          <div v-else>{{ level }}</div>
+    <div class="rank__block" @click="expandedRank = (expanded ? null : id)">
+      <div class="rank__row">
+        <div class="rank__number">
+          <SVGIcon
+            v-if="state == 'complete'"
+            name="complete"
+          />
+          <div v-else>{{ id }}</div>
         </div>
-        <div class="level__multiplier gradient-border">
-          <Icon name="points-multi" />
+        <div class="rank__multiplier gradient-border">
+          <SVGIcon name="points-multi" />
           <span>x{{ multiplier }}</span>
         </div>
       </div>
-      <div class="level__name">
+      <div class="rank__name">
         <span>{{ name }}</span>
-        <Icon name="arrow" />
+        <SVGIcon name="arrow" />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.level {
+.rank {
   position: relative;
   display: grid;
   gap: 12px;

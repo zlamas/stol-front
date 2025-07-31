@@ -1,41 +1,90 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { ref, computed, useTemplateRef, watch } from 'vue'
 import useEventBus from '@/eventBus'
-import Icon from '@/components/Icon.vue'
+import SVGIcon from '@/components/SVGIcon.vue'
 
 const props = defineProps({
   name: String,
   type: String,
-  direction: String
+  direction: String,
+  classes: Object,
 });
 
 const { emit, bus } = useEventBus();
-const show = ref(false);
+
+const show = computed(() => bus.value.get('currentModal') == props.name);
 
 watch(
-  () => bus.value.get('currentModal'),
-  (val) => show.value = (val == props.name)
+  () => show.value,
+  (show) => { if (show) dragAmount.value = 0; }
 );
+
+const container = useTemplateRef('container');
+
+const dragging = ref(false);
+const dragAmount = ref(0);
+let dragSpeed = null;
+let startY = null;
+let previousY = null;
+
+function onPointerDown(event) {
+  if (event.target == container.value) {
+    dragging.value = true;
+    startY = previousY = event.clientY;
+  }
+}
+
+function onPointerMove(event) {
+  if (dragging.value) {
+    dragSpeed = event.clientY - previousY;
+    previousY = event.clientY;
+    dragAmount.value =
+      Math.max(event.clientY - startY, 0) / event.target.offsetHeight;
+  }
+}
+
+function onPointerUp() {
+  if (dragAmount.value > 0.5 || dragSpeed > 20) {
+    emit('currentModal', null);
+  } else {
+    dragAmount.value = 0;
+  }
+  dragging.value = false;
+}
 </script>
 
 <template>
   <Transition name="fade">
-    <div v-if="show" class="overlay" @click="emit('currentModal', null)"></div>
+    <div
+      v-show="show"
+      :class="['overlay', { dragging }]"
+      @click="emit('currentModal', null)"
+    >
+    </div>
   </Transition>
   <Transition :name="`slide-${direction}`">
-    <div v-if="show" :class="`modal ${type} ${name}`">
+    <div v-if="show" :class="['modal', type, name, classes]">
       <button v-if="type == 'modal'" class="modal__close">
-        <Icon name="close" size=14 />
+        <SVGIcon name="close" size="14" />
       </button>
-      <div class="modal__container">
+      <div
+        ref="container"
+        :class="['modal__container', { dragging }]"
+        v-on="type == 'slideout' ? {
+          pointerdown: onPointerDown,
+          pointermove: onPointerMove,
+          pointerup: onPointerUp,
+        } : {}"
+      >
         <slot name="background" />
         <div class="modal__content">
-          <Icon
+          <SVGIcon
             v-if="type == 'popup'"
             name="close"
-            size=44
+            size="44"
             class="popup__close"
-            @click="emit('currentModal', null)" />
+            @click="emit('currentModal', null)"
+          />
           <slot name="body" />
         </div>
       </div>
@@ -44,19 +93,6 @@ watch(
 </template>
 
 <style scoped lang="scss">
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgb(0 0 0 / 70%);
-  backdrop-filter: blur(2px);
-  z-index: 999;
-
-  &.fade-enter-active,
-  &.fade-leave-active {
-    transition-duration: 0.3s;
-  }
-}
-
 .slide-left-enter-active,
 .slide-left-leave-active,
 .slide-right-enter-active,
@@ -88,6 +124,22 @@ watch(
   translate: 0 -100%;
 }
 
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 70%);
+  backdrop-filter: blur(2px);
+  z-index: 999;
+
+  &.dragging {
+    opacity: v-bind('`${1 - dragAmount}`');
+  }
+
+  &:not(.dragging) {
+    transition-duration: 0.3s;
+  }
+}
+
 .modal {
   position: fixed;
   inset: 0;
@@ -98,6 +150,7 @@ watch(
   padding: 24px;
   z-index: 9999;
   pointer-events: none;
+  touch-action: none;
 
   &__container {
     position: relative;
@@ -107,13 +160,22 @@ watch(
     box-shadow: 0 4px 8px var(--theme-drop-shadow);
     overflow: hidden;
     pointer-events: auto;
+
+    &.dragging {
+      translate: 0 v-bind('`${dragAmount * 100}%`');
+    }
+
+    &:not(.dragging) {
+      transition-duration: 0.3s;
+    }
   }
 
   &__content {
     position: relative;
     height: 100%;
-    padding: 16px;
+    align-content: start;
     border-radius: inherit;
+    padding: 16px;
     overflow: auto;
   }
 
@@ -164,10 +226,6 @@ watch(
       background: #A29096;
       margin: 12px auto;
     }
-  }
-
-  .modal__content {
-    padding: 24px 0 0;
   }
 }
 </style>

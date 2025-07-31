@@ -1,5 +1,5 @@
 <script setup>
-import Icon from '@/components/Icon.vue'
+import SVGIcon from '@/components/SVGIcon.vue'
 
 defineProps({
   rating: [String, Number],
@@ -19,12 +19,14 @@ defineEmits(['update:rating']);
 
 <template>
   <div :class="['star-rating', { clickable }]">
-    <Icon
+    <SVGIcon
       v-for="n in 5"
+      :key="n"
       name="star"
       :size
-      :class="{ star__filled: n <= parseFloat(rating) }"
-      @click="clickable && $emit('update:rating', n)" />
+      :class="['star', { filled: n <= parseFloat(rating) }]"
+      @click="$emit('update:rating', n)"
+    />
   </div>
 </template>
 
@@ -36,7 +38,7 @@ defineEmits(['update:rating']);
 }
 
 .star {
-  &__filled {
+  &.filled {
     fill: currentcolor;
 
     .clickable > & {

@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
-import Icon from '@/components/Icon.vue'
+import { formatNumber, formatCurrency, formatDate } from '@/format'
+import SVGIcon from '@/components/SVGIcon.vue'
 import StarRating from '@/components/StarRating.vue'
 
 const props = defineProps({
@@ -10,28 +11,31 @@ const props = defineProps({
   restaurant: Object,
 });
 
-const formattedPoints = computed(() => '+' + props.points.toLocaleString('ru'));
-const formattedAmount = computed(() => parseFloat(props.total_sum).toLocaleString('ru') + '₽');
-const formattedDate = computed(() => {
-  const date = new Date(props.created_at);
-  const diffDays = Math.floor((Date.now() - props.created_at) / (1000 * 60 * 60 * 24));
-  switch (diffDays) {
-    case 0: return 'сегодня';
-    case 1: return 'вчера';
-    case 2: return '2 дня назад';
-    default: return date.toLocaleDateString('ru');
-  }
-});
+const formattedPoints = computed(() => formatNumber(props.points));
+const formattedSum = computed(() => formatCurrency(props.total_sum));
+const formattedDate = computed(() => formatDate(props.created_at).toLowerCase());
 </script>
 
 <template>
   <div class="history-item block">
-    <img v-if="props.restaurant.image_url" class="history-item__image" :src="props.restaurant.image_url">
-    <Icon v-else name="place" class="history-item__image history-item__image--placeholder" />
-    <div class="history-item__name">{{ props.restaurant.name }}</div>
-    <div class="history-item__points count points gradient-text">{{ formattedPoints }}</div>
-    <StarRating class="history-item__rating" :rating="props.restaurant.rating" gap=5 />
-    <div class="history-item__amount">{{ formattedAmount }}</div>
+    <img
+      v-if="restaurant.image_url"
+      class="history-item__image"
+      :src="restaurant.image_url"
+    >
+    <SVGIcon
+      v-else
+      name="place"
+      class="history-item__image history-item__image--placeholder"
+    />
+    <div class="history-item__name">{{ restaurant.name }}</div>
+    <div class="history-item__points count points gradient-text">+{{ formattedPoints }}</div>
+    <StarRating
+      class="history-item__rating"
+      :rating="restaurant.rating"
+      gap="5"
+    />
+    <div class="history-item__amount">{{ formattedSum }}</div>
     <div class="history-item__date">{{ formattedDate }}</div>
   </div>
 </template>

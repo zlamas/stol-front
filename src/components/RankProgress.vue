@@ -1,10 +1,9 @@
 <script setup>
 import { computed } from 'vue'
-import Icon from '@/components/Icon.vue'
 
 const props = defineProps({
-  rank: [Number, String],
   current: String,
+  current_id: [Number, String],
   conditions_current: Object,
   conditions_next: Object,
   progress_current: Object,
@@ -18,10 +17,10 @@ const progress = computed(() => {
       return Math.min(value, 1);
     });
 
-  const progressTotal = progressValues.reduce((a, b) => (a || 0) + (b || 0));
+  const progressTotal = progressValues.reduce((a, b) => a + (b || 0));
   const progress = progressTotal / progressValues.filter((val) => !isNaN(val)).length;
 
-  return `${progress * 100}%`;
+  return progress;
 });
 </script>
 
@@ -29,10 +28,10 @@ const progress = computed(() => {
   <div class="rank">
     <div class="rank__names">
       <div class="rank__current gradient-text">{{ current }}</div>
-      <div class="rank__next">Ранг {{ rank }}</div>
+      <div class="rank__next">Ранг {{ current_id }}</div>
     </div>
     <div class="rank__progress">
-      <div class="rank__progress-bar" :style="{ '--progress': progress }"></div>
+      <div class="rank__progress-bar"></div>
     </div>
   </div>
 </template>
@@ -63,8 +62,9 @@ const progress = computed(() => {
     padding: 4px;
 
     &-bar {
-      width: var(--progress);
+      width: v-bind('`${progress}%`');
       height: 18px;
+      min-width: 10px;
       background: var(--theme-main-gradient);
       border-radius: 6px;
       box-shadow: 0 1px 2px rgb(0 0 0 / 25%);

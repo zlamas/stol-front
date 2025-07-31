@@ -20,5 +20,8 @@ const iconSize = computed(() => {
 </script>
 
 <template>
-  <component :is="icon" v-bind="iconSize" />
+  <component
+    :is="icon"
+    v-bind="iconSize"
+  />
 </template>

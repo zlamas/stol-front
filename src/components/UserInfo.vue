@@ -2,12 +2,9 @@
 import { computed } from 'vue'
 import useEventBus from '@/eventBus'
 import { formatNumber } from '@/format'
-import Icon from '@/components/Icon.vue'
-import Modal from '@/components/Modal.vue'
+import SVGIcon from '@/components/SVGIcon.vue'
 
 const { emit } = useEventBus();
-
-const notifications = defineModel();
 
 const props = defineProps({
   avatar: String,
@@ -16,8 +13,10 @@ const props = defineProps({
   daily_streak: [Number, String],
 });
 
-const unread = computed(() => Object.values(notifications.value).flat().find((item) => item.unread));
+const notifications = defineModel();
+
 const formattedPoints = computed(() => formatNumber(props.points));
+const unread = computed(() => notifications.value.find((item) => !item.is_read));
 </script>
 
 <template>
@@ -31,7 +30,7 @@ const formattedPoints = computed(() => formatNumber(props.points));
       <div class="count points gradient-text">{{ formattedPoints }}</div>
     </div>
     <button :class="['user-info__notification', { unread }]" @click="emit('currentModal', 'notifications')">
-      <Icon name="bell" />
+      <SVGIcon name="bell" />
     </button>
   </div>
 </template>

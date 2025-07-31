@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import useFetch from '@/fetch'
 import { formatCurrency } from '@/format'
-import Icon from '@/components/Icon.vue'
+import SVGIcon from '@/components/SVGIcon.vue'
 import MainButton from '@/components/MainButton.vue'
 import StarRating from '@/components/StarRating.vue'
 
@@ -37,14 +37,14 @@ function sendReview() {
     rating: review.value.rating,
     text: review.value.text,
   });
-  useFetch('reviews', null, {
+  useFetch('reviews', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     },
     body
-  }).then((json) => {
+  }).then(() => {
     state.value = 'summary';
   });
 }
@@ -53,8 +53,9 @@ function sendReview() {
 <template>
   <div
     v-if="state == 'review'"
-    class="review"
-    @click="() => {}">
+    class="review page"
+    @click="() => {}"
+  >
     <h2 class="h2 review__title">Оценка заведения</h2>
     <div class="review__block block">
       <div class="review__field">
@@ -66,7 +67,11 @@ function sendReview() {
             v-model.lazy="review.name"
             required>
           <div class="review__places">
-            <button v-for="place in places" class="review__place" @click="selectPlace(place)">
+            <button
+              v-for="place in places"
+              :key="place.name"
+              class="review__place"
+              @click="selectPlace(place)">
               <img class="review__place-icon" :src="place.icon">
               <span>{{ place.name }}</span>
             </button>
@@ -78,7 +83,7 @@ function sendReview() {
         <div class="review__small">Насколько вам понравилась еда и обслуживание?</div>
         <StarRating
           class="review__rating"
-          size=30
+          size="30"
           gap=10
           clickable
           :rating="review.rating"
@@ -107,12 +112,12 @@ function sendReview() {
         </div>
         <StarRating
           class="review__rating"
-          size=30
+          size="30"
           gap=10
           :rating="review.rating" />
       </div>
       <div v-if="review" class="review__textarea field">{{ review.text }}</div>
-      <Icon name="separator" class="separator" />
+      <SVGIcon name="separator" class="separator" />
       <div class="review__points">
         <div class="review__points-row">
           <span>Потрачено:</span>
@@ -125,7 +130,7 @@ function sendReview() {
       </div>
     </div>
     <div class="review__block block review__note">
-      <Icon name="exclamation" size=24 />
+      <SVGIcon name="exclamation" size="24" />
       <div>Баллы за данный чек будут начислены вам после проверки администрацией.</div>
     </div>
     <div class="review__buttons">

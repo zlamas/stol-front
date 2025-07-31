@@ -1,22 +1,12 @@
 <script setup>
 import useEventBus from '@/eventBus'
-import NavButton from '@/components/NavButton.vue'
+import SVGIcon from '@/components/SVGIcon.vue'
 
 defineProps({
   activeIndex: Number,
-})
+});
 
 const { emit } = useEventBus();
-
-const data = defineModel('data');
-
-if (data.value.loading) {
-  await Promise.all([
-    data.value.loading,
-    new Promise((resolve) => setTimeout(resolve, 3000))
-  ]);
-  data.value.loading = null;
-}
 
 const labels = {
   rating: 'Рейтинг',
@@ -31,43 +21,36 @@ const labels = {
   <nav class="navbar">
     <div class="navbar__bg">
       <svg width="100%">
-        <mask id="mask">
+        <mask id="navbarMask">
           <path
             v-for="(n, i) in 5"
-            :class="['cutout-path', { active: activeIndex == i }]"
+            :key="n"
+            :class="['navbar__cutout', { active: activeIndex == i }]"
             d="M-58 0C-40.6337 0-34.2112 9.2942-27.8927 18.4377-21.7759 27.2894-15.7566 36 0 36 15.7566 36 21.7759 27.2894 27.8927 18.4377 34.2112 9.2942 40.6337 0 58 0Z"
-            fill="white" />
+            fill="white"
+          />
         </mask>
       </svg>
     </div>
     <div class="navbar__buttons">
       <div class="navbar__circle"></div>
-      <NavButton
-        v-for="(label, view, i) of labels"
+      <button
+        v-for="(label, view, i) in labels"
+        :key="view"
+        :class="['navbar__button', { active: activeIndex == i }]"
         @click="emit('currentView', view)"
-        :class="{ active: activeIndex == i }"
-        :icon="view"
-        :label />
+      >
+        <SVGIcon
+          :name="view"
+          size="24"
+        />
+        <span class="navbar__button-label gradient-text">{{ label }}</span>
+      </button>
     </div>
   </nav>
 </template>
 
 <style scoped lang="scss">
-.cutout-path {
-  opacity: 0;
-  transition: opacity 0.4s;
-
-  &.active {
-    opacity: 1;
-  }
-
-  @for $n from 1 through 5 {
-    &:nth-child(#{$n}) {
-      translate: calc(50% + ($n - 3) * var(--button-width));
-    }
-  }
-}
-
 .navbar {
   --active-index: v-bind('activeIndex');
   --button-width: 70px;
@@ -80,8 +63,23 @@ const labels = {
     position: absolute;
     inset: 0;
     background: var(--theme-98);
-    mask-image: linear-gradient(white, white), url(#mask);
+    mask-image: linear-gradient(white, white), url(#navbarMask);
     mask-composite: subtract;
+  }
+
+  &__cutout {
+    opacity: 0;
+    transition: opacity 0.4s;
+
+    &.active {
+      opacity: 1;
+    }
+
+    @for $n from 1 through 5 {
+      &:nth-child(#{$n}) {
+        translate: calc(50% + ($n - 3) * var(--button-width));
+      }
+    }
   }
 
   &__buttons {
@@ -103,7 +101,26 @@ const labels = {
   }
 
   &__button {
+    display: flex;
+    position: relative;
     width: var(--button-width);
+    justify-content: center;
+    align-items: center;
+    color: var(--theme-neutral);
+    transition: all 0.8s var(--bounce);
+
+    &.active {
+      translate: 0 -50%;
+      color: var(--theme-98);
+    }
+
+    &-label {
+      position: absolute;
+      top: 100%;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
   }
 }
 </style>

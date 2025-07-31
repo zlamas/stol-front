@@ -2,15 +2,23 @@
 import { computed, onMounted, ref, useTemplateRef } from 'vue'
 
 const props = defineProps({
-  unread: Boolean,
-  icon: String,
+  is_read: Boolean,
+  type: String,
   title: String,
-  description: String,
-  details: String,
+  subtitle: String,
+  body: String,
 });
 
 const detailsContent = useTemplateRef('detailsContent');
 const active = ref(false);
+
+const icon = computed(() => ({
+  check_approved: 'success',
+  check_declined: 'failure',
+  rank_up: 'rank_up',
+  referral_credit: 'points',
+  purchase: 'purchase',
+})[props.type]);
 
 onMounted(() => {
   detailsContent.value.parentNode.style.setProperty('--height', `${detailsContent.value.offsetHeight}px`);
@@ -18,16 +26,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="['notification', { active, unread }]" @click="active = !active">
+  <div :class="['notification', { active, unread: !is_read }]" @click="active = !active">
     <div class="notification__block block">
       <div class="notification__content">
-        <img class="notification__icon" :src="icon">
+        <img class="notification__icon" :src="`images/${icon}.svg`">
         <div class="notification__title">{{ title }}</div>
-        <div class="notification__description">{{ description }}</div>
+        <div class="notification__subtitle">{{ subtitle }}</div>
       </div>
     </div>
-    <div class="notification__details">
-      <div ref="detailsContent" class="notification__details-content">{{ details }}</div>
+    <div class="notification__body">
+      <div ref="detailsContent" class="notification__body-content">{{ body }}</div>
     </div>
   </div>
 </template>
@@ -45,7 +53,7 @@ onMounted(() => {
     display: grid;
     grid-template:
       "icon title"
-      "icon description" /
+      "icon subtitle" /
       auto 1fr;
     align-items: center;
     gap: 4px 11px;
@@ -82,13 +90,13 @@ onMounted(() => {
     }
   }
 
-  &__description {
-    grid-area: description;
+  &__subtitle {
+    grid-area: subtitle;
     color: var(--theme-55);
     font-size: 14px;
   }
 
-  &__details {
+  &__body {
     display: grid;
     height: var(--height);
     align-content: center;

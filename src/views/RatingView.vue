@@ -1,24 +1,31 @@
 <script setup>
+import { ref } from 'vue'
 import Top3RatingItem from '@/components/Top3RatingItem.vue'
 import RatingItem from '@/components/RatingItem.vue'
+
+const view = ref();
+
+defineExpose({ view });
 
 const data = defineModel('data');
 </script>
 
 <template>
-  <div>
+  <div ref="view">
     <div class="top3 block">
       <h2 class="h2">Амбассадоры вкуса</h2>
       <div class="top3__users">
         <Top3RatingItem
-          v-for="user of data.rating.leaders.slice(0, 3)"
+          v-for="user in data.rating.leaders.slice(0, 3)"
+          :key="user.username"
           v-bind="user" />
       </div>
     </div>
     <div class="scrollable">
       <div class="ratings">
         <RatingItem
-          v-for="user of data.rating.leaders.slice(3)"
+          v-for="user in data.rating.leaders.slice(3)"
+          :key="user.username"
           v-bind="user" />
       </div>
     </div>
@@ -57,6 +64,5 @@ const data = defineModel('data');
   gap: 8px;
   grid-template-columns: 100%;
   align-content: start;
-  flex: 1;
 }
 </style>

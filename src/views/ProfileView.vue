@@ -1,11 +1,15 @@
 <script setup>
-import { computed, onUpdated, ref, useTemplateRef, watch } from 'vue'
+import { computed, onMounted, onUpdated, ref, useTemplateRef, watch } from 'vue'
 import useEventBus from '@/eventBus'
 import useFetch from '@/fetch'
 import { formatCurrency } from '@/format'
-import Icon from '@/components/Icon.vue'
-import Modal from '@/components/Modal.vue'
+import SVGIcon from '@/components/SVGIcon.vue'
+import ModalPopup from '@/components/ModalPopup.vue'
 import ThemeOption from '@/components/ThemeOption.vue'
+
+const view = ref();
+
+defineExpose({ view });
 
 const themes = ['white-pink', 'gray-brown'];
 
@@ -29,16 +33,17 @@ const dayWord = computed(() => {
 const formattedAverage = computed(() => formatCurrency(data.value.user.average_check));
 const optionOffset = ref(0);
 
+onMounted(() => updateThemeMarker(data.value.user.theme));
+
 onUpdated(() => {
-  optionOffset.value = document.querySelector(`.theme-option.${data.value.user.theme}`).offsetLeft;
-  nameInput.value?.focus();
+  if (editingName.value) nameInput.value.focus();
 });
 
 watch(
-  [() => data.value.user.username, () => data.value.user.theme],
+  [() => data.value.user.app_username, () => data.value.user.theme],
   ([username, theme]) => {
     const body = JSON.stringify({ username, theme });
-    useFetch('user', null, {
+    useFetch('user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -47,10 +52,15 @@ watch(
       body
     });
     window.localStorage.setItem('theme', theme);
+    updateThemeMarker(theme);
   }
 );
 
-function handleThemeClick(i, event) {
+function updateThemeMarker(theme) {
+  optionOffset.value = document.querySelector(`.theme-option.${theme}`).offsetLeft;
+}
+
+function handleThemeClick(i) {
   if (i < themes.length) {
     data.value.user.theme = themes[i];
   } else {
@@ -70,24 +80,31 @@ function copyRefLink(event) {
 </script>
 
 <template>
-  <div>
+  <div ref="view" class="scrollable">
     <div class="profile">
       <div class="profile__data">
         <input
           v-show="editingName"
           ref="nameInput"
-          v-model.lazy="data.user.username"
+          v-model.lazy="data.user.app_username"
           class="profile__row profile__name profile__name--input"
-          @blur="editingName = false">
-        <div v-show="!editingName" class="profile__row">
-          <span class="profile__name">{{ data.user.username }}</span>
+          @blur="editingName = false"
+        >
+        <div
+          v-show="!editingName"
+          class="profile__row"
+        >
+          <span class="profile__name">{{ data.user.app_username }}</span>
           <div class="profile__dot"></div>
           <span class="profile__rank gradient-text">{{ data.user.rank.current }}</span>
         </div>
 
-        <div class="profile__tag">@{{ data.user.first_name }}</div>
-        <button class="profile__edit-name button-animated" @click="editingName = true">
-          <Icon name="edit" />
+        <div class="profile__tag">@{{ data.user.username }}</div>
+        <button
+          class="profile__edit-name button-animated"
+          @click="editingName = true"
+        >
+          <SVGIcon name="edit" />
           <span>Изменить</span>
         </button>
       </div>
@@ -99,10 +116,11 @@ function copyRefLink(event) {
       <div class="theme__options">
         <ThemeOption
           v-for="(n, i) in 5"
+          :key="n"
           :id="themes[i]"
           :selected="data.user.theme == themes[i]"
           :valid="i < themes.length"
-          @click="handleThemeClick(i, $event)" />
+          @click="handleThemeClick(i)" />
       </div>
     </div>
 
@@ -115,7 +133,7 @@ function copyRefLink(event) {
       </div>
     </Transition>
 
-    <Icon name="separator" class="separator" />
+    <SVGIcon name="separator" class="separator" />
 
     <div class="profile__scrollable">
       <div class="totals">
@@ -124,8 +142,8 @@ function copyRefLink(event) {
           <div>Посещений</div>
         </div>
         <div class="totals__block block">
-        	<div class="totals__count gradient-text">{{ formattedAverage }}</div>
-        	<div>Средний чек</div>
+          <div class="totals__count gradient-text">{{ formattedAverage }}</div>
+          <div>Средний чек</div>
         </div>
       </div>
 
@@ -141,24 +159,24 @@ function copyRefLink(event) {
           <span class="invite__link-content">{{ data.user.referral_link }}</span>
           <Transition name="fade">
             <button v-if="copied" class="invite__link-copy block copied">
-              <Icon name="check" size=16 />
+              <SVGIcon name="check" size="16" />
             </button>
             <button v-else class="invite__link-copy block">
-              <Icon name="copy" size=20 />
+              <SVGIcon name="copy" size="20" />
             </button>
           </Transition>
         </div>
       </div>
 
-      <div class="guide">
-        <div class="guide__button block button-animated" @click="emit('currentModal', 'guide-dialog')">
-          <Icon name="guide" />
+      <div class="tutorial">
+        <div class="tutorial__button block button-animated" @click="emit('currentModal', 'tutorial-dialog')">
+          <SVGIcon name="tutorial" />
         </div>
         <div>Обучение</div>
       </div>
     </div>
 
-    <Modal
+    <ModalPopup
       name="streak-popup"
       type="popup"
       direction="down">
@@ -171,11 +189,11 @@ function copyRefLink(event) {
         </div>
         <div class="streak__rewards">
           <div class="streak__reward">
-            <Icon class="streak__reward-icon" name="no-theme" />
+            <SVGIcon class="streak__reward-icon" name="no-theme" />
             <span>Гаммы</span>
           </div>
           <div class="streak__reward">
-            <img class="streak__reward-icon" src="/images/rank-up.svg">
+            <img class="streak__reward-icon" src="/images/rank_up.svg">
             <span>Ранги</span>
           </div>
           <div class="streak__reward">
@@ -184,32 +202,34 @@ function copyRefLink(event) {
           </div>
         </div>
       </template>
-    </Modal>
+    </ModalPopup>
 
-    <Modal
-      name="guide-dialog"
+    <ModalPopup
+      name="tutorial-dialog"
       type="popup"
       direction="up">
       <template #body>
         <h2 class="h2">Обучение</h2>
-        <Icon name="guide" size=48 />
+        <SVGIcon name="tutorial" size="48" />
         <div>Хочешь пройти обучение<br>еще раз?</div>
         <div class="dialog-buttons">
           <button class="dialog-button dialog-button--yes block button-animated">Да</button>
-          <button class="dialog-button block button-animated">Нет</button>
+          <button
+            class="dialog-button block button-animated"
+            @click="emit('currentModal', null)"
+          >
+            Нет
+          </button>
         </div>
       </template>
-    </Modal>
+    </ModalPopup>
   </div>
 </template>
 
 <style scoped lang="scss">
 .view--profile {
-  --side-padding: 24px;
-  display: flex;
-  flex-flow: column;
-  padding: 20px var(--side-padding);
-  overflow: auto;
+  --vertical-padding: 8px;
+  padding: var(--vertical-padding) 24px;
 }
 
 .profile {
@@ -424,7 +444,7 @@ function copyRefLink(event) {
   }
 }
 
-.guide {
+.tutorial {
   display: grid;
   gap: 8px;
   justify-items: center;
@@ -506,7 +526,7 @@ function copyRefLink(event) {
   }
 }
 
-.guide-dialog {
+.tutorial-dialog {
   color: var(--theme-40);
   font-size: 14px;
   font-weight: 700;
