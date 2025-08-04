@@ -38,15 +38,13 @@ function captureImage() {
   canvas.value.width = camera.value.videoWidth;
   canvas.value.height = camera.value.videoHeight;
   ctx.drawImage(camera.value, 0, 0);
-  canvas.value.toBlob(
-    (blob) => sendImage(new File([blob], 'receipt.jpg')),
-    'image/jpeg'
-  );
+  canvas.value.toBlob(sendImage, 'image/jpeg');
 }
 
 function sendImageFromGallery(event) {
   const file = event.target.files[0];
   sendImage(file);
+  event.target.value = null;
 }
 
 function sendImage(image) {
@@ -121,7 +119,7 @@ function cancel() {
         </div>
       </div>
       <div class="scan__buttons">
-        <label v-show="state == 'scan'" class="scan__gallery">
+        <label v-show="state == 'start' || state == 'scan'" class="scan__gallery">
           <SVGIcon name="gallery" />
           <input
             type="file"
