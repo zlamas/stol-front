@@ -38,8 +38,8 @@ const pages = {
 
 const { bus } = useEventBus();
 
-const currentPath = ref(window.location.hash);
-const currentPage = computed(() => pages[currentPath.value.slice(1)]);
+const currentPath = ref('/');
+const currentPage = computed(() => pages[currentPath.value]);
 const transition = ref('fade');
 const isTutorial = ref(false);
 
@@ -71,7 +71,7 @@ function setTutorial(value) {
 }
 
 onMounted(() => {
-  window.location.hash = '/';
+  window.location.hash = currentPath.value;
   tgWebApp.BackButton.hide();
 
   tgWebApp.BackButton.onClick(() => {
@@ -79,8 +79,8 @@ onMounted(() => {
   });
 
   window.addEventListener('hashchange', () => {
-    currentPath.value = window.location.hash;
-    if (window.location.hash == '/') {
+    currentPath.value = window.location.hash.slice(1);
+    if (currentPath.value == '/') {
       tgWebApp.BackButton.hide();
     } else {
       tgWebApp.BackButton.show();

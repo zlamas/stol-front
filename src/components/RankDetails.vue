@@ -93,7 +93,7 @@ function getTaskDescription(type, value) {
             <div v-else>{{ id }}</div>
           </div>
           <div class="rank__multiplier gradient-border">
-            <SVGIcon name="points-multi" />
+            <SVGIcon name="points" size="16" />
             <span>x{{ multiplier }}</span>
           </div>
         </div>
