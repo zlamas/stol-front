@@ -43,8 +43,11 @@ function captureImage() {
 
 function sendImageFromGallery(event) {
   const file = event.target.files[0];
-  sendImage(file);
-  event.target.value = null;
+  file.arrayBuffer().then((buffer) => {
+    const clone = new File([buffer], file.name, { type: file.type });
+    sendImage(clone);
+    event.target.value = null;
+  });
 }
 
 function sendImage(image) {

@@ -190,7 +190,7 @@ function getTaskDescription(type, value) {
     gap: 5px;
     justify-items: center;
     padding: 0 12px;
-    transition: padding 0.3s ease-out;
+    transition: all 0.3s ease-out;
     translate: 0;
 
     .expanded & {

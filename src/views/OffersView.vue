@@ -220,8 +220,10 @@ function purchaseOffer() {
   }
 
   &__image {
+    height: 259px;
     border-radius: 24px;
-    flex: 0 0 259px;
+    flex-shrink: 0;
+    object-fit: cover;
   }
 
   &__row {
