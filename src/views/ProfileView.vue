@@ -1,11 +1,11 @@
 <script setup>
-import { computed, onMounted, onUpdated, ref, useTemplateRef, watch } from 'vue'
-import useEventBus from '@/eventBus'
-import useFetch from '@/fetch'
-import { formatCurrency } from '@/format'
-import SVGIcon from '@/components/SVGIcon.vue'
-import ModalPopup from '@/components/ModalPopup.vue'
-import ThemeOption from '@/components/ThemeOption.vue'
+import { computed, onMounted, onUpdated, ref, useTemplateRef, watch } from 'vue';
+import useEventBus from '@/eventBus';
+import useFetch from '@/fetch';
+import { formatCurrency } from '@/funcs';
+import SVGIcon from '@/components/SVGIcon.vue';
+import ModalPopup from '@/components/ModalPopup.vue';
+import ThemeOption from '@/components/ThemeOption.vue';
 
 const view = ref();
 
@@ -57,7 +57,7 @@ watch(
 );
 
 function updateThemeMarker(theme) {
-  optionOffset.value = document.querySelector(`.theme-option.${theme}`).offsetLeft;
+  optionOffset.value = `${document.querySelector(`.theme-option.${theme}`).offsetLeft}px`;
 }
 
 function handleThemeClick(i) {
@@ -82,7 +82,7 @@ function copyRefLink(event) {
 <template>
   <div ref="view" class="scrollable">
     <div class="profile">
-      <div class="profile__data">
+      <div class="profile__data tutorial-13">
         <input
           v-show="editingName"
           ref="nameInput"
@@ -90,20 +90,14 @@ function copyRefLink(event) {
           class="profile__row profile__name profile__name--input"
           @blur="editingName = false"
         >
-        <div
-          v-show="!editingName"
-          class="profile__row"
-        >
+        <div v-show="!editingName" class="profile__row">
           <span class="profile__name">{{ data.user.app_username }}</span>
           <div class="profile__dot"></div>
           <span class="profile__rank gradient-text">{{ data.user.rank.current }}</span>
         </div>
 
         <div class="profile__tag">@{{ data.user.username }}</div>
-        <button
-          class="profile__edit-name button-animated"
-          @click="editingName = true"
-        >
+        <button class="profile__edit-name button-animated" @click="editingName = true">
           <SVGIcon name="edit" />
           <span>Изменить</span>
         </button>
@@ -111,16 +105,16 @@ function copyRefLink(event) {
       <img class="profile__avatar" :src="data.user.avatar">
     </div>
 
-    <div class="theme block" :style="{ '--option-offset': `${optionOffset}px` }">
+    <div class="theme block tutorial-14">
       <h3 class="theme__title">Цветовая гамма</h3>
       <div class="theme__options">
         <ThemeOption
           v-for="(n, i) in 5"
           :key="n"
           :id="themes[i]"
-          :selected="data.user.theme == themes[i]"
           :valid="i < themes.length"
-          @click="handleThemeClick(i)" />
+          @click="handleThemeClick(i)"
+        />
       </div>
     </div>
 
@@ -136,7 +130,7 @@ function copyRefLink(event) {
     <SVGIcon name="separator" class="separator" />
 
     <div class="profile__scrollable">
-      <div class="totals">
+      <div class="totals tutorial-15">
         <div class="totals__block block">
           <div class="totals__count gradient-text">{{ data.user.visits }}</div>
           <div>Посещений</div>
@@ -147,12 +141,12 @@ function copyRefLink(event) {
         </div>
       </div>
 
-      <div class="streak" @click="emit('currentModal', 'streak-popup')">
+      <div class="streak tutorial-16" @click="emit('currentModal', 'streak-popup')">
         <div class="streak__icon" :data-streak="data.user.daily_streak"></div>
         <div>Вы заходили в STOL<br>{{ data.user.daily_streak }} {{ dayWord }} подряд!</div>
       </div>
 
-      <div class="invite block">
+      <div class="invite block tutorial-17">
         <div class="invite__title gradient-text">Пригласи друга</div>
         <div>Получайте 10% баллов за каждого приглашенного!</div>
         <div class="invite__link field" @click="copyRefLink">
@@ -168,8 +162,11 @@ function copyRefLink(event) {
         </div>
       </div>
 
-      <div class="tutorial">
-        <div class="tutorial__button block button-animated" @click="emit('currentModal', 'tutorial-dialog')">
+      <div class="tutorial tutorial-18">
+        <div
+          class="tutorial__button block button-animated"
+          @click="emit('currentModal', 'tutorial-dialog')"
+        >
           <SVGIcon name="tutorial" />
         </div>
         <div>Обучение</div>
@@ -179,7 +176,8 @@ function copyRefLink(event) {
     <ModalPopup
       name="streak-popup"
       type="popup"
-      direction="down">
+      direction="down"
+    >
       <template #body>
         <div class="streak__icon" :data-streak="data.user.daily_streak"></div>
         <h2 class="h2">Стрик</h2>
@@ -189,15 +187,27 @@ function copyRefLink(event) {
         </div>
         <div class="streak__rewards">
           <div class="streak__reward">
-            <SVGIcon class="streak__reward-icon" name="no-theme" />
+            <SVGIcon
+              class="streak__reward-icon"
+              name="no-theme"
+              size="35"
+            />
             <span>Гаммы</span>
           </div>
           <div class="streak__reward">
-            <img class="streak__reward-icon" src="/images/rank_up.svg">
+            <SVGIcon
+              class="streak__reward-icon"
+              name="rank_up"
+              size="35"
+            />
             <span>Ранги</span>
           </div>
           <div class="streak__reward">
-            <img class="streak__reward-icon" src="/images/points.svg">
+            <SVGIcon
+              class="streak__reward-icon"
+              name="points"
+              size="35"
+            />
             <span>+ Баллы</span>
           </div>
         </div>
@@ -207,19 +217,21 @@ function copyRefLink(event) {
     <ModalPopup
       name="tutorial-dialog"
       type="popup"
-      direction="up">
+      direction="up"
+    >
       <template #body>
         <h2 class="h2">Обучение</h2>
         <SVGIcon name="tutorial" size="48" />
         <div>Хочешь пройти обучение<br>еще раз?</div>
         <div class="dialog-buttons">
-          <button class="dialog-button dialog-button--yes block button-animated">Да</button>
+          <button
+            class="dialog-button dialog-button--yes block button-animated"
+            @click="() => { emit('setTutorial', 'repeat'); emit('currentModal', null); }"
+          >Да</button>
           <button
             class="dialog-button block button-animated"
             @click="emit('currentModal', null)"
-          >
-            Нет
-          </button>
+          >Нет</button>
         </div>
       </template>
     </ModalPopup>
@@ -236,11 +248,21 @@ function copyRefLink(event) {
   display: flex;
   gap: 10px;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 32px;
   white-space: nowrap;
 
   &__data {
-    flex: 1;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -16px;
+      background: var(--theme-bg);
+      border-radius: 20px;
+      z-index: -1;
+    }
   }
 
   &__row {
@@ -333,7 +355,7 @@ function copyRefLink(event) {
       border-radius: 50%;
       box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
       transition: translate 0.3s;
-      translate: calc(var(--option-offset) + 28px);
+      translate: calc(v-bind(optionOffset) + 28px);
     }
   }
 }
@@ -360,9 +382,13 @@ function copyRefLink(event) {
 }
 
 .streak {
+  background: var(--theme-bg);
+  border-radius: 20px;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: -.04em;
+  justify-self: center;
+  padding: 12px;
   text-align: center;
 
   &__icon {
@@ -393,9 +419,7 @@ function copyRefLink(event) {
 
   &__reward {
     &-icon {
-      width: 100%;
-      height: 35px;
-      margin-bottom: 7px;
+      margin: 0 auto 7px;
       filter: drop-shadow(0 2px 4px var(--theme-drop-shadow));
     }
   }
@@ -448,10 +472,13 @@ function copyRefLink(event) {
   display: grid;
   gap: 8px;
   justify-items: center;
+  justify-self: center;
+  background: var(--theme-bg);
+  border-radius: 14px;
   font-size: 14px;
   font-weight: 700;
-  margin-top: 10px;
   letter-spacing: -0.04em;
+  padding: 10px 32px;
 
   &__button {
     border-radius: 50%;

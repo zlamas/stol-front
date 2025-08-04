@@ -1,9 +1,15 @@
 <script setup>
-import { computed, onMounted, ref, useTemplateRef } from 'vue'
-import useFetch from '@/fetch'
-import { formatCurrency } from '@/format'
-import SVGIcon from '@/components/SVGIcon.vue'
-import MainButton from '@/components/MainButton.vue'
+import { computed, onMounted, ref, useTemplateRef } from 'vue';
+import useEventBus from '@/eventBus';
+import useFetch from '@/fetch';
+import { formatCurrency } from '@/funcs';
+
+import SVGIcon from '@/components/SVGIcon.vue';
+import MainButton from '@/components/MainButton.vue';
+
+const { emit } = useEventBus();
+
+const isTutorial = defineModel('isTutorial');
 
 const camera = useTemplateRef('camera');
 const cutout = useTemplateRef('cutout');
@@ -75,11 +81,19 @@ function cancel() {
 </script>
 
 <template>
-  <div class="scan page" :style="cutoutPosition">
-    <video ref="camera" class="scan__camera" autoplay disablepictureinpicture muted playsinline></video>
-    <div :class="['scan__overlay', { mask: state == 'scan' }]">
+  <div class="scan" :style="cutoutPosition">
+    <video
+      ref="camera"
+      class="scan__camera"
+      autoplay
+      disablepictureinpicture
+      muted
+      playsinline
+    ></video>
+    <canvas ref="canvas"></canvas>
+    <div :class="['scan__overlay', { mask: state == 'scan' }]"></div>
+    <div class="scan__content">
       <div ref="cutout" class="scan__container">
-        <canvas ref="canvas"></canvas>
         <div v-show="state == 'start' || state == 'scan'" class="scan__window">
           <div v-show="state == 'start'" class="scan__instruction">
             <SVGIcon name="qrcode" />
@@ -107,10 +121,7 @@ function cancel() {
         </div>
       </div>
       <div class="scan__buttons">
-        <label
-          v-show="state == 'scan'"
-          class="scan__gallery"
-        >
+        <label v-show="state == 'scan'" class="scan__gallery">
           <SVGIcon name="gallery" />
           <input
             type="file"
@@ -121,45 +132,34 @@ function cancel() {
 
         <MainButton
           v-show="state == 'start'"
-          @click="state = 'scan'"
-        >
-          Начать!
-        </MainButton>
+          class="tutorial-3"
+          @click="isTutorial ? emit('tutorialStep') : state = 'scan'"
+        >Начать!</MainButton>
         <MainButton
           v-show="state == 'scan'"
           icon="scan"
           @click="captureImage"
-        >
-          Отсканировать чек
-        </MainButton>
+        >Отсканировать чек</MainButton>
         <MainButton
           v-show="state == 'error'"
           icon="retry"
           @click="state = 'scan'"
-        >
-          Сканировать снова
-        </MainButton>
+        >Сканировать снова</MainButton>
         <MainButton
           v-show="state == 'success'"
           href="/review"
-        >
-          Продолжить
-        </MainButton>
+        >Продолжить</MainButton>
 
         <button
           v-show="state == 'success'"
           class="secondary-button"
           @click="state = 'scan'"
-        >
-          Неверная сумма
-        </button>
+        >Неверная сумма</button>
         <button
           v-show="state != 'success'"
           class="secondary-button"
           @click="cancel"
-        >
-          Отмена
-        </button>
+        >Отмена</button>
       </div>
     </div>
   </div>
@@ -167,9 +167,6 @@ function cancel() {
 
 <style scoped lang="scss">
 .scan {
-  position: fixed;
-  inset: 0;
-
   canvas {
     display: none;
   }
@@ -183,18 +180,24 @@ function cancel() {
   }
 
   &__overlay {
-    display: flex;
-    flex-flow: column;
     position: absolute;
-    inset: 0;
+    width: 100%;
+    height: 100%;
     background: rgb(0 0 0 / 20%);
     backdrop-filter: blur(24px);
-    padding: 32px 32px 24px;
 
     &.mask {
       mask-image: linear-gradient(white, white), url(#scanWindow);
       mask-composite: subtract;
     }
+  }
+
+  &__content {
+    display: flex;
+    position: relative;
+    height: 100%;
+    flex-flow: column;
+    padding: 32px 32px 24px;
   }
 
   &__container {
@@ -263,7 +266,7 @@ function cancel() {
         width: 100%;
         background: #333;
         border-radius: 24px;
-        box-shadow: 0 2px 4px #00000040;
+        box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
         padding: 18px;
 
         h2 {

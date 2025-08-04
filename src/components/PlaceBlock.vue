@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from 'vue'
-import StarRating from '@/components/StarRating.vue'
-import SVGIcon from '@/components/SVGIcon.vue'
+import { computed } from 'vue';
+import StarRating from '@/components/StarRating.vue';
+import SVGIcon from '@/components/SVGIcon.vue';
 
 const props = defineProps({
   type: String,
@@ -31,15 +31,11 @@ const title = computed(() => ({
       <div
         v-if="type == 'favorite'"
         class="place__counter count checks"
-      >
-        {{ data.checks_count }}
-      </div>
+      >{{ data.checks_count }}</div>
       <div
         v-else-if="type == 'recent'"
         class="place__counter count points gradient-text"
-      >
-        +{{ data.points }}
-      </div>
+      >+{{ data.points }}</div>
     </div>
   </div>
   <div
@@ -54,14 +50,10 @@ const title = computed(() => ({
       loop
       muted
       playsinline
-    >
-    </video>
+    ></video>
     <div class="place__content">
       <div class="place__title">{{ title }}</div>
-      <SVGIcon
-        name="question"
-        v-bind="large && { size: 78 }"
-      />
+      <SVGIcon name="question" v-bind="large && { size: 78 }" />
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue'
-import HistoryItem from '@/components/HistoryItem.vue'
-import UserInfo from '@/components/UserInfo.vue'
+import { ref } from 'vue';
+import HistoryItem from '@/components/HistoryItem.vue';
+import UserInfo from '@/components/UserInfo.vue';
 
 const view = ref();
 
@@ -12,9 +12,7 @@ const data = defineModel('data');
 
 <template>
   <div ref="view">
-    <UserInfo
-      v-bind="data.user"
-      v-model="data.notifications" />
+    <UserInfo v-bind="data.user" v-model="data.notifications" />
     <template v-if="data.history.length">
       <div class="history__title h2">Сканирования</div>
       <div class="scrollable">
@@ -22,7 +20,8 @@ const data = defineModel('data');
           <HistoryItem
             v-for="item in data.history"
             :key="item.id"
-            v-bind="item" />
+            v-bind="item"
+          />
         </div>
       </div>
     </template>

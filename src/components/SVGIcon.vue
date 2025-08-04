@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineAsyncComponent } from 'vue'
+import { computed, defineAsyncComponent } from 'vue';
 
 const props = defineProps({
   name: String,
@@ -20,8 +20,5 @@ const iconSize = computed(() => {
 </script>
 
 <template>
-  <component
-    :is="icon"
-    v-bind="iconSize"
-  />
+  <component :is="icon" v-bind="iconSize" />
 </template>

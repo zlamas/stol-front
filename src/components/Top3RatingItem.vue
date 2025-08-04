@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from 'vue'
-import { formatNumber } from '@/format'
+import { computed } from 'vue';
+import { formatNumber } from '@/funcs';
 
 const props = defineProps({
   position: Number,

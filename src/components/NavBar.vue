@@ -1,6 +1,6 @@
 <script setup>
-import useEventBus from '@/eventBus'
-import SVGIcon from '@/components/SVGIcon.vue'
+import useEventBus from '@/eventBus';
+import SVGIcon from '@/components/SVGIcon.vue';
 
 defineProps({
   activeIndex: Number,

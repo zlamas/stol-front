@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed } from 'vue';
 const props = defineProps({
   you: Boolean,
   position: Number,
@@ -8,14 +8,16 @@ const props = defineProps({
   points: Number,
 });
 
+const positionText = computed(() => props.position <= 100 ? props.position : '100+');
+const usernameText = computed(() => props.you ? 'Вы' : props.username);
 const formattedPoints = computed(() => props.points.toLocaleString('ru'));
 </script>
 
 <template>
   <div :class="['ratings__item', 'block', { 'gradient-border': you }]">
-    <div class="ratings__place">{{ props.position <= 100 ? props.position : '100+' }}</div>
-    <img class="ratings__avatar" :src="`${props.avatar || 'images/avatar.png'}`">
-    <div class="ratings__name">{{ props.you ? 'Вы' : props.username }}</div>
+    <div class="ratings__place">{{ positionText }}</div>
+    <img class="ratings__avatar" :src="props.avatar || 'images/avatar.png'">
+    <div class="ratings__name">{{ usernameText }}</div>
     <div class="ratings__points count points gradient-text">{{ formattedPoints }}</div>
   </div>
 </template>

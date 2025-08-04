@@ -1,8 +1,8 @@
 <script setup>
-import { computed } from 'vue'
-import { formatNumber, formatCurrency, formatDate } from '@/format'
-import SVGIcon from '@/components/SVGIcon.vue'
-import StarRating from '@/components/StarRating.vue'
+import { computed } from 'vue';
+import { formatNumber, formatCurrency, formatDate } from '@/funcs';
+import SVGIcon from '@/components/SVGIcon.vue';
+import StarRating from '@/components/StarRating.vue';
 
 const props = defineProps({
   total_sum: [String, Number],
@@ -25,8 +25,8 @@ const formattedDate = computed(() => formatDate(props.created_at).toLowerCase())
     >
     <SVGIcon
       v-else
-      name="place"
       class="history-item__image history-item__image--placeholder"
+      name="place"
     />
     <div class="history-item__name">{{ restaurant.name }}</div>
     <div class="history-item__points count points gradient-text">+{{ formattedPoints }}</div>

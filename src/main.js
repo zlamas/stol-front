@@ -1,10 +1,10 @@
-import './assets/scss/main.scss'
+import './assets/scss/main.scss';
 
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
 
-import './telegram-web-app.js'
+import './telegram-web-app.js';
 
 createApp(App).mount('#app');
 
-Telegram.WebApp.ready();
+window.Telegram.WebApp.ready();

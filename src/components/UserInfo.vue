@@ -1,14 +1,14 @@
 <script setup>
-import { computed } from 'vue'
-import useEventBus from '@/eventBus'
-import { formatNumber } from '@/format'
-import SVGIcon from '@/components/SVGIcon.vue'
+import { computed } from 'vue';
+import useEventBus from '@/eventBus';
+import { formatNumber } from '@/funcs';
+import SVGIcon from '@/components/SVGIcon.vue';
 
 const { emit } = useEventBus();
 
 const props = defineProps({
   avatar: String,
-  username: String,
+  app_username: String,
   points: [Number, String],
   daily_streak: [Number, String],
 });
@@ -21,15 +21,22 @@ const unread = computed(() => notifications.value.find((item) => !item.is_read))
 
 <template>
   <div class="user-info block">
-    <img class="user-info__avatar" :src="avatar" @click="emit('currentView', 'profile')">
+    <img
+      class="user-info__avatar"
+      :src="avatar"
+      @click="emit('currentView', 'profile')"
+    >
     <div class="user-info__center">
       <div class="user-info__name">
-        <span>Привет, {{ username }}!</span>
+        <span>Привет, {{ app_username }}!</span>
         <span class="user-info__streak" :data-streak="daily_streak"></span>
       </div>
       <div class="count points gradient-text">{{ formattedPoints }}</div>
     </div>
-    <button :class="['user-info__notification', { unread }]" @click="emit('currentModal', 'notifications')">
+    <button
+      :class="['user-info__notification', { unread }]"
+      @click="emit('currentModal', 'notifications')"
+    >
       <SVGIcon name="bell" />
     </button>
   </div>

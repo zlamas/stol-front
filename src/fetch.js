@@ -7,7 +7,7 @@ export default function useFetch(path, options, params) {
     ...params
   });
 
-  return fetch(url, options)
-    .then((response) => response.json()
-      .then((data) => ({ data, ok: response.ok })));
+  return fetch(url, options).then((response) =>
+    response.json().then((data) => ({ data, ok: response.ok }))
+  );
 }

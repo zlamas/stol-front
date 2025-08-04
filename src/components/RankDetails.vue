@@ -1,7 +1,8 @@
 <script setup>
-import { computed, onMounted, useTemplateRef } from 'vue'
-import { formatCurrency } from '@/format'
-import SVGIcon from '@/components/SVGIcon.vue'
+import { computed, onMounted, useTemplateRef, watch } from 'vue';
+import useEventBus from '@/eventBus';
+import { formatCurrency } from '@/funcs';
+import SVGIcon from '@/components/SVGIcon.vue';
 
 const props = defineProps({
   id: [Number, String],
@@ -10,6 +11,8 @@ const props = defineProps({
   tasks: Object,
   rank: Object,
 });
+
+const { emit, bus } = useEventBus();
 
 const taskElem = useTemplateRef('tasks');
 const rootElem = useTemplateRef('root');
@@ -29,6 +32,18 @@ onMounted(() => {
     `${taskElem.value.offsetHeight - 98}px`
   );
 });
+
+watch(
+  () => bus.value.get('tutorialEvent'),
+  ([step]) => {
+    if (props.id != 2) return;
+    if (step == 6) {
+      expandedRank.value = null;
+    } else if (step == 7) {
+      expandedRank.value = 2;
+    }
+  }
+);
 
 function isTaskDone(type, value) {
   if (state.value == 'complete' || state.value == 'current') return true;
@@ -54,37 +69,38 @@ function getTaskDescription(type, value) {
 
 <template>
   <div ref="root" :class="['rank', state, { expanded }]">
-    <div ref="tasks" class="rank__tasks">
-      <div
-        v-for="(value, type) in tasks"
-        :key="type"
-        class="rank__task">
-        <div class="rank__checkbox">
-          <SVGIcon
-            v-if="isTaskDone(type, value)"
-            name="task-check"
-          />
-        </div>
-        <div>{{ getTaskDescription(type, value) }}</div>
-      </div>
-    </div>
-    <div class="rank__block" @click="expandedRank = (expanded ? null : id)">
-      <div class="rank__row">
-        <div class="rank__number">
-          <SVGIcon
-            v-if="state == 'complete'"
-            name="complete"
-          />
-          <div v-else>{{ id }}</div>
-        </div>
-        <div class="rank__multiplier gradient-border">
-          <SVGIcon name="points-multi" />
-          <span>x{{ multiplier }}</span>
+    <div
+      class="rank__content"
+      :class="{ 'tutorial-6': id == 2, 'tutorial-7': id == 2 }"
+      @click="emit('tutorialStep')"
+    >
+      <div ref="tasks" class="rank__tasks">
+        <div
+          v-for="(value, type) in tasks"
+          :key="type"
+          class="rank__task"
+        >
+          <div class="rank__checkbox">
+            <SVGIcon v-if="isTaskDone(type, value)" name="task-check" />
+          </div>
+          <div>{{ getTaskDescription(type, value) }}</div>
         </div>
       </div>
-      <div class="rank__name">
-        <span>{{ name }}</span>
-        <SVGIcon name="arrow" />
+      <div class="rank__block" @click="expandedRank = (expanded ? null : id)">
+        <div class="rank__row">
+          <div class="rank__number">
+            <SVGIcon v-if="state == 'complete'" name="complete" />
+            <div v-else>{{ id }}</div>
+          </div>
+          <div class="rank__multiplier gradient-border">
+            <SVGIcon name="points-multi" />
+            <span>x{{ multiplier }}</span>
+          </div>
+        </div>
+        <div class="rank__name">
+          <span>{{ name }}</span>
+          <SVGIcon name="arrow" />
+        </div>
       </div>
     </div>
   </div>
@@ -92,7 +108,6 @@ function getTaskDescription(type, value) {
 
 <style scoped lang="scss">
 .rank {
-  position: relative;
   display: grid;
   gap: 12px;
   color: var(--main-color);
@@ -117,9 +132,9 @@ function getTaskDescription(type, value) {
     --number-color: #FFF;
     --arrow-color: url(#gradient-main);
     --points-color: url(#gradient-main);
-    --bg-color: #FAE1EB;
-    --task-color: #D85A93;
-    --line-color: #E5AEC0;
+    --bg-color: var(--theme-rank-bg-current);
+    --task-color: var(--theme-rank-task-current);
+    --line-color: var(--theme-rank-line);
     --shadow-color: #BF3C6740;
 
     span {
@@ -130,14 +145,14 @@ function getTaskDescription(type, value) {
   }
 
   &.next {
-    --main-color: #CE6487;
-    --multiplier-color: #DC8FA8;
-    --circle-color: #F4DCE4;
+    --main-color: var(--theme-rank-main);
+    --multiplier-color: var(--theme-rank-multiplier);
+    --circle-color: var(--theme-rank-circle);
     --number-color: var(--main-color);
     --arrow-color: var(--main-color);
     --points-color: var(--multiplier-color);
-    --bg-color: #FCEEF3;
-    --task-color: #7A525F;
+    --bg-color: var(--theme-rank-bg-next);
+    --task-color: var(--theme-rank-task-next);
     --line-color: #A2909680;
     --shadow-color: #D987A240;
   }
@@ -163,13 +178,19 @@ function getTaskDescription(type, value) {
     margin: auto;
   }
 
+  &__content {
+    position: relative;
+    background: #FFF;
+    border-radius: 16px;
+  }
+
   &__block {
     position: relative;
     display: grid;
     gap: 5px;
     justify-items: center;
     padding: 0 12px;
-    transition: all 0.3s ease-out;
+    transition: padding 0.3s ease-out;
     translate: 0;
 
     .expanded & {
@@ -242,6 +263,7 @@ function getTaskDescription(type, value) {
     display: grid;
     position: absolute;
     top: 0;
+    left: 0;
     width: 100%;
     gap: 12px;
     background: var(--bg-color);

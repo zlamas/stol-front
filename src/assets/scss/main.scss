@@ -24,7 +24,7 @@
   --star-shadow: #C2940040;
 }
 
-.main {
+.app {
   --navbar-height: 71px;
   --theme-main-gradient: linear-gradient(
     var(--theme-main-light) 20%,
@@ -39,6 +39,18 @@
   --shadow-normal: 0 2px 4px var(--theme-drop-shadow);
   --shadow-active: inset 0 2px 4px 1px var(--theme-drop-shadow);
   --bounce: cubic-bezier(0.439, 1.477, 0.163, 0.875);
+
+  position: fixed;
+  inset: 0;
+  background: var(--theme-bg);
+  color: var(--theme-20);
+  font: 16px "Montserrat", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.page {
+  width: 100%;
+  height: 100%;
 }
 
 .white-pink {
@@ -66,6 +78,16 @@
   --theme-glass: #FBEAF080;
   --theme-modal: #FDF7FCCC;
   --theme-note: #FDF7FC80;
+  --theme-notification: #FCF3FB;
+
+  --theme-rank-main: #CE6487;
+  --theme-rank-multiplier: #DC8FA8;
+  --theme-rank-circle: #F4DCE4;
+  --theme-rank-bg-current: #FAE1EB;
+  --theme-rank-bg-next: #FCEEF3;
+  --theme-rank-task-current: #D85A93;
+  --theme-rank-task-next: #7A525F;
+  --theme-rank-line: #E5AEC0;
 
   .points {
     --count-icon: url(/images/points.svg);
@@ -96,6 +118,16 @@
   --theme-glass: #F3E6D880;
   --theme-modal: #FDFAF7CC;
   --theme-note: #FDFAF780;
+  --theme-notification: #FCF6F3;
+
+  --theme-rank-main: #D88A5A;
+  --theme-rank-multiplier: #D49B77;
+  --theme-rank-circle: #F4E5DC;
+  --theme-rank-bg-current: #FAEAE1;
+  --theme-rank-bg-next: #FCF3EE;
+  --theme-rank-task-current: var(--theme-rank-main);
+  --theme-rank-task-next: #7A6152;
+  --theme-rank-line: #E5C3AE;
 
   .points {
     --count-icon: url(/images/points-brown.svg);
@@ -116,7 +148,7 @@
   box-shadow:
     var(--shadow-normal),
     inset 0 0 var(--theme-drop-shadow);
-  transition: all 0.2s linear;
+  transition: 0.2s linear;
 
   &:active {
     box-shadow:
@@ -163,6 +195,7 @@
   background-color: #FFF;
   background-clip: padding-box;
   border: var(--border-size) solid transparent;
+  transform-style: preserve-3d;
 
   &::before {
     content: "";
@@ -170,7 +203,7 @@
     inset: calc(-1 * var(--border-size));
     background: var(--theme-main-gradient);
     border-radius: inherit;
-    z-index: -1;
+    translate: 0 0 -1px;
   }
 }
 
@@ -220,6 +253,7 @@
   margin: 0 calc(-1 * var(--side-padding, 0px));
   padding: 0 var(--side-padding, 0px);
   overflow: auto;
+  scroll-behavior: smooth;
 
   &::before,
   &::after {
@@ -233,7 +267,6 @@
 
   &::before {
     top: calc(-1 * var(--vertical-padding));
-    z-index: 9;
   }
 
   &::after {

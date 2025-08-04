@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue';
 
 defineProps({
   activeTheme: String,
@@ -32,7 +32,14 @@ onMounted(() => {
 
 <template>
   <div class="loading page">
-    <video class="loading__bg" :src="`images/bg-${activeTheme}.mp4`" autoplay disablepictureinpicture loop muted playsinline></video>
+    <video
+      class="loading__bg"
+      :src="`images/bg-${activeTheme}.mp4`"
+      autoplay
+      disablepictureinpicture
+      loop
+      muted
+      playsinline></video>
     <div class="loading__indicator">
       <svg class="loading__fill">
         <path d="M55.5 0C75.5691 1.4447 82.9001 13.7079 103 14.1768 123.995 14.6666 131.223-3.7456 152 0c15.606 2.8135 23.066 12.1809 38.5 16.1769C214.612 22.4196 221.425-2.2137 246 0c20.406 1.8382 28.042 14.5757 48.5 14.1768C314.245 13.7918 320.259-.6322 340 0c18.682.5984 24.828 9.2144 43.5 10.1768C403.943 11.2306 410.5 0 431 0s40 25.8254 40 25.8254V209.6769H0V25.8254S32.3658-1.6652 55.5 0Z" fill="url(#loadingBack)"/>

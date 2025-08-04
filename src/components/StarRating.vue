@@ -1,5 +1,5 @@
 <script setup>
-import SVGIcon from '@/components/SVGIcon.vue'
+import SVGIcon from '@/components/SVGIcon.vue';
 
 defineProps({
   rating: [String, Number],

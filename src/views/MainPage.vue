@@ -1,13 +1,14 @@
 <script setup>
-import { computed, ref, onMounted, useTemplateRef, watch } from 'vue'
-import useEventBus from '@/eventBus'
+import { computed, ref, onMounted, useTemplateRef, watch } from 'vue';
+import useEventBus from '@/eventBus';
+import { wait } from '@/funcs';
 
-import RatingView from '@/views/RatingView.vue'
-import OffersView from '@/views/OffersView.vue'
-import MainView from '@/views/MainView.vue'
-import HistoryView from '@/views/HistoryView.vue'
-import ProfileView from '@/views/ProfileView.vue'
-import NavBar from '@/components/NavBar.vue'
+import RatingView from '@/views/RatingView.vue';
+import OffersView from '@/views/OffersView.vue';
+import MainView from '@/views/MainView.vue';
+import HistoryView from '@/views/HistoryView.vue';
+import ProfileView from '@/views/ProfileView.vue';
+import NavBar from '@/components/NavBar.vue';
 
 const views = {
   rating: RatingView,
@@ -35,6 +36,7 @@ onMounted(() => {
   let isDragging = false;
 
   content.value.addEventListener('scroll', () => {
+    if (!content.value) return;
     const scrollAmount = content.value.scrollLeft - scrollPos;
     scrollPos = content.value.scrollLeft;
     if (isDragging || targetSet.value) return;
@@ -42,8 +44,15 @@ onMounted(() => {
     const index = scrollPos / content.value.offsetWidth;
     activeIndex.value = scrollAmount > 0 ? Math.ceil(index) : Math.floor(index);
   });
-  content.value.addEventListener('touchstart', () => { isDragging = true; targetSet.value = false; });
-  content.value.addEventListener('touchend', () => { isDragging = false; });
+
+  content.value.addEventListener('touchstart', () => {
+    isDragging = true;
+    targetSet.value = false;
+  });
+
+  content.value.addEventListener('touchend', () => {
+    isDragging = false;
+  });
 
   viewRefs.value[currentView.value].view.scrollIntoView();
 });
@@ -59,24 +68,24 @@ watch(
 watch(
   () => currentView.value,
   (view) => {
-    if (targetSet.value) viewRefs.value[view].view.scrollIntoView({ behavior: 'smooth' });
+    if (targetSet.value) {
+      viewRefs.value[view].view.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 );
 
 if (data.value.loading) {
   await Promise.all([
     data.value.loading,
-    new Promise((resolve) => setTimeout(resolve, 3000))
+    wait(3000)
   ]);
+  data.value.loading = null;
 }
 </script>
 
 <template>
-  <div class="app">
-    <div
-      ref="content"
-      class="content"
-    >
+  <div class="main">
+    <div ref="content" class="content">
       <component
         v-for="(view, name) in views"
         :ref="(el) => viewRefs[name] = el"
@@ -93,7 +102,7 @@ if (data.value.loading) {
 <style scoped lang="scss">
 @use "@/assets/scss/mixins" as *;
 
-.app {
+.main {
   @include grid;
   height: 100%;
   grid-template-rows: 1fr auto;

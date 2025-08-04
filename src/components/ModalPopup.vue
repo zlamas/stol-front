@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, useTemplateRef, watch } from 'vue'
-import useEventBus from '@/eventBus'
-import SVGIcon from '@/components/SVGIcon.vue'
+import { ref, computed, useTemplateRef, watch } from 'vue';
+import useEventBus from '@/eventBus';
+import SVGIcon from '@/components/SVGIcon.vue';
 
 const props = defineProps({
   name: String,
@@ -54,42 +54,43 @@ function onPointerUp() {
 </script>
 
 <template>
-  <Transition name="fade">
-    <div
-      v-show="show"
-      :class="['overlay', { dragging }]"
-      @click="emit('currentModal', null)"
-    >
-    </div>
-  </Transition>
-  <Transition :name="`slide-${direction}`">
-    <div v-if="show" :class="['modal', type, name, classes]">
-      <button v-if="type == 'modal'" class="modal__close">
-        <SVGIcon name="close" size="14" />
-      </button>
+  <Teleport to=".app">
+    <Transition name="fade">
       <div
-        ref="container"
-        :class="['modal__container', { dragging }]"
-        v-on="type == 'slideout' ? {
-          pointerdown: onPointerDown,
-          pointermove: onPointerMove,
-          pointerup: onPointerUp,
-        } : {}"
-      >
-        <slot name="background" />
-        <div class="modal__content">
-          <SVGIcon
-            v-if="type == 'popup'"
-            name="close"
-            size="44"
-            class="popup__close"
-            @click="emit('currentModal', null)"
-          />
-          <slot name="body" />
+        v-show="show"
+        :class="['modal-overlay', { dragging }]"
+        @click="emit('currentModal', null)"
+      ></div>
+    </Transition>
+    <Transition :name="`slide-${direction}`">
+      <div v-if="show" :class="['modal', type, name, classes]">
+        <button v-if="type == 'modal'" class="modal__close">
+          <SVGIcon name="close" size="14" />
+        </button>
+        <div
+          ref="container"
+          :class="['modal__container', { dragging }]"
+          v-on="type == 'slideout' ? {
+            pointerdown: onPointerDown,
+            pointermove: onPointerMove,
+            pointerup: onPointerUp,
+          } : {}"
+        >
+          <slot name="background" />
+          <div class="modal__content">
+            <SVGIcon
+              v-if="type == 'popup'"
+              name="close"
+              size="44"
+              class="popup__close"
+              @click="emit('currentModal', null)"
+            />
+            <slot name="body" />
+          </div>
         </div>
       </div>
-    </div>
-  </Transition>
+    </Transition>
+  </Teleport>
 </template>
 
 <style scoped lang="scss">
@@ -124,12 +125,11 @@ function onPointerUp() {
   translate: 0 -100%;
 }
 
-.overlay {
+.modal-overlay {
   position: fixed;
   inset: 0;
   background: rgb(0 0 0 / 70%);
   backdrop-filter: blur(2px);
-  z-index: 999;
 
   &.dragging {
     opacity: v-bind('`${1 - dragAmount}`');
@@ -141,14 +141,13 @@ function onPointerUp() {
 }
 
 .modal {
-  position: fixed;
+  position: absolute;
   inset: 0;
   display: grid;
   align-content: start;
   justify-items: center;
   gap: 16px;
   padding: 24px;
-  z-index: 9999;
   pointer-events: none;
   touch-action: none;
 

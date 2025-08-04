@@ -1,10 +1,10 @@
 <script setup>
-import { computed, ref } from 'vue'
-import useFetch from '@/fetch'
-import { formatCurrency } from '@/format'
-import SVGIcon from '@/components/SVGIcon.vue'
-import MainButton from '@/components/MainButton.vue'
-import StarRating from '@/components/StarRating.vue'
+import { computed, ref } from 'vue';
+import useFetch from '@/fetch';
+import { formatCurrency } from '@/funcs';
+import SVGIcon from '@/components/SVGIcon.vue';
+import MainButton from '@/components/MainButton.vue';
+import StarRating from '@/components/StarRating.vue';
 
 const receiptData = new URL(window.location.href).searchParams;
 const formattedSum = formatCurrency(receiptData.get('total_sum'));
@@ -53,7 +53,7 @@ function sendReview() {
 <template>
   <div
     v-if="state == 'review'"
-    class="review page"
+    class="review"
     @click="() => {}"
   >
     <h2 class="h2 review__title">Оценка заведения</h2>
@@ -65,13 +65,15 @@ function sendReview() {
             type="text"
             class="review__input field"
             v-model.lazy="review.name"
-            required>
+            required
+          >
           <div class="review__places">
             <button
               v-for="place in places"
               :key="place.name"
               class="review__place"
-              @click="selectPlace(place)">
+              @click="selectPlace(place)"
+            >
               <img class="review__place-icon" :src="place.icon">
               <span>{{ place.name }}</span>
             </button>
@@ -87,34 +89,46 @@ function sendReview() {
           gap=10
           clickable
           :rating="review.rating"
-          @update:rating="review.rating = $event" />
+          @update:rating="review.rating = $event"
+        />
       </div>
     </div>
     <div class="review__block block">
       <div class="review__field">
         <h3 class="h3">Отзыв (опционально)</h3>
         <div class="review__small">Расскажите о своих впечатлениях!</div>
-        <textarea class="review__textarea field" rows=12 v-model.lazy="review.text" required></textarea>
+        <textarea
+          class="review__textarea field"
+          rows="12"
+          v-model.lazy="review.text"
+          required
+        ></textarea>
       </div>
     </div>
     <MainButton
       class="review__button"
       @click="sendReview"
-      :disabled>Оценить</MainButton>
+      :disabled
+    >Оценить</MainButton>
   </div>
   <div v-else class="content review">
     <h2 class="review__title h2">Оценка заведения</h2>
     <div class="review__block review__summary block">
       <div class="review__field">
         <div class="review__place field">
-          <img v-if="review.placeIcon" class="review__place-icon" :src="review.placeIcon">
+          <img
+            v-if="review.placeIcon"
+            class="review__place-icon"
+            :src="review.placeIcon"
+          >
           <span>{{ review.name }}</span>
         </div>
         <StarRating
           class="review__rating"
           size="30"
           gap=10
-          :rating="review.rating" />
+          :rating="review.rating"
+        />
       </div>
       <div v-if="review" class="review__textarea field">{{ review.text }}</div>
       <SVGIcon name="separator" class="separator" />
@@ -135,9 +149,7 @@ function sendReview() {
     </div>
     <div class="review__buttons">
       <button class="secondary-button" @click="state = 'review'">Изменить</button>
-      <MainButton
-        class="review__button"
-        href="/">Оценить</MainButton>
+      <MainButton class="review__button" href="/">Оценить</MainButton>
     </div>
   </div>
 </template>

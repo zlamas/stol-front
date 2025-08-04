@@ -1,10 +1,10 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from 'node:url';
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import basicSsl from '@vitejs/plugin-basic-ssl'
-import vueDevTools from 'vite-plugin-vue-devtools'
-import svgLoader from 'vite-svg-loader'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import basicSsl from '@vitejs/plugin-basic-ssl';
+import vueDevTools from 'vite-plugin-vue-devtools';
+import svgLoader from 'vite-svg-loader';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -13,16 +13,16 @@ export default defineConfig({
     vue(),
     vueDevTools(),
     svgLoader({
-      svgo: false,
+      svgo: false
     }),
-    basicSsl(),
+    basicSsl()
   ],
   server: {
-    host: true,
+    host: true
   },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
-})
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  }
+});

@@ -1,11 +1,11 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { formatNumber } from '@/format'
-import useEventBus from '@/eventBus'
-import useFetch from '@/fetch'
+import { computed, ref } from 'vue';
+import { formatNumber } from '@/funcs';
+import useEventBus from '@/eventBus';
+import useFetch from '@/fetch';
 
-import ModalPopup from '@/components/ModalPopup.vue'
-import OfferItem from '@/components/OfferItem.vue'
+import ModalPopup from '@/components/ModalPopup.vue';
+import OfferItem from '@/components/OfferItem.vue';
 
 const view = ref();
 
@@ -198,7 +198,7 @@ function purchaseOffer() {
 .offer-button {
   width: 100%;
   background: #333333;
-  box-shadow: 0 4px 8px #00000040;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 25%);
   color: #FFF;
   font-weight: 700;
   line-height: 1;
@@ -231,7 +231,7 @@ function purchaseOffer() {
   &__tag {
     background: linear-gradient(to right, var(--tag-color-0), var(--tag-color-1));
     border-radius: 9em;
-    box-shadow: 0 2px 4px #00000040;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
     color: #FFF;
     font-size: 14px;
     padding: 7px 15px;
@@ -329,7 +329,7 @@ function purchaseOffer() {
     width: 81px;
     height: 81px;
     border-radius: 14px;
-    box-shadow: 0 2px 4px #00000040;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
 
     .offer-success & {
       &::after {
@@ -344,6 +344,7 @@ function purchaseOffer() {
 
     img {
       width: 100%;
+      height: 100%;
       border: 3px solid var(--border-color);
       border-radius: inherit;
       object-fit: cover;

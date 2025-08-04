@@ -1,18 +1,18 @@
 <script setup>
-import { computed, ref } from 'vue'
-import useEventBus from '@/eventBus'
-import useFetch from '@/fetch'
-import { formatDate } from '@/format'
-import ranks from '@/ranks.json'
+import { computed, ref } from 'vue';
+import useEventBus from '@/eventBus';
+import useFetch from '@/fetch';
+import { formatDate } from '@/funcs';
+import ranks from '@/ranks.json';
 
-import HistoryItem from '@/components/HistoryItem.vue'
-import MainButton from '@/components/MainButton.vue'
-import ModalPopup from '@/components/ModalPopup.vue'
-import NotificationItem from '@/components/NotificationItem.vue'
-import PlaceBlock from '@/components/PlaceBlock.vue'
-import RankDetails from '@/components/RankDetails.vue'
-import RankProgress from '@/components/RankProgress.vue'
-import UserInfo from '@/components/UserInfo.vue'
+import HistoryItem from '@/components/HistoryItem.vue';
+import MainButton from '@/components/MainButton.vue';
+import ModalPopup from '@/components/ModalPopup.vue';
+import NotificationItem from '@/components/NotificationItem.vue';
+import PlaceBlock from '@/components/PlaceBlock.vue';
+import RankDetails from '@/components/RankDetails.vue';
+import RankProgress from '@/components/RankProgress.vue';
+import UserInfo from '@/components/UserInfo.vue';
 
 const { emit } = useEventBus();
 
@@ -21,6 +21,7 @@ const view = ref();
 defineExpose({ view });
 
 const data = defineModel('data');
+
 const notificationsByDate = computed(() => Object.groupBy(
   data.value.notifications,
   ({ created_at }) => formatDate(created_at))
@@ -46,16 +47,17 @@ function readNotification(item) {
 <template>
   <div ref="view">
     <UserInfo
+      class="tutorial-9"
       v-bind="data.user"
       v-model="data.notifications"
       @change-view="emit('currentView', 'profile')"
     />
     <RankProgress
-      class="rank-block block"
+      class="rank-block block tutorial-5"
       v-bind="data.user.rank"
-      @click="emit('currentModal', 'progress')"
+      @click="() => { emit('tutorialStep'); emit('currentModal', 'progress'); }"
     />
-    <div class="places">
+    <div class="places tutorial-8">
       <PlaceBlock
         type="favorite"
         :data="data.user.favorite"
@@ -68,12 +70,11 @@ function readNotification(item) {
       />
     </div>
     <MainButton
-      class="scan-button"
+      class="scan-button tutorial-2"
       href="/scan"
       icon="scan"
-    >
-      Отсканировать чек
-    </MainButton>
+      @click="emit('tutorialStep')"
+    >Отсканировать чек</MainButton>
 
     <ModalPopup
       name="favorite"
@@ -89,8 +90,7 @@ function readNotification(item) {
           loop
           muted
           playsinline
-        >
-        </video>
+        ></video>
       </template>
       <template #body>
         <PlaceBlock
@@ -100,20 +100,14 @@ function readNotification(item) {
           :data="data.user.favorite"
         />
         <h2 class="favorite__title h2">История посещений</h2>
-        <div
-          v-if="data.favorite.length"
-          class="history-items"
-        >
+        <div v-if="data.favorite.length" class="history-items">
           <HistoryItem
             v-for="item in data.favorite"
             :key="item.id"
             v-bind="item"
           />
         </div>
-        <div
-          v-else
-          class="favorite__empty block"
-        >
+        <div v-else class="favorite__empty block">
           <img class="favorite__empty-icon" src="/images/history-empty.png">
           <span>Вы еще ничего не отсканировали.<br>Пора скорее это исправить!</span>
         </div>
@@ -126,10 +120,7 @@ function readNotification(item) {
       direction="up"
     >
         <template #body>
-          <RankProgress
-            class="progress__bar"
-            v-bind="data.user.rank"
-          />
+          <RankProgress class="progress__bar" v-bind="data.user.rank" />
           <div class="ranks scrollable">
             <RankDetails
               v-for="rank in ranks"

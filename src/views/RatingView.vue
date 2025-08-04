@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue'
-import Top3RatingItem from '@/components/Top3RatingItem.vue'
-import RatingItem from '@/components/RatingItem.vue'
+import { ref } from 'vue';
+import Top3RatingItem from '@/components/Top3RatingItem.vue';
+import RatingItem from '@/components/RatingItem.vue';
 
 const view = ref();
 
@@ -18,7 +18,8 @@ const data = defineModel('data');
         <Top3RatingItem
           v-for="user in data.rating.leaders.slice(0, 3)"
           :key="user.username"
-          v-bind="user" />
+          v-bind="user"
+        />
       </div>
     </div>
     <div class="scrollable">
@@ -26,10 +27,11 @@ const data = defineModel('data');
         <RatingItem
           v-for="user in data.rating.leaders.slice(3)"
           :key="user.username"
-          v-bind="user" />
+          v-bind="user"
+        />
       </div>
     </div>
-    <RatingItem you v-bind="data.rating.user" />
+    <RatingItem class="tutorial-10" you v-bind="data.rating.user" />
   </div>
 </template>
 

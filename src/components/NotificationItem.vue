@@ -1,5 +1,6 @@
 <script setup>
-import { computed, onMounted, ref, useTemplateRef } from 'vue'
+import { computed, ref, useTemplateRef } from 'vue';
+import SVGIcon from '@/components/SVGIcon.vue';
 
 const props = defineProps({
   is_read: Boolean,
@@ -20,16 +21,18 @@ const icon = computed(() => ({
   purchase: 'purchase',
 })[props.type]);
 
-onMounted(() => {
-  detailsContent.value.parentNode.style.setProperty('--height', `${detailsContent.value.offsetHeight}px`);
-});
+const contentHeight = computed(() => `${detailsContent.value.offsetHeight}px`);
 </script>
 
 <template>
   <div :class="['notification', { active, unread: !is_read }]" @click="active = !active">
     <div class="notification__block block">
       <div class="notification__content">
-        <img class="notification__icon" :src="`images/${icon}.svg`">
+        <SVGIcon
+          class="notification__icon"
+          :name="icon"
+          size="31"
+        />
         <div class="notification__title">{{ title }}</div>
         <div class="notification__subtitle">{{ subtitle }}</div>
       </div>
@@ -98,9 +101,9 @@ onMounted(() => {
 
   &__body {
     display: grid;
-    height: var(--height);
+    height: v-bind(contentHeight);
     align-content: center;
-    background: #FCF3FB url(/images/bg-pattern.png) 0 0 / 33%;
+    background: var(--theme-notification) url(/images/bg-pattern.png) 0 0 / 33%;
     border-radius: 0 0 15px 15px;
     box-shadow: 0 1px 2px var(--theme-drop-shadow);
     color: var(--theme-30);
