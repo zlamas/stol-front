@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 import useFetch from '@/fetch';
 import { formatCurrency } from '@/funcs';
 import SVGIcon from '@/components/SVGIcon.vue';
@@ -15,20 +15,23 @@ const places = [
   { name: 'ВКУС', icon: 'images/ВКУС - Лого.png' },
 ]
 
+const placeName = useTemplateRef('placeName');
+
 const state = ref('review');
 const review = ref({
   placeIcon: null,
   name: '',
   text: '',
   rating: 0
-})
+});
+const showOptions = ref(false);
 
-const disabled = computed(() => !(review.value.name && review.value.rating));
+const disabled = computed(() => !review.value.name || !review.value.rating);
 
 function selectPlace(place) {
   review.value.name = place.name;
   review.value.placeIcon = place.icon;
-  document.activeElement.blur();
+  showOptions.value = false;
 }
 
 function sendReview() {
@@ -48,26 +51,30 @@ function sendReview() {
     state.value = 'summary';
   });
 }
+
+function onClick(event) {
+  showOptions.value = placeName.value.contains(event.target);
+}
 </script>
 
 <template>
   <div
     v-if="state == 'review'"
     class="review"
-    @click="() => {}"
+    @click="onClick"
   >
     <h2 class="h2 review__title">Оценка заведения</h2>
     <div class="review__block block">
       <div class="review__field">
         <h3 class="h3">Название</h3>
-        <fieldset class="review__name">
+        <fieldset ref="placeName" class="review__name">
           <input
             type="text"
             class="review__input field"
-            v-model.lazy="review.name"
+            v-model="review.name"
             required
           >
-          <div class="review__places">
+          <div v-if="showOptions" class="review__places">
             <button
               v-for="place in places"
               :key="place.name"
@@ -204,7 +211,6 @@ function sendReview() {
     color: var(--theme-30);
     z-index: 9;
 
-    :not(:focus-within) > &,
     :not(:valid) + & {
       display: none;
     }
