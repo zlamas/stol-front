@@ -73,7 +73,7 @@ function purchaseOffer() {
       <div>Заработано</div>
       <div class="count points gradient-text">{{ formattedPoints }}</div>
     </div>
-    <div class="scrollable">
+    <div class="scrollable scrollable--offers">
       <div class="offers">
         <OfferItem
           v-for="offer in data.offers"
@@ -185,10 +185,16 @@ function purchaseOffer() {
   }
 }
 
+.scrollable--offers {
+  transform-style: preserve-3d;
+}
+
 .offers {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
+  position: relative;
+  z-index: -1;
 }
 </style>
 
@@ -207,6 +213,8 @@ function purchaseOffer() {
 }
 
 .offer-details {
+  font-family: "Inter", sans-serif;
+
   .modal__content {
     @include flex(16px, column);
     padding: 0 24px 20px;
@@ -236,7 +244,8 @@ function purchaseOffer() {
     box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
     color: #FFF;
     font-size: 14px;
-    padding: 7px 15px;
+    font-weight: 600;
+    padding: 6px 15px;
 
     &--store {
       --tag-color-0: var(--store-color-0);
@@ -261,12 +270,10 @@ function purchaseOffer() {
   }
 
   &__description {
+    @include grid(7px);
     color: #666666;
     font-size: 16px;
-
-    p {
-      margin-bottom: 7px;
-    }
+    line-height: 1;
   }
 
   &__confirm {

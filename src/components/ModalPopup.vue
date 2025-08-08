@@ -16,16 +16,21 @@ const show = computed(() => bus.value.get('currentModal') == props.name);
 
 watch(
   () => show.value,
-  (show) => { if (show) dragAmount.value = 0; }
+  (show) => {
+    if (show) {
+      dragAmount.value = 0;
+      dragSpeed = 0;
+    }
+  }
 );
 
 const container = useTemplateRef('container');
 
 const dragging = ref(false);
 const dragAmount = ref(0);
-let dragSpeed = null;
-let startY = null;
-let previousY = null;
+let dragSpeed = 0;
+let startY = 0;
+let previousY = 0;
 
 function onPointerDown(event) {
   if (event.target == container.value) {
@@ -46,6 +51,7 @@ function onPointerMove(event) {
 function onPointerUp() {
   if (dragAmount.value > 0.5 || dragSpeed > 20) {
     emit('currentModal', null);
+    console.log(1);
   } else {
     dragAmount.value = 0;
   }

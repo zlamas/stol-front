@@ -26,8 +26,8 @@ defineProps({
   letter-spacing: -0.04em;
   padding: 8px;
 
-  &.disabled {
-    opacity: 0.5;
+  &.disabled > * {
+    filter: opacity(0.5);
   }
 
   &__image {

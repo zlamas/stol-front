@@ -404,12 +404,9 @@ watch(
       translate: 100% -100%;
     }
 
-    .skip &:not(&--skip) {
-      &.tutorial-slide-enter-from,
-      &.tutorial-slide-leave-to {
-        translate: 120% 0;
-        opacity: 1;
-      }
+    .skip &.tutorial-slide-leave-to {
+      translate: 120% 0;
+      opacity: 1;
     }
 
     &--skip {
@@ -428,9 +425,12 @@ watch(
         margin: auto;
       }
 
-      &.tutorial-slide-enter-from,
-      &.tutorial-slide-leave-to {
+      &.tutorial-slide-enter-from {
         translate: -150% -150%;
+      }
+
+      &.tutorial-slide-leave-to {
+        translate: -150% 0;
         opacity: 1;
       }
     }

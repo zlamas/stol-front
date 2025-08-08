@@ -38,16 +38,13 @@ function captureImage() {
   canvas.value.width = camera.value.videoWidth;
   canvas.value.height = camera.value.videoHeight;
   ctx.drawImage(camera.value, 0, 0);
-  canvas.value.toBlob(sendImage, 'image/jpeg');
+  canvas.value.toBlob((blob) => sendImage(new File([blob], 'receipt.jpg')), 'image/jpeg');
 }
 
 function sendImageFromGallery(event) {
   const file = event.target.files[0];
-  file.arrayBuffer().then((buffer) => {
-    const clone = new File([buffer], file.name, { type: file.type });
-    sendImage(clone);
-    event.target.value = null;
-  });
+  sendImage(file);
+  event.target.value = null;
 }
 
 function sendImage(image) {

@@ -54,7 +54,7 @@ onMounted(() => {
     isDragging = false;
   });
 
-  viewRefs.value[currentView.value].view.scrollIntoView();
+  viewRefs.value[currentView.value].view.scrollIntoView({ behavior: 'instant' });
 });
 
 watch(
