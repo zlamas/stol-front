@@ -135,7 +135,7 @@ function getTaskDescription(type, value) {
     --bg-color: var(--theme-rank-bg-current);
     --task-color: var(--theme-rank-task-current);
     --line-color: var(--theme-rank-line);
-    --shadow-color: #BF3C6740;
+    --shadow-color: var(--theme-rank-shadow-current);
 
     span {
       background: var(--main-color);
@@ -154,7 +154,7 @@ function getTaskDescription(type, value) {
     --bg-color: var(--theme-rank-bg-next);
     --task-color: var(--theme-rank-task-next);
     --line-color: #A2909680;
-    --shadow-color: #D987A240;
+    --shadow-color: var(--theme-rank-shadow-next);
   }
 
   &.locked {

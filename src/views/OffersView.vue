@@ -167,7 +167,7 @@ function purchaseOffer() {
   gap: 8px;
   justify-items: center;
   background: #FFF url(/images/bg-pattern.png) 0 0 / 50%;
-  box-shadow: 0 4px 8px var(--theme-drop-shadow);
+  box-shadow: 0 4px 8px var(--theme-drop-shadow-2);
   font-size: 16px;
   font-weight: 700;
   line-height: 1;

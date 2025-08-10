@@ -79,6 +79,7 @@
   --theme-active: #902254;
   --theme-active-light: #CE3178;
   --theme-drop-shadow: #9F2D4F40;
+  --theme-drop-shadow-2: #C2708940;
   --theme-bg: #F7E2F4;
   --theme-glass: #FBEAF080;
   --theme-modal: #FDF7FCCC;
@@ -92,6 +93,8 @@
   --theme-rank-bg-next: #FCEEF3;
   --theme-rank-task-current: #D85A93;
   --theme-rank-task-next: #7A525F;
+  --theme-rank-shadow-current: #BF3C6740;
+  --theme-rank-shadow-next: #D987A240;
   --theme-rank-line: #E5AEC0;
 
   .points {
@@ -119,6 +122,7 @@
   --theme-active: #9B6750;
   --theme-active-light: #CC9675;
   --theme-drop-shadow: #7A513F66;
+  --theme-drop-shadow-2: #AD948540;
   --theme-bg: #F3E6D8;
   --theme-glass: #F3E6D880;
   --theme-modal: #FDFAF7CC;
@@ -132,6 +136,8 @@
   --theme-rank-bg-next: #FCF3EE;
   --theme-rank-task-current: var(--theme-rank-main);
   --theme-rank-task-next: #7A6152;
+  --theme-rank-shadow-current: #AD948540;
+  --theme-rank-shadow-next: #DAB48B40;
   --theme-rank-line: #E5C3AE;
 
   .points {

@@ -92,17 +92,17 @@ function cancel() {
     <div :class="['scan__overlay', { mask: state == 'scan' }]"></div>
     <div class="scan__content">
       <div ref="cutout" class="scan__container">
-        <div v-show="state == 'start' || state == 'scan'" class="scan__window">
-          <div v-show="state == 'start'" class="scan__instruction">
-            <SVGIcon name="qrcode" />
-            <div>Отсканируйте QR-код, расположенный внизу чека</div>
-          </div>
-        </div>
         <svg class="scan__mask" width="100%" height="100%">
           <mask id="scanWindow">
             <rect class="scan__cutout" width="100%" height="100%" rx="20" fill="white" />
           </mask>
         </svg>
+        <div v-show="state == 'start' || state == 'scan'" class="scan__window">
+          <div v-show="state == 'start'" class="scan__instruction" @click="state = 'scan'">
+            <SVGIcon name="qrcode" />
+            <div>Отсканируйте QR-код, расположенный внизу чека</div>
+          </div>
+        </div>
         <div v-show="state == 'success'" class="scan__result scan__result--success">
           <img src="/images/scan-success.png">
           <div class="scan__result-block block">
@@ -207,6 +207,7 @@ function cancel() {
   }
 
   &__window {
+    position: relative;
     outline: 5px solid #FFF;
     border-radius: 20px;
   }
