@@ -52,7 +52,7 @@ const labels = {
 
 <style scoped lang="scss">
 .navbar {
-  --active-index: v-bind('activeIndex');
+  --active-index: clamp(0, v-bind('activeIndex'), 4);
   --button-width: 70px;
   --translate: calc((var(--active-index) - 2) * var(--button-width));
   position: relative;

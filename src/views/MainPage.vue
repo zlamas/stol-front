@@ -42,7 +42,7 @@ onMounted(() => {
     if (isDragging || targetSet.value) return;
 
     const index = scrollPos / content.value.offsetWidth;
-    activeIndex.value = scrollAmount > 0 ? Math.ceil(index) : Math.floor(index);
+    activeIndex.value = scrollAmount > 0 ? Math.ceil(index) : Math.floor(index + 0.01);
   });
 
   content.value.addEventListener('touchstart', () => {
